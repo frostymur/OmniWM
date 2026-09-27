@@ -64,8 +64,7 @@ enum CLIStateRenderer {
                 window.display?.name ?? "-",
                 window.mode?.rawValue ?? "-",
                 CLITableRenderer.boolDescription(window.isFocused),
-                CLITableRenderer.boolDescription(window.isVisible),
-                window.scratchpadIndex.map(String.init) ?? CLITableRenderer.boolDescription(window.isScratchpad)
+                CLITableRenderer.boolDescription(window.isVisible)
             ]
         }
         var headers = ["ID", "PID", "APP", "TITLE", "WORKSPACE", "DISPLAY", "MODE", "FOCUSED", "VISIBLE", "SCRATCHPAD"]
@@ -241,7 +240,7 @@ enum CLIStateRenderer {
 
     private static func countsDescription(_ counts: IPCWorkspaceWindowCounts?) -> String {
         guard let counts else { return "-" }
-        return "total=\(counts.total), tiled=\(counts.tiled), floating=\(counts.floating), scratchpad=\(counts.scratchpad)"
+        return "total=\(counts.total), tiled=\(counts.tiled), floating=\(counts.floating)"
     }
 
     private static func frameDescription(_ rect: IPCRect?) -> String {

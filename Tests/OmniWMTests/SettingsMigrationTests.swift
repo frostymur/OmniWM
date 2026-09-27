@@ -32,7 +32,6 @@ final class SettingsMigrationTests: XCTestCase {
                 [
                     "focus.raiseOnMouseFocus",
                     "gaps.fullscreenUsesOuterGaps",
-                    "workspaceBar.hideInNativeFullscreen",
                     "scratchpads.labels",
                     "routing.arrangements"
                 ],
@@ -42,7 +41,7 @@ final class SettingsMigrationTests: XCTestCase {
                 "v0.6.3-custom",
                 false,
                 true,
-                ["workspaceBar.hideInNativeFullscreen", "scratchpads.labels", "routing.arrangements"],
+                ["scratchpads.labels", "routing.arrangements"],
                 []
             )
         ]
@@ -73,8 +72,6 @@ final class SettingsMigrationTests: XCTestCase {
             XCTAssertEqual(export.gaps.size, 27, testCase.name)
             XCTAssertEqual(export.gaps.fullscreenUsesOuterGaps, testCase.fullscreenGaps, testCase.name)
             XCTAssertEqual(export.defaultLayoutType, .dwindle, testCase.name)
-            XCTAssertFalse(export.workspaceBar.hideInNativeFullscreen, testCase.name)
-            XCTAssertEqual(export.workspaceBar.excludedBundleIDs, ["com.example.Hidden"], testCase.name)
             XCTAssertEqual(export.scratchpads.labels, [:], testCase.name)
             XCTAssertNil(export.niri.defaultContainerPrimarySpan, testCase.name)
 
@@ -413,7 +410,6 @@ final class SettingsMigrationTests: XCTestCase {
         XCTAssertEqual(result.export.gaps.size, 27)
         XCTAssertTrue(result.export.gaps.fullscreenUsesOuterGaps)
         XCTAssertEqual(result.export.defaultLayoutType, .dwindle)
-        XCTAssertEqual(result.export.workspaceBar.excludedBundleIDs, ["com.example.Hidden"])
         XCTAssertEqual(hotkey("swapSplit", in: result.export)?.binding.humanReadableString, "Option+J")
         XCTAssertEqual(
             hotkey("assignFocusedWindowToScratchpad.1", in: result.export)?.binding.humanReadableString,

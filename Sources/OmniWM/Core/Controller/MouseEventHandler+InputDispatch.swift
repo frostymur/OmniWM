@@ -21,7 +21,7 @@ extension MouseEventHandler {
             workspaceSwipeEnabled: settings.gestures.workspaceSwipeEnabled && !isOverviewOpen,
             workspaceSwipeFingerCount: settings.gestures.workspaceSwipeFingerCount.rawValue,
             workspaceSwipeAxis: settings.gestures.workspaceSwipeAxis,
-            overviewAction: settings.gestures.overviewGestureEnabled ? overviewState.gestureAction : nil,
+            overviewAction: nil,
             overviewFingerCount: settings.gestures.overviewGestureFingerCount.rawValue,
             windowMoveEnabled: settings.gestures.windowMoveEnabled && !isOverviewOpen,
             windowMoveFingerCount: settings.gestures.windowMoveFingerCount.rawValue,
@@ -151,22 +151,7 @@ extension MouseEventHandler {
             }
             return true
         }
-        guard type == .otherMouseDown,
-              let controller,
-              OverviewInputSettingsValidation.mouseButtons.contains(button),
-              controller.settings.overview.mouseButton == button,
-              controller.settings.systemHyperTrigger.mouseButtonNumber != button
-        else { return false }
-
-        flushQueuedTapEventsBeforeImmediateDispatch()
-        guard controller.isEnabled, !isInputSuppressed,
-              state.capturedOverviewButton == nil, state.capturedInteractionButton == nil,
-              !state.isMoving, !state.isResizing, !isTrackpadSwipeSessionActive,
-              state.nativeTitleBarDrag == nil, !state.awaitsNativeTitleBarDragTarget
-        else { return false }
-        state.capturedOverviewButton = button
-        controller.windowActionHandler.toggleOverview()
-        return true
+        return false
     }
 
     @discardableResult

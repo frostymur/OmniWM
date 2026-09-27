@@ -6,10 +6,6 @@ import Foundation
 import OmniWMIPC
 
 extension WMController {
-    var isHiddenBarHidingAvailable: Bool {
-        hiddenBarController.isHidingAvailable
-    }
-
     func applyPersistedSettings(_ settings: SettingsStore, startServices: Bool = true) {
         setAnimationsEnabled(settings.animationsEnabled, persist: false)
         applyCurrentAppearanceMode()
@@ -30,21 +26,13 @@ extension WMController {
         updateAppRules()
 
         borderSettingsChanged()
-        updateOverviewSettings()
 
         setFocusFollowsMouse(settings.focus.followsMouse)
         setMoveMouseToFocusedWindow(settings.focus.moveMouseToFocusedWindow)
 
-        setWorkspaceBarEnabled(settings.workspaceBar.enabled)
         setPreventSleepEnabled(settings.preventSleepEnabled)
-        setQuakeTerminalEnabled(settings.quakeTerminal.enabled)
         syncClipboardHistoryService()
 
-        quakeTerminalController.applyGeometryToVisibleWindow()
-        quakeTerminalController.reloadOpacityConfig()
-        quakeTerminalController.reloadBackgroundBlur()
-        updateWorkspaceBarSettings()
-        updateHiddenBarSettings()
         _ = syncMouseWarpPolicy()
 
         if startServices {
@@ -84,7 +72,6 @@ extension WMController {
     func applyCurrentAppearanceMode() {
         settings.appearanceMode.apply()
         borderUsesDarkAppearance = Self.effectiveAppearanceUsesDarkAqua
-        workspaceBarManager.updateAppearance()
         surfaceReconciler.noteWorldChanged()
     }
 

@@ -77,7 +77,7 @@ final class MultitouchFrameMailbox: @unchecked Sendable {
     private struct State {
         var generation: UInt = 0
         var touchingSlots: UInt64 = 0
-        var physicalFingerCounts = InlineArray<64, Int>(repeating: 0)
+        var physicalFingerCounts = [Int](repeating: 0, count: 64)
         var contacts = MultitouchContactSessions()
         var contactsChanged = false
         var ownerSlot: Int?
@@ -99,7 +99,7 @@ final class MultitouchFrameMailbox: @unchecked Sendable {
         state.withLock { value in
             value.generation = generation
             value.touchingSlots = 0
-            value.physicalFingerCounts = InlineArray(repeating: 0)
+            value.physicalFingerCounts = [Int](repeating: 0, count: 64)
             value.contacts = MultitouchContactSessions(generation: generation)
             value.contactsChanged = true
             value.ownerSlot = nil

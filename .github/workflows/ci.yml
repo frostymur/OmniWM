@@ -39,8 +39,7 @@ jobs:
           path: |
             .cache/dev-tools/bin
             .cache/dev-tools/downloads
-            Frameworks/GhosttyKit.xcframework
-          key: dev-deps-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('Scripts/dev-tools.env', 'Scripts/build-metadata.env') }}
+          key: dev-deps-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('Scripts/dev-tools.env') }}
       - name: Set up dependencies
         run: ./Scripts/dev-tools.sh setup
   verify:
@@ -65,8 +64,7 @@ jobs:
           path: |
             .cache/dev-tools/bin
             .cache/dev-tools/downloads
-            Frameworks/GhosttyKit.xcframework
-          key: dev-deps-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('Scripts/dev-tools.env', 'Scripts/build-metadata.env') }}
+          key: dev-deps-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('Scripts/dev-tools.env') }}
       - name: Set up dependencies
         run: ./Scripts/dev-tools.sh setup
       - name: Test development tooling
@@ -97,11 +95,10 @@ jobs:
           path: |
             .cache/dev-tools/bin
             .cache/dev-tools/downloads
-            Frameworks/GhosttyKit.xcframework
-          key: dev-deps-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('Scripts/dev-tools.env', 'Scripts/build-metadata.env') }}
+          key: dev-deps-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('Scripts/dev-tools.env') }}
       - name: Set up dependencies
         run: ./Scripts/dev-tools.sh setup
       - name: Verify package toolchain
         run: swift package dump-package > /dev/null
       - name: Run the serial test suite
-        run: LIBRARY_PATH="$(./Scripts/ghostty-preflight.sh print-library-dir)${LIBRARY_PATH:+:$LIBRARY_PATH}" swift test
+        run: swift test

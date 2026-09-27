@@ -111,9 +111,7 @@ extension WorkspaceManager {
 
     private func noteSessionEventInvalidation(for event: WMEvent) {
         switch event {
-        case .scratchpadMembershipChanged,
-             .scratchpadRevealChanged,
-             .spaceTopologyChanged,
+        case .spaceTopologyChanged,
              .userCommand,
              .visibleWorkspacesChanged:
             break
@@ -155,8 +153,6 @@ extension WorkspaceManager {
              .nativeFullscreenTransition,
              .niriPlacementsResolved,
              .dwindlePlacementsResolved,
-             .scratchpadMembershipChanged,
-             .scratchpadRevealChanged,
              .selectionChanged,
              .spaceTopologyChanged,
              .suppressedFocusChanged,

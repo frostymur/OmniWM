@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-2.0-only
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 
-import IOKit
-import IOKit.hidsystem
+@preconcurrency import IOKit
+@preconcurrency import IOKit.hidsystem
 
 struct CapsLockToggler: ~Copyable {
     private var hidConnection: io_connect_t = 0

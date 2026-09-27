@@ -201,7 +201,6 @@ extension LayoutRefreshController {
             return
         }
         controller.workspaceManager.setRevealedScratchpad(nil)
-        controller.requestWorkspaceBarRefresh()
     }
 }
 

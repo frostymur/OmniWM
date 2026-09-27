@@ -221,7 +221,6 @@ final class BorderSurfaceTests: XCTestCase {
     @MainActor
     private func reconcileFixture() throws -> (controller: WMController, entry: WindowState) {
         let controller = WindowAdmissionTestSupport.controller(prefix: "BorderMotionQueryTests")
-        controller.settings.workspaceBar.enabled = false
         controller.settings.borders.enabled = true
         let monitor = Monitor(
             id: .init(displayId: 814_101), displayId: 814_101,

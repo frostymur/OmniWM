@@ -10,15 +10,11 @@ public enum IPCCommandName: RawRepresentable, Codable, CaseIterable, Hashable, S
     case sizing(IPCSizingCommandName)
     case swapWorkspaceWithMonitor
     case dwindle(IPCDwindleCommandName)
-    case openCommandPalette
     case raiseAllFloatingWindows
     case rescueOffscreenWindows
     case workspaceLayout(IPCWorkspaceLayoutCommandName)
     case fullscreen(IPCFullscreenCommand)
-    case presentation(IPCPresentationCommand)
     case windowState(IPCWindowStateCommand)
-    case scratchpad(IPCScratchpadCommandName)
-    case openMenuAnywhere
 
     public var rawValue: String {
         switch self {
@@ -38,8 +34,6 @@ public enum IPCCommandName: RawRepresentable, Codable, CaseIterable, Hashable, S
             "swap-workspace-with-monitor"
         case let .dwindle(name):
             name.rawValue
-        case .openCommandPalette:
-            "open-command-palette"
         case .raiseAllFloatingWindows:
             "raise-all-floating-windows"
         case .rescueOffscreenWindows:
@@ -48,14 +42,8 @@ public enum IPCCommandName: RawRepresentable, Codable, CaseIterable, Hashable, S
             name.rawValue
         case let .fullscreen(name):
             name.rawValue
-        case let .presentation(name):
-            name.rawValue
         case let .windowState(name):
             name.rawValue
-        case let .scratchpad(name):
-            name.rawValue
-        case .openMenuAnywhere:
-            "open-menu-anywhere"
         }
     }
 
@@ -63,14 +51,10 @@ public enum IPCCommandName: RawRepresentable, Codable, CaseIterable, Hashable, S
         switch rawValue {
         case "swap-workspace-with-monitor":
             self = .swapWorkspaceWithMonitor
-        case "open-command-palette":
-            self = .openCommandPalette
         case "raise-all-floating-windows":
             self = .raiseAllFloatingWindows
         case "rescue-offscreen-windows":
             self = .rescueOffscreenWindows
-        case "open-menu-anywhere":
-            self = .openMenuAnywhere
         default:
             var name = IPCFocusCommandName(rawValue: rawValue).map(Self.focus)
             name = name ?? IPCWindowMovementCommandName(rawValue: rawValue).map(Self.windowMovement)
@@ -81,9 +65,7 @@ public enum IPCCommandName: RawRepresentable, Codable, CaseIterable, Hashable, S
             name = name ?? IPCDwindleCommandName(rawValue: rawValue).map(Self.dwindle)
             name = name ?? IPCWorkspaceLayoutCommandName(rawValue: rawValue).map(Self.workspaceLayout)
             name = name ?? IPCFullscreenCommand(rawValue: rawValue).map(Self.fullscreen)
-            name = name ?? IPCPresentationCommand(rawValue: rawValue).map(Self.presentation)
             name = name ?? IPCWindowStateCommand(rawValue: rawValue).map(Self.windowState)
-            name = name ?? IPCScratchpadCommandName(rawValue: rawValue).map(Self.scratchpad)
             guard let name else { return nil }
             self = name
         }
@@ -99,15 +81,11 @@ public enum IPCCommandName: RawRepresentable, Codable, CaseIterable, Hashable, S
         names.append(contentsOf: IPCSizingCommandName.allCases.map(Self.sizing))
         names.append(.swapWorkspaceWithMonitor)
         names.append(contentsOf: IPCDwindleCommandName.allCases.map(Self.dwindle))
-        names.append(.openCommandPalette)
         names.append(.raiseAllFloatingWindows)
         names.append(.rescueOffscreenWindows)
         names.append(contentsOf: IPCWorkspaceLayoutCommandName.allCases.map(Self.workspaceLayout))
         names.append(contentsOf: IPCFullscreenCommand.allCases.map(Self.fullscreen))
-        names.append(contentsOf: IPCPresentationCommand.allCases.map(Self.presentation))
         names.append(contentsOf: IPCWindowStateCommand.allCases.map(Self.windowState))
-        names.append(contentsOf: IPCScratchpadCommandName.allCases.map(Self.scratchpad))
-        names.append(.openMenuAnywhere)
         return names
     }
 

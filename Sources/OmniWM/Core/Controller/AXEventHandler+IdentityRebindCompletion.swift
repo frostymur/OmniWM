@@ -49,7 +49,6 @@ extension AXEventHandler {
         AXWindowService.invalidateCachedTitles(windowIds: [UInt32(oldWindow.token.windowId), windowId])
         scheduleWindowRuleReevaluationIfNeeded(targets: [.window(entry.token)])
         traceManagedWindowIdentityRebind(rebind, entry: entry)
-        controller.requestWorkspaceBarRefresh()
         controller.surfaceReconciler.noteRestackOccurred()
         if completesPendingManagedReplacement,
            let closeProbe
@@ -127,7 +126,6 @@ extension AXEventHandler {
             }
 
             controller.intentLedger.rekeyManagedRequest(from: oldToken, to: newToken)
-            controller.rekeyScratchpadWindowResources(from: oldToken, to: newToken, axRef: axRef)
             controller.layoutRefreshController.rekeyPendingRevealTransaction(
                 from: oldToken,
                 to: newToken,

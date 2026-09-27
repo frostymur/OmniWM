@@ -64,8 +64,6 @@ struct RuntimeState: Codable, Equatable, Sendable {
     var windowRestoreCatalog: PersistedWindowRestoreCatalog?
     var updaterLastCheckedAt: Date?
     var updaterSkippedReleaseTag: String?
-    var commandPaletteLastMode: String?
-    var commandPaletteViewStyles: [String: LauncherViewStyle]?
     var launcherLaunches: [String: [LauncherLaunch]]?
     var launcherShortcuts: [String: LauncherShortcut]?
     var launcherHiddenSuggestions: [String]?
@@ -80,8 +78,6 @@ struct RuntimeState: Codable, Equatable, Sendable {
 final class RuntimeStateStore {
     nonisolated static let defaultDirectoryURL = OmniWMStoragePaths.live.stateDirectory
     nonisolated static let fileName = "runtime-state.json"
-    nonisolated static let defaultCommandPaletteLastMode = CommandPaletteMode.windows
-    nonisolated static let defaultQuakeTerminalUseCustomFrame = false
     nonisolated static let defaultMonitorSetupStatus = MonitorSetupStatus.notPresented
     let directoryURL: URL
     let fileURL: URL
@@ -189,29 +185,6 @@ final class RuntimeStateStore {
         }
     }
 
-    var commandPaletteLastMode: CommandPaletteMode {
-        get {
-            state.commandPaletteLastMode.flatMap(CommandPaletteMode.init(rawValue:)) ?? Self
-                .defaultCommandPaletteLastMode
-        }
-        set {
-            guard commandPaletteLastMode != newValue else { return }
-            state.commandPaletteLastMode = newValue.rawValue
-            scheduleSave()
-        }
-    }
-
-    func commandPaletteViewStyle(for mode: CommandPaletteMode) -> LauncherViewStyle {
-        state.commandPaletteViewStyles?[mode.rawValue] ?? .grid
-    }
-
-    func setCommandPaletteViewStyle(_ style: LauncherViewStyle, for mode: CommandPaletteMode) {
-        guard commandPaletteViewStyle(for: mode) != style else { return }
-        state.commandPaletteViewStyles = state.commandPaletteViewStyles ?? [:]
-        state.commandPaletteViewStyles?[mode.rawValue] = style
-        scheduleSave()
-    }
-
     func recordLauncherLaunch(targetID: String, displayName: String, query: String, date: Date = Date()) {
         let foldedQuery = query.localizedLowercase.trimmingCharacters(in: .whitespacesAndNewlines)
         var launches = state.launcherLaunches ?? [:]
@@ -260,31 +233,6 @@ final class RuntimeStateStore {
             let values = newValue.sorted()
             guard state.launcherHiddenSuggestions != values else { return }
             state.launcherHiddenSuggestions = values
-            scheduleSave()
-        }
-    }
-
-    var quakeTerminalUseCustomFrame: Bool {
-        get { state.quakeTerminalUseCustomFrame ?? Self.defaultQuakeTerminalUseCustomFrame }
-        set {
-            guard quakeTerminalUseCustomFrame != newValue else { return }
-            state.quakeTerminalUseCustomFrame = newValue
-            if !newValue {
-                state.quakeTerminalCustomFrame = nil
-            }
-            scheduleSave()
-        }
-    }
-
-    var quakeTerminalCustomFrame: CGRect? {
-        get { state.quakeTerminalCustomFrame?.frame }
-        set {
-            let frame = newValue.map(RuntimeQuakeTerminalFrame.init(frame:))
-            guard state.quakeTerminalCustomFrame != frame else { return }
-            state.quakeTerminalCustomFrame = frame
-            if frame == nil {
-                state.quakeTerminalUseCustomFrame = false
-            }
             scheduleSave()
         }
     }

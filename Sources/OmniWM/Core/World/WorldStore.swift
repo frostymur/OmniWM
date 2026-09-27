@@ -218,12 +218,6 @@ final class WorldStore {
 
     private func applySessionEventBeforePlan(_ event: WMEvent) {
         switch event {
-        case let .scratchpadMembershipChanged(token, index, _):
-            scratchpads.assign(token, to: index)
-
-        case let .scratchpadRevealChanged(index, _):
-            scratchpads.reveal(index)
-
         case let .visibleWorkspacesChanged(sessions, _):
             monitorSessions = sessions
 

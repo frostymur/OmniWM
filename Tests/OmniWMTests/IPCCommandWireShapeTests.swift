@@ -37,8 +37,7 @@ final class IPCCommandWireShapeTests: XCTestCase {
             .direction(.left)
         case .workspaceNumber,
              .columnIndex,
-             .windowIndex,
-             .scratchpadIndex:
+             .windowIndex:
             .integer(2)
         case .layout:
             .layout(.niri)
@@ -121,22 +120,13 @@ final class IPCCommandWireShapeTests: XCTestCase {
         #"{"arguments":{"operation":"grow"},"name":"resize-focused"}"#,
         #"{"arguments":{"direction":"left"},"name":"preselect"}"#,
         #"{"name":"preselect-clear"}"#,
-        #"{"name":"open-command-palette"}"#,
         #"{"name":"raise-all-floating-windows"}"#,
         #"{"name":"rescue-offscreen-windows"}"#,
         #"{"name":"toggle-workspace-layout"}"#,
         #"{"arguments":{"layout":"niri"},"name":"set-workspace-layout"}"#,
         #"{"name":"toggle-fullscreen"}"#,
         #"{"name":"toggle-native-fullscreen"}"#,
-        #"{"name":"toggle-overview"}"#,
-        #"{"name":"toggle-system-stats"}"#,
-        #"{"name":"toggle-quake-terminal"}"#,
-        #"{"name":"toggle-workspace-bar"}"#,
-        #"{"name":"hidden-bar-panel"}"#,
         #"{"name":"toggle-focused-window-floating"}"#,
-        #"{"name":"close-focused-window"}"#,
-        #"{"arguments":{"scratchpadIndex":2},"name":"scratchpad-assign"}"#,
-        #"{"arguments":{"scratchpadIndex":2},"name":"scratchpad-toggle"}"#,
-        #"{"name":"open-menu-anywhere"}"#
+        #"{"name":"close-focused-window"}"#
     ]
 }

@@ -53,9 +53,7 @@ extension WMEvent {
              .viewportForgotten,
              .selectionChanged:
             .viewport
-        case .scratchpadMembershipChanged,
-             .scratchpadRevealChanged,
-             .visibleWorkspacesChanged,
+        case .visibleWorkspacesChanged,
              .spaceTopologyChanged,
              .topologyChanged,
              .activeSpaceChanged,

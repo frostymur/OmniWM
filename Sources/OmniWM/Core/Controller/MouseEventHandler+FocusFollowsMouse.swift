@@ -241,7 +241,6 @@ extension MouseEventHandler {
               !isInputSuppressed,
               controller.isEnabled,
               controller.focusFollowsMouseEnabled,
-              !controller.isOverviewOpen(),
               !shouldBlockOwnWindowInput(at: sample.location),
               !controller.settings.focus.lockModifier.isHeld(inRawFlags: sample.modifiersRawValue),
               !state.isMoving,

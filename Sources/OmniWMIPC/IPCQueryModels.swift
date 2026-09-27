@@ -4,7 +4,6 @@
 import Foundation
 
 public enum IPCQueryName: String, Codable, CaseIterable, Equatable, Sendable {
-    case workspaceBar = "workspace-bar"
     case activeWorkspace = "active-workspace"
     case focusedMonitor = "focused-monitor"
     case apps

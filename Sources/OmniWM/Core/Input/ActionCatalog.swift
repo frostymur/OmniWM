@@ -146,7 +146,6 @@ enum ActionCatalog {
     private static func buildSpecs() -> [ActionSpec] {
         var specs: [ActionSpec] = []
 
-        appendScratchpadBindings(&specs)
         appendWorkspaceNumberBindings(&specs)
         appendWorkspaceSlotBindings(&specs)
         appendWorkspaceHistoryBinding(&specs)
@@ -221,12 +220,9 @@ enum ActionCatalog {
              .moveColumn(.right),
              .monitorFocus,
              .fullscreen,
-             .openCommandPalette,
              .raiseAllFloatingWindows,
              .rescueOffscreenWindows,
-             .windowState,
-             .openMenuAnywhere,
-             .presentation:
+             .windowState:
             .shared
         case let .focusNavigation(action):
             action.compatibility
@@ -240,8 +236,6 @@ enum ActionCatalog {
             action.compatibility
         case let .dwindle(action):
             action.compatibility
-        case let .scratchpad(action):
-            action.compatibility
         }
     }
 
@@ -252,9 +246,6 @@ enum ActionCatalog {
         case let .monitorFocus(command): command.actionDisplayName()
         case let .fullscreen(command): command.actionDisplayName()
         case let .moveColumn(direction): moveContainerTitle(direction)
-        case .openCommandPalette: LocalizedStringResource(
-                "command.palette.toggle", defaultValue: "Toggle Command Palette", table: "Commands", bundle: .omniWM
-            )
         case .raiseAllFloatingWindows: LocalizedStringResource(
                 "command.floating.raiseAll", defaultValue: "Raise All Floating Windows", table: "Commands",
                 bundle: .omniWM
@@ -264,10 +255,6 @@ enum ActionCatalog {
                 table: "Commands", bundle: .omniWM
             )
         case let .windowState(command): command.actionDisplayName()
-        case .openMenuAnywhere: LocalizedStringResource(
-                "command.menu.openAnywhere", defaultValue: "Open Menu Anywhere", table: "Commands", bundle: .omniWM
-            )
-        case let .presentation(command): command.actionDisplayName()
         case let .focusNavigation(action):
             action.actionDisplayName()
         case let .windowMovement(action):
@@ -279,8 +266,6 @@ enum ActionCatalog {
         case let .sizing(action):
             action.actionDisplayName()
         case let .dwindle(action):
-            action.actionDisplayName()
-        case let .scratchpad(action):
             action.actionDisplayName()
         }
     }
@@ -295,20 +280,14 @@ enum ActionCatalog {
             .monitorFocus(command)
         case .moveColumn:
             .column(.move)
-        case .openCommandPalette:
-            .openCommandPalette
         case .raiseAllFloatingWindows:
             .raiseAllFloatingWindows
         case .rescueOffscreenWindows:
             .rescueOffscreenWindows
         case let .fullscreen(command):
             .fullscreen(command)
-        case let .presentation(command):
-            .presentation(command)
         case let .windowState(command):
             .windowState(command)
-        case .openMenuAnywhere:
-            .openMenuAnywhere
         case let .focusNavigation(action):
             action.ipcCommandName()
         case let .windowMovement(action):
@@ -320,8 +299,6 @@ enum ActionCatalog {
         case let .sizing(action):
             action.ipcCommandName()
         case let .dwindle(action):
-            action.ipcCommandName()
-        case let .scratchpad(action):
             action.ipcCommandName()
         }
     }

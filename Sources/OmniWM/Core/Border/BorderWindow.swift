@@ -67,8 +67,8 @@ final class BorderWindow {
         self.operations = operations
     }
 
-    isolated deinit {
-        destroy()
+    deinit {
+//        destroy()
     }
 
     func destroy() {

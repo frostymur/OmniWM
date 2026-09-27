@@ -7,11 +7,6 @@ extension IPCAutomationManifest {
     public static let subscriptionDescriptors: [IPCSubscriptionDescriptor] = [
         .init(channel: .focus, summary: "Focused window snapshot updates.", resultKind: .focusedWindow),
         .init(
-            channel: .workspaceBar,
-            summary: "Workspace bar projection updates.",
-            resultKind: .workspaceBar
-        ),
-        .init(
             channel: .activeWorkspace,
             summary: "Interaction monitor and active workspace updates.",
             resultKind: .activeWorkspace

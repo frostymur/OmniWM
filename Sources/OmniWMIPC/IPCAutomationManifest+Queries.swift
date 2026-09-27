@@ -19,8 +19,6 @@ extension IPCAutomationManifest {
         "is-focused",
         "is-visible",
         "is-app-hidden",
-        "is-scratchpad",
-        "scratchpad-index",
         "hidden-reason"
     ]
 
@@ -58,10 +56,6 @@ extension IPCAutomationManifest {
 
     public static let queryDescriptors: [IPCQueryDescriptor] = [
         IPCQueryDescriptor(
-            name: .workspaceBar,
-            summary: "Return the workspace bar projection for every monitor."
-        ),
-        IPCQueryDescriptor(
             name: .activeWorkspace,
             summary: "Return the current interaction monitor and active workspace snapshot."
         ),
@@ -94,7 +88,6 @@ extension IPCAutomationManifest {
                     summary: "Only include windows on visible workspaces that are neither hidden nor owned by a hidden app."
                 ),
                 .init(name: .floating, summary: "Only include floating managed windows."),
-                .init(name: .scratchpad, summary: "Only include windows assigned to a scratchpad."),
                 .init(name: .app, summary: "Filter by application display name."),
                 .init(name: .bundleId, summary: "Filter by application bundle identifier.")
             ],

@@ -16,8 +16,7 @@ final class ContiguousSectionsSettingsExportTests: XCTestCase {
                 "mouseResizeModifierKey", "fingerCount", "invertDirection", "trackpadScrollStyle",
                 "workspaceSwipeEnabled", "workspaceSwipeFingerCount", "workspaceSwipeAxis"
             ],
-            "statusBar": ["showWorkspaceName", "showAppNames", "useWorkspaceId"],
-            "hiddenBar": ["enabled", "hiddenBundleIDs", "rehideIntervalSeconds"]
+            "statusBar": ["showWorkspaceName", "showAppNames", "useWorkspaceId"]
         ]
         for (section, keys) in sections {
             for key in keys {

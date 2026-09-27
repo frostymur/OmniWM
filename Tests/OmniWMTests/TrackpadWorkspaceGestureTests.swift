@@ -671,8 +671,7 @@ final class TrackpadWorkspaceGestureTests: XCTestCase {
         controller.layoutRefreshController.workspaceSwipe = WorkspaceSwipePresentation(
             refreshController: controller.layoutRefreshController,
             previewSurface: WorkspaceSwipePreview(
-                ownedWindowRegistry: controller.ownedWindowRegistry,
-                hasCaptureAccess: { false }
+                ownedWindowRegistry: controller.ownedWindowRegistry
             )
         )
         controller.settings.gestures.scrollEnabled = scrollGestureEnabled

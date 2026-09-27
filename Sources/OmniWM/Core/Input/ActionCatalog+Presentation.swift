@@ -8,13 +8,6 @@ extension ActionCatalog {
     static func appendPresentationBindings(_ specs: inout [ActionSpec]) {
         specs.append(contentsOf: [
             action(
-                id: "openCommandPalette",
-                command: .openCommandPalette,
-                category: .focus,
-                binding: KeyBinding(keyCode: UInt32(kVK_Space), modifiers: UInt32(controlKey | optionKey)),
-                keywords: ["palette", "search", "commands", "menu"]
-            ),
-            action(
                 id: "raiseAllFloatingWindows",
                 command: .raiseAllFloatingWindows,
                 category: .layout,
@@ -31,24 +24,12 @@ extension ActionCatalog {
             IPCWindowStateCommand.toggleFloating.actionSpec(),
             IPCWindowStateCommand.close.actionSpec(),
             action(
-                id: "openMenuAnywhere",
-                command: .openMenuAnywhere,
-                category: .focus,
-                binding: KeyBinding(keyCode: UInt32(kVK_ANSI_M), modifiers: UInt32(controlKey | optionKey)),
-                keywords: ["menu", "anywhere"]
-            ),
-            IPCPresentationCommand.workspaceBar.actionSpec(),
-            IPCPresentationCommand.hiddenBar.actionSpec(),
-            IPCPresentationCommand.quakeTerminal.actionSpec(),
-            action(
                 id: "toggleWorkspaceLayout",
                 command: .workspace(.toggleLayout),
                 category: .layout,
                 binding: KeyBinding(keyCode: UInt32(kVK_ANSI_L), modifiers: UInt32(optionKey | shiftKey)),
                 keywords: ["layout", "niri", "dwindle"]
-            ),
-            IPCPresentationCommand.overview.actionSpec(),
-            IPCPresentationCommand.systemStats.actionSpec()
+            )
         ])
     }
 }

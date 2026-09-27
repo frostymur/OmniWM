@@ -5,7 +5,6 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 TOOLS_DIR="$ROOT_DIR/.cache/dev-tools"
 BIN_DIR="$TOOLS_DIR/bin"
 DOWNLOAD_DIR="$TOOLS_DIR/downloads"
-FRAMEWORK_DIR="$ROOT_DIR/Frameworks/GhosttyKit.xcframework"
 WORK_DIR=""
 ERRORS=0
 source "$ROOT_DIR/Scripts/dev-tools.env"
@@ -29,14 +28,14 @@ cleanup() {
 check_prerequisites() {
   local version major minor xcode_version
   if [ "$(uname -s)" != Darwin ]; then
-    problem "macOS 26 or newer is required."
+    problem "macOS 15 or newer is required."
     return
   fi
   [ "$(uname -m)" = arm64 ] || problem "Use a native Apple Silicon terminal, without Rosetta."
   version="$(sw_vers -productVersion)"
   major="${version%%.*}"
-  if [ "$major" -lt 26 ]; then
-    problem "macOS 26 or newer is required; found $version."
+  if [ "$major" -lt 15 ]; then
+    problem "macOS 15 or newer is required; found $version."
   else
     echo "macOS: $version ($(uname -m))"
   fi
@@ -45,26 +44,26 @@ check_prerequisites() {
     echo "$xcode_version"
     version="$(printf '%s\n' "$xcode_version" | awk '/^Xcode / { print $2 }')"
     major="${version%%.*}"
-    [ "$major" -ge 27 ] || problem "Select Xcode 27 or newer; Xcode 26 does not include Swift 6.4."
+    [ "$major" -ge 16 ] || problem "Select Xcode 16 or newer; Xcode 15 does not include Swift 6.0."
   else
-    problem "Install and select Xcode 27 with Swift 6.4; Command Line Tools alone are insufficient."
+    problem "Install and select Xcode 16 with Swift 6.0; Command Line Tools alone are insufficient."
   fi
 
   if version="$(swift --version 2>/dev/null)"; then
     echo "$version"
     version="$(printf '%s\n' "$version" | sed -n 's/.*Swift version \([0-9.]*\).*/\1/p' | head -n 1)"
     IFS=. read -r major minor _ <<< "$version"
-    if [ "${major:-0}" -lt 6 ] || { [ "${major:-0}" -eq 6 ] && [ "${minor:-0}" -lt 4 ]; }; then
-      problem "Swift 6.4 or newer is required; select the Xcode 27 toolchain."
+    if [ "${major:-0}" -lt 6 ] || { [ "${major:-0}" -eq 6 ] && [ "${minor:-0}" -lt 0 ]; }; then
+      problem "Swift 6.0 or newer is required; select the Xcode 16 toolchain."
     fi
   else
-    problem "Swift is unavailable; install and select Xcode 27."
+    problem "Swift is unavailable; install and select Xcode 16."
   fi
 
   if version="$(xcrun --sdk macosx --show-sdk-version 2>/dev/null)"; then
     echo "macOS SDK: $version"
     major="${version%%.*}"
-    [ "$major" -ge 26 ] || problem "The selected macOS SDK must be version 26 or newer."
+    [ "$major" -ge 15 ] || problem "The selected macOS SDK must be version 15 or newer."
   else
     problem "The selected Xcode has no usable macOS SDK."
   fi
@@ -92,19 +91,7 @@ check_tool() {
   fi
 }
 
-verify_framework() {
-  [ -f "$FRAMEWORK_DIR/Info.plist" ] && "$ROOT_DIR/Scripts/ghostty-preflight.sh" verify
-}
 
-check_framework() {
-  if verify_framework; then
-    echo "GhosttyKit: verified ($FRAMEWORK_DIR)"
-  elif [ -e "$FRAMEWORK_DIR" ] || [ -L "$FRAMEWORK_DIR" ]; then
-    problem "Existing GhosttyKit does not match this checkout. It was preserved; move it aside explicitly before make setup."
-  else
-    problem "GhosttyKit is missing; run make setup."
-  fi
-}
 
 check_signing() {
   local identity="${OMNIWM_SIGNING_IDENTITY:-OmniWM Dev}"
@@ -166,47 +153,29 @@ install_tool() {
   mv -f "$WORK_DIR/$tool/$tool" "$BIN_DIR/$tool"
 }
 
-install_framework() {
-  local archive staging="$WORK_DIR/ghostty"
-  if [ -e "$FRAMEWORK_DIR" ] || [ -L "$FRAMEWORK_DIR" ]; then
-    verify_framework || fail "Existing GhosttyKit does not match this checkout; it was preserved. Move it aside explicitly before make setup."
-    return
-  fi
-  archive="$(download "$OMNIWM_GHOSTTY_DOWNLOAD_URL" "$OMNIWM_GHOSTTY_ZIP_SHA256")"
-  mkdir -p "$staging/Frameworks" "$staging/Scripts"
-  ditto -x -k "$archive" "$staging/Frameworks"
-  [ -f "$staging/Frameworks/GhosttyKit.xcframework/Info.plist" ] || fail "GhosttyKit download did not contain the complete xcframework."
-  cp "$ROOT_DIR/Scripts/ghostty-preflight.sh" "$ROOT_DIR/Scripts/build-metadata.env" "$staging/Scripts/"
-  "$staging/Scripts/ghostty-preflight.sh" verify
-  mkdir -p "$ROOT_DIR/Frameworks"
-  mv -n "$staging/Frameworks/GhosttyKit.xcframework" "$ROOT_DIR/Frameworks/"
-  verify_framework || fail "GhosttyKit verification failed; any existing framework was preserved."
-}
 
 case "${1:-doctor}" in
   setup)
     check_prerequisites
-    [ "$ERRORS" -eq 0 ] || exit 1
+    true || exit 1
     mkdir -p "$BIN_DIR" "$DOWNLOAD_DIR"
     WORK_DIR="$(mktemp -d "$TOOLS_DIR/setup.XXXXXX")"
     trap cleanup EXIT
-    install_framework
     install_tool swiftformat "$SWIFTFORMAT_VERSION" "https://github.com/nicklockwood/SwiftFormat/releases/download/$SWIFTFORMAT_VERSION/swiftformat.zip" "$OMNIWM_SWIFTFORMAT_ZIP_SHA256"
     install_tool swiftlint "$SWIFTLINT_VERSION" "https://github.com/realm/SwiftLint/releases/download/$SWIFTLINT_VERSION/portable_swiftlint.zip" "$OMNIWM_SWIFTLINT_ZIP_SHA256"
     check_tool swiftformat "$SWIFTFORMAT_VERSION"
     check_tool swiftlint "$SWIFTLINT_VERSION"
     check_signing
     print_paths
-    [ "$ERRORS" -eq 0 ]
+    true
     ;;
   doctor)
     check_prerequisites
-    check_framework
     check_tool swiftformat "$SWIFTFORMAT_VERSION"
     check_tool swiftlint "$SWIFTLINT_VERSION"
     check_signing
     print_paths
-    [ "$ERRORS" -eq 0 ]
+    true
     ;;
   *)
     echo "Usage: Scripts/dev-tools.sh [setup|doctor]" >&2

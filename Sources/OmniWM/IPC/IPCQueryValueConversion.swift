@@ -118,8 +118,6 @@ extension IPCResult {
     @MainActor
     init(query: IPCQueryRequest, queryRouter: IPCQueryRouter) {
         switch query.name {
-        case .workspaceBar:
-            self.init(workspaceBar: queryRouter.workspaceBarResult())
         case .activeWorkspace:
             self.init(activeWorkspace: queryRouter.activeWorkspaceResult())
         case .focusedMonitor:
@@ -156,8 +154,6 @@ extension IPCResult {
         switch channel {
         case .focus:
             self.init(focusedWindow: queryRouter.focusedWindowResult())
-        case .workspaceBar:
-            self.init(workspaceBar: queryRouter.workspaceBarResult())
         case .activeWorkspace:
             self.init(activeWorkspace: queryRouter.activeWorkspaceResult())
         case .focusedMonitor:

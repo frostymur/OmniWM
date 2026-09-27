@@ -50,7 +50,6 @@ public enum IPCCommandArgumentKind: String, Codable, CaseIterable, Equatable, Se
     case workspaceNumber = "workspace-number"
     case columnIndex = "column-index"
     case windowIndex = "window-index"
-    case scratchpadIndex = "scratchpad-index"
     case layout
     case resizeAxis = "resize-axis"
     case resizeOperation = "resize-operation"
@@ -62,8 +61,7 @@ public enum IPCCommandArgumentKind: String, Codable, CaseIterable, Equatable, Se
             "<left|right|up|down>"
         case .workspaceNumber,
              .columnIndex,
-             .windowIndex,
-             .scratchpadIndex:
+             .windowIndex:
             "<number>"
         case .layout:
             "<default|niri|dwindle>"
@@ -129,10 +127,6 @@ public struct IPCCommandArgumentDescriptor: Codable, Equatable, Sendable {
     static let windowIndex = Self(
         kind: .windowIndex,
         summary: "One-based window index within the focused column."
-    )
-    static let scratchpadIndex = Self(
-        kind: .scratchpadIndex,
-        summary: "Scratchpad slot from 1 to 10."
     )
     static let layout = Self(
         kind: .layout,

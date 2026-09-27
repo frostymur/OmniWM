@@ -18,7 +18,7 @@ struct SkyLightSurfaceFunctions {
     typealias SetWindowResolutionFunc = @convention(c) (Int32, UInt32, Float) -> CGError
     typealias SetWindowOpacityFunc = @convention(c) (Int32, UInt32, Int32) -> CGError
     typealias SetWindowBackgroundBlurRadiusFunc = @convention(c) (Int32, UInt32, Int32) -> CGError
-    typealias SetWindowTagsFunc = @convention(c) (Int32, UInt32, UnsafePointer<UInt64>, Int32) -> CGError
+    typealias SetWindowTagsFunc = @convention(c) (Int32, UInt32, UnsafePointer<UInt64>, Int) -> CGError
     typealias SetWindowPropertyFunc = @convention(c) (Int32, UInt32, CFString, CFTypeRef) -> CGError
     typealias CopyWindowPropertyFunc = @convention(c) (
         Int32,

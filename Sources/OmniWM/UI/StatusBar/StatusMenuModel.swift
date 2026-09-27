@@ -239,7 +239,7 @@ final class StatusMenuModel {
     }
 
     var canShowHiddenIcons: Bool {
-        settings.hiddenBar.enabled && controller?.isHiddenBarHidingAvailable == true
+        false
     }
 
     func menuWillOpen() {
@@ -254,7 +254,7 @@ final class StatusMenuModel {
 
     var toggleTiles: [ToggleTileSpec] {
         let settings = settings
-        weak let controller = controller
+        weak var controller = controller
         var tiles: [ToggleTileSpec] = [
             ToggleTileSpec(
                 control: .bordersEnabled,
@@ -263,16 +263,6 @@ final class StatusMenuModel {
                     set: {
                         settings.borders.enabled = $0
                         controller?.borderSettingsChanged()
-                    }
-                )
-            ),
-            ToggleTileSpec(
-                control: .workspaceBarEnabled,
-                isOn: Binding(
-                    get: { settings.workspaceBar.enabled },
-                    set: {
-                        settings.workspaceBar.enabled = $0
-                        controller?.setWorkspaceBarEnabled($0)
                     }
                 )
             ),
@@ -335,17 +325,6 @@ final class StatusMenuModel {
                 )
             )
         ]
-        if controller?.isHiddenBarHidingAvailable == true {
-            tiles.append(
-                ToggleTileSpec(
-                    control: .hiddenBarEnabled,
-                    isOn: Binding(
-                        get: { settings.hiddenBar.enabled },
-                        set: { controller?.setHiddenBarEnabled($0) }
-                    )
-                )
-            )
-        }
         return tiles
     }
 
@@ -361,7 +340,6 @@ final class StatusMenuModel {
 
     func showHiddenIcons() {
         guard canShowHiddenIcons else { return }
-        controller?.toggleHiddenBarPanel()
     }
 
     func openAppRules() {

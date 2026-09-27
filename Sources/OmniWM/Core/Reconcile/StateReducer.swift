@@ -217,9 +217,7 @@ enum StateReducer {
         plan: inout ActionPlan
     ) -> Bool {
         switch event {
-        case .scratchpadMembershipChanged,
-             .scratchpadRevealChanged,
-             .visibleWorkspacesChanged,
+        case .visibleWorkspacesChanged,
              .spaceTopologyChanged,
              .topologyChanged,
              .activeSpaceChanged,

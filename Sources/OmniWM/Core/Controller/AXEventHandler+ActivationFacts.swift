@@ -215,9 +215,7 @@ extension AXEventHandler {
             return nil
         }
         let restoredFromNativeFullscreen = restoreManagedWindowFromNativeFullscreen(entry)
-        if restoredFromNativeFullscreen,
-           controller.reconcileScratchpadMemberAfterNativeFullscreenExit(entry.token)
-        {
+        if restoredFromNativeFullscreen {
             return nil
         }
         return controller.workspaceManager.entry(for: token) ?? entry

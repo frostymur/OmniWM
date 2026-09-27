@@ -14,12 +14,6 @@ struct DesiredBorderSurface: Equatable {
     }
 }
 
-struct DesiredBarSurface: Equatable {
-    var monitor: Monitor
-    var visible: Bool
-    var snapshot: WorkspaceBarSnapshot
-}
-
 struct ParkingEdgeMaskKey: Hashable {
     enum Side: String, Hashable {
         case left
@@ -40,7 +34,6 @@ struct DesiredSurfaceScene: Equatable {
     var tabRails: [TabRailInfo] = []
     var tabRailStyle: TabRailStyle = .compact
     var placeholders: [NativeFullscreenPlaceholderUpdate] = []
-    var bars: [DesiredBarSurface] = []
     var parkingEdgeMasks: [DesiredParkingEdgeMask] = []
 
     static let empty = DesiredSurfaceScene()

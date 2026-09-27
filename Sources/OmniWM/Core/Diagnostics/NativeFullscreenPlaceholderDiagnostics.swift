@@ -194,7 +194,7 @@ struct FullscreenPlaceholderDiagnosticsSnapshot {
             if tokenSlots.isEmpty {
                 lines.append("  acceptedSlot=none")
             } else {
-                lines.append(contentsOf: tokenSlots.sorted(by: slotOrder).map(format(slot:)))
+                lines.append(contentsOf: tokenSlots.sorted { slotOrder($0, $1) }.map { format(slot: $0) })
             }
             lines.append(format(applied: appliedEntry))
             lines.append(format(panel: panel))

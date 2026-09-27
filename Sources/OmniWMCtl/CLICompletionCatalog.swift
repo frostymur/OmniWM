@@ -190,8 +190,6 @@ enum CLICompletionCatalog {
             return ["horizontal", "vertical"]
         case .resizeOperation:
             return ["grow", "shrink"]
-        case .scratchpadIndex:
-            return IPCScratchpadSlots.range.map(String.init)
         case .workspaceNumber,
              .columnIndex,
              .windowIndex,

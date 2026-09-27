@@ -53,9 +53,7 @@ final class DragGhostWindow: NSPanel {
         )
     }
 
-    isolated deinit {
-        destroy()
-    }
+    deinit {}
 
     override var canBecomeKey: Bool {
         false

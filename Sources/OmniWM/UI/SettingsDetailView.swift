@@ -16,7 +16,6 @@ struct SettingsDetailView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .navigationTitle(section.displayName)
-            .backgroundExtensionEffect()
     }
 
     @ViewBuilder
@@ -43,20 +42,12 @@ struct SettingsDetailView: View {
             )
         case .workspaces:
             WorkspacesSettingsTab(settings: settings, controller: controller)
-        case .overview:
-            OverviewSettingsTab(settings: settings, controller: controller)
         case .borders:
             BorderSettingsTab(settings: settings, controller: controller)
-        case .bar:
-            WorkspaceBarSettingsTab(settings: settings, controller: controller)
-        case .hiddenBar:
-            HiddenBarSettingsTab(settings: settings, controller: controller)
         case .hotkeys:
             HotkeySettingsView(settings: settings, controller: controller)
         case .mouseTrackpad:
             MouseTrackpadSettingsTab(settings: settings, controller: controller)
-        case .quakeTerminal:
-            QuakeTerminalSettingsTab(settings: settings, controller: controller)
         case .reportIssue:
             ReportIssueSettingsTab(controller: controller)
         }

@@ -185,13 +185,15 @@ struct WindowClassificationRulesSnapshot: Codable, Equatable, Sendable {
     }
 
     private static func estimatedDiagnosticBytes(_ rule: AppRule) -> Int {
-        256
-            + min(rule.bundleId.utf8.count, RuntimeTraceLimits.diagnosticStringBytes)
-            + min(rule.appNameSubstring?.utf8.count ?? 0, RuntimeTraceLimits.diagnosticStringBytes)
-            + min(rule.titleSubstring?.utf8.count ?? 0, RuntimeTraceLimits.diagnosticStringBytes)
-            + min(rule.titleRegex?.utf8.count ?? 0, RuntimeTraceLimits.diagnosticStringBytes)
-            + min(rule.axRole?.utf8.count ?? 0, RuntimeTraceLimits.diagnosticStringBytes)
-            + min(rule.axSubrole?.utf8.count ?? 0, RuntimeTraceLimits.diagnosticStringBytes)
-            + min(rule.assignToWorkspace?.utf8.count ?? 0, RuntimeTraceLimits.diagnosticStringBytes)
+        let limit = RuntimeTraceLimits.diagnosticStringBytes
+        var bytes = 256
+        bytes += min(rule.bundleId.utf8.count, limit)
+        bytes += min(rule.appNameSubstring?.utf8.count ?? 0, limit)
+        bytes += min(rule.titleSubstring?.utf8.count ?? 0, limit)
+        bytes += min(rule.titleRegex?.utf8.count ?? 0, limit)
+        bytes += min(rule.axRole?.utf8.count ?? 0, limit)
+        bytes += min(rule.axSubrole?.utf8.count ?? 0, limit)
+        bytes += min(rule.assignToWorkspace?.utf8.count ?? 0, limit)
+        return bytes
     }
 }

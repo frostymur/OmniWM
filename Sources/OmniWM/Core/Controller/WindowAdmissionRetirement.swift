@@ -55,7 +55,6 @@ extension AXEventHandler {
         finishDeferredReplacementAfterTracking(windowId: token.windowId)
         controller.axManager.removeWindowState(pid: token.pid, expectedWindow: entry.axRef)
         if removesScratchpadResources {
-            controller.cleanupScratchpadWindowResources(for: token)
         }
         controller.clearManualWindowOverride(for: token)
         if policy.removesIdentityAliases {

@@ -128,7 +128,6 @@ final class ParkingEdgeMaskTests: XCTestCase {
     @MainActor
     func testFullSceneRemovesAndRestoresMasksAfterActiveSpaceChanges() throws {
         let controller = WindowAdmissionTestSupport.controller(prefix: "ParkingEdgeMaskTests")
-        controller.settings.workspaceBar.enabled = false
         let first = makeMonitor(
             displayId: 95_002,
             frame: CGRect(x: 91_000, y: 92_000, width: 1440, height: 900),

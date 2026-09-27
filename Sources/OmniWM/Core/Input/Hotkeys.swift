@@ -56,11 +56,11 @@ final class HotkeyCenter {
         )
     }
 
-    isolated deinit {
-        carbonRegistrations.unregister()
-        stopHyperTriggerTap()
-        restoreCapsLockHyperRemap()
-        carbonRegistrations.removeEventHandler()
+    deinit {
+//        carbonRegistrations.unregister()
+//        stopHyperTriggerTap()
+//        restoreCapsLockHyperRemap()
+//        carbonRegistrations.removeEventHandler()
     }
 
     func handleCarbonHotkey(id: UInt32, kind: UInt32) {

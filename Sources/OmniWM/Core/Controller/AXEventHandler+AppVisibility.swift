@@ -49,7 +49,6 @@ extension AXEventHandler {
                 workspaceId: activeRequest.workspaceId,
                 requestId: activeRequest.requestId
             )
-            controller.scratchpadStacking.abortScratchpadStacking(matching: activeRequest.requestId)
             controller.intentLedger.discardPendingFocus(activeRequest.token)
         }
         if controller.workspaceManager.renderableFocusToken?.pid == pid {
@@ -90,7 +89,6 @@ extension AXEventHandler {
             pid: pid,
             entries: entries.map { (pid: $0.pid, windowId: $0.windowId) }
         )
-        controller.reconcileScratchpadMembersAfterAppUnhide(pid: pid)
         controller.windowActionHandler.refreshOverviewProjection(
             affectedWorkspaceIds: affectedWorkspaceIds
         )

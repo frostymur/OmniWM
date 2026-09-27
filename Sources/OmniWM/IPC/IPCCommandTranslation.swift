@@ -147,15 +147,6 @@ extension HotkeyCommand {
         }
     }
 
-    init(ipc command: IPCScratchpadCommand) {
-        switch command {
-        case let .assign(index):
-            self = .scratchpad(.assign(index))
-        case let .toggle(index):
-            self = .scratchpad(.toggle(index))
-        }
-    }
-
     private static func zeroBasedIndex(from oneBasedValue: Int) -> Int? {
         guard oneBasedValue > 0 else { return nil }
         return oneBasedValue - 1

@@ -37,7 +37,6 @@ extension WorkspaceNavigationHandler {
                 workspaceId: canceledRequest.workspaceId,
                 requestId: canceledRequest.requestId
             )
-            controller.scratchpadStacking.abortScratchpadStacking(matching: canceledRequest.requestId)
             controller.intentLedger.discardPendingFocus(canceledRequest.token)
         }
         _ = controller.workspaceManager.clearNativeFocusOwner()

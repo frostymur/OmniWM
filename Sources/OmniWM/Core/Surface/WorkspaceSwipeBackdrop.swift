@@ -5,10 +5,10 @@ import AppKit
 
 @MainActor
 final class WorkspaceSwipeBackdrop {
-    private let wallpaperCache: OverviewWallpaperCache
+    private let wallpaperCache: WallpaperCaptureCache
 
     init(
-        wallpaperCache: OverviewWallpaperCache = OverviewWallpaperCache { SkyLight.shared.captureWallpaper(in: $0) }
+        wallpaperCache: WallpaperCaptureCache = WallpaperCaptureCache { SkyLight.shared.captureWallpaper(in: $0) }
     ) {
         self.wallpaperCache = wallpaperCache
     }
@@ -16,7 +16,7 @@ final class WorkspaceSwipeBackdrop {
     func image(for monitor: Monitor) -> CGImage? {
         wallpaperCache.image(
             for: monitor.displayId,
-            maxPixelSize: OverviewWallpaperCache.bucketedPixelSize(max(monitor.frame.width, monitor.frame.height)),
+            maxPixelSize: WallpaperCaptureCache.bucketedPixelSize(max(monitor.frame.width, monitor.frame.height)),
             frame: ScreenCoordinateSpace.toWindowServer(rect: monitor.frame)
         )
     }

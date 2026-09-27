@@ -264,7 +264,6 @@ extension LayoutRefreshController {
         )
         controller.axManager.clearParkPending(for: pendingTransaction.windowId, pid: pendingTransaction.pid)
         if pendingTransaction.hiddenState.isScratchpad {
-            controller.requestWorkspaceBarRefresh()
         }
         if let confirmedFrame {
             controller.axManager.confirmFrameWrite(for: pendingTransaction.windowId, frame: confirmedFrame)

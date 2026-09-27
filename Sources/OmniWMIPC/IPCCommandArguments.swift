@@ -7,7 +7,6 @@ enum IPCCommandIntegerField {
     case workspaceNumber
     case slotNumber
     case columnIndex
-    case scratchpadIndex
     case windowIndex
 }
 
@@ -90,8 +89,6 @@ enum IPCCommandArgumentSource {
                 return try container.decode(IPCSlotNumberArguments.self, forKey: .arguments).slotNumber
             case .columnIndex:
                 return try container.decode(IPCColumnIndexArguments.self, forKey: .arguments).columnIndex
-            case .scratchpadIndex:
-                return try container.decode(IPCScratchpadIndexArguments.self, forKey: .arguments).scratchpadIndex
             case .windowIndex:
                 return try container.decode(IPCWindowIndexArguments.self, forKey: .arguments).windowIndex
             }
@@ -163,8 +160,6 @@ struct IPCCommandArgumentWriter {
             try container.encode(IPCSlotNumberArguments(slotNumber: value), forKey: .arguments)
         case .columnIndex:
             try container.encode(IPCColumnIndexArguments(columnIndex: value), forKey: .arguments)
-        case .scratchpadIndex:
-            try container.encode(IPCScratchpadIndexArguments(scratchpadIndex: value), forKey: .arguments)
         case .windowIndex:
             try container.encode(IPCWindowIndexArguments(windowIndex: value), forKey: .arguments)
         }
@@ -199,7 +194,6 @@ private struct IPCColumnIndexArguments: Codable, Equatable, Sendable {
 }
 
 private struct IPCScratchpadIndexArguments: Codable, Equatable, Sendable {
-    let scratchpadIndex: Int
 }
 
 private struct IPCWindowIndexArguments: Codable, Equatable, Sendable {

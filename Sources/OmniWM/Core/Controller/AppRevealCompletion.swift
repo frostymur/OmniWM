@@ -118,18 +118,6 @@ struct AppRevealCompletion {
                 workspaceId: payload.workspaceId,
                 focusOrigin: focusOrigin
             ))
-        case let .scratchpad(index, monitorId):
-            return finish(controller.activateScratchpadFromBar(index: index, on: monitorId) == .executed)
-        case let .scratchpadWindow(index, monitorId):
-            return finish(
-                actions.performSelectedScratchpadReveal(
-                    token: handle.id,
-                    workspaceId: payload.workspaceId,
-                    index: index,
-                    monitorId: monitorId,
-                    focusOrigin: focusOrigin
-                )
-            )
         }
     }
 

@@ -14,14 +14,9 @@ struct CanonicalTOMLConfig: Codable, Equatable {
     var niri: SettingsExport.Niri
     var dwindle: SettingsExport.Dwindle
     var borders: SettingsExport.Borders
-    var overview: SettingsExport.Overview
-    var workspaceBar: SettingsExport.WorkspaceBar
     var gestures: SettingsExport.Gestures
     var statusBar: SettingsExport.StatusBar
-    var hiddenBar: SettingsExport.HiddenBar
     var clipboard: SettingsExport.Clipboard
-    var quakeTerminal: SettingsExport.QuakeTerminal
-    var scratchpads: SettingsExport.Scratchpads
     var appearance: Appearance
     var hotkeys: [HotkeyBinding]
     var workspaces: [WorkspaceConfiguration]
@@ -76,14 +71,9 @@ extension CanonicalTOMLConfig {
         niri = try container.decode(SettingsExport.Niri.self, forKey: .niri)
         dwindle = try container.decode(SettingsExport.Dwindle.self, forKey: .dwindle)
         borders = try container.decode(SettingsExport.Borders.self, forKey: .borders)
-        overview = try container.decode(SettingsExport.Overview.self, forKey: .overview)
-        workspaceBar = try container.decode(SettingsExport.WorkspaceBar.self, forKey: .workspaceBar)
         gestures = try container.decode(SettingsExport.Gestures.self, forKey: .gestures)
         statusBar = try container.decode(SettingsExport.StatusBar.self, forKey: .statusBar)
-        hiddenBar = try container.decode(SettingsExport.HiddenBar.self, forKey: .hiddenBar)
         clipboard = try container.decode(SettingsExport.Clipboard.self, forKey: .clipboard)
-        quakeTerminal = try container.decode(SettingsExport.QuakeTerminal.self, forKey: .quakeTerminal)
-        scratchpads = try container.decode(SettingsExport.Scratchpads.self, forKey: .scratchpads)
         appearance = try container.decode(Appearance.self, forKey: .appearance)
         let persistedHotkeys = try container.decode([PersistedHotkeyBinding].self, forKey: .hotkeys)
         hotkeys = try HotkeyBindingRegistry.resolve(persistedHotkeys)
@@ -121,14 +111,9 @@ extension CanonicalTOMLConfig {
         niri = export.niri
         dwindle = export.dwindle
         borders = export.borders
-        overview = export.overview
-        workspaceBar = export.workspaceBar
         gestures = export.gestures
         statusBar = export.statusBar
-        hiddenBar = export.hiddenBar
         clipboard = export.clipboard
-        quakeTerminal = export.quakeTerminal
-        scratchpads = export.scratchpads
         appearance = Appearance(mode: export.appearanceMode, tabRailAppIcons: export.tabRailAppIcons)
         hotkeys = export.hotkeyBindings
         workspaces = export.workspaceConfigurations
@@ -141,10 +126,6 @@ extension CanonicalTOMLConfig {
     }
 
     func toSettingsExport() -> SettingsExport {
-        var overview = overview
-        overview.matchFocusBorder = overview.matchFocusBorder ?? true
-        overview.invertScrollDirection = overview.invertScrollDirection ?? false
-        overview.mouseScrollSpeed = overview.mouseScrollSpeed ?? 1
         var gestures = gestures
         gestures.overviewGestureEnabled = gestures.overviewGestureEnabled ?? false
         gestures.overviewGestureFingerCount = gestures.overviewGestureFingerCount ?? .four
@@ -164,12 +145,9 @@ extension CanonicalTOMLConfig {
             workspaceConfigurations: workspaces,
             defaultLayoutType: general.defaultLayoutType,
             borders: borders,
-            overview: overview,
             hotkeyBindings: hotkeys,
             systemHyperTrigger: general.systemHyperTrigger,
             hyperKeyModifiers: general.hyperKeyModifiers,
-            workspaceBar: workspaceBar,
-            scratchpads: scratchpads,
             monitorBarSettings: monitorBarOverrides,
             appRules: appRules,
             monitorOrientationSettings: monitorOrientationOverrides,
@@ -182,10 +160,8 @@ extension CanonicalTOMLConfig {
             ipcEnabled: general.ipcEnabled,
             gestures: gestures,
             statusBar: statusBar,
-            hiddenBar: hiddenBar,
             animationsEnabled: general.animationsEnabled,
             clipboard: clipboard,
-            quakeTerminal: quakeTerminal,
             appearanceMode: appearance.mode,
             tabRailAppIcons: appearance.tabRailAppIcons
         )

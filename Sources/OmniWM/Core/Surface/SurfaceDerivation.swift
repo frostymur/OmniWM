@@ -18,7 +18,6 @@ enum SurfaceDerivation {
             tabRails: world.tabRailInfos(),
             tabRailStyle: world.tabRailStyle,
             placeholders: world.nativeFullscreenPlaceholders(),
-            bars: world.barSurfaces(),
             parkingEdgeMasks: deriveParkingEdgeMasks(monitors: world.monitors, spaceTopology: world.spaceTopology)
         )
     }

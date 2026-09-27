@@ -308,15 +308,6 @@ final class StatusMenuControlHelpTests: XCTestCase {
         XCTAssertEqual(fixture.model.menuPresentationGeneration, 2)
     }
 
-    func testHiddenBarTileInclusionMatchesControllerAvailability() {
-        let fixture = makeStatusMenuModelFixture()
-        defer { try? FileManager.default.removeItem(at: fixture.root) }
-
-        let hiddenBarTiles = fixture.model.toggleTiles.filter { $0.control == .hiddenBarEnabled }
-
-        XCTAssertEqual(hiddenBarTiles.count, fixture.controller.isHiddenBarHidingAvailable ? 1 : 0)
-    }
-
     func testFocusFollowsMouseTileDoesNotChangeRaisePreference() throws {
         let fixture = makeStatusMenuModelFixture()
         defer { try? FileManager.default.removeItem(at: fixture.root) }

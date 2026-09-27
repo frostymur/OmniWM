@@ -45,7 +45,6 @@ extension WMController {
             workspaceId: canceledRequest.workspaceId,
             requestId: canceledRequest.requestId
         )
-        scratchpadStacking.abortScratchpadStacking(matching: canceledRequest.requestId)
         if let sourceToken {
             restoreSameAppFocusSource(sourceToken, canceledRequest: canceledRequest)
         }

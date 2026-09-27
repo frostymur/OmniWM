@@ -239,15 +239,6 @@ enum WMEvent: Equatable {
         nodeId: NodeId,
         source: WMEventSource
     )
-    case scratchpadMembershipChanged(
-        token: WindowToken,
-        index: ScratchpadIndex?,
-        source: WMEventSource
-    )
-    case scratchpadRevealChanged(
-        index: ScratchpadIndex?,
-        source: WMEventSource
-    )
     case visibleWorkspacesChanged(
         sessions: [Monitor.ID: MonitorSession],
         source: WMEventSource
@@ -348,8 +339,6 @@ extension WMEvent {
              .nativeFullscreenPlaceholderSelected,
              .niriPlacementsResolved,
              .dwindlePlacementsResolved,
-             .scratchpadMembershipChanged,
-             .scratchpadRevealChanged,
              .selectionChanged,
              .spaceTopologyChanged,
              .suppressedFocusChanged,
@@ -446,10 +435,6 @@ extension WMEvent {
             "viewport_forgotten workspaces=\(workspaceIds.count)"
         case let .selectionChanged(workspaceId, nodeId, _):
             "selection_changed workspace=\(workspaceId.uuidString) node=\(nodeId)"
-        case let .scratchpadMembershipChanged(token, index, _):
-            "scratchpad_membership_changed token=\(token) index=\(index.map(String.init(describing:)) ?? "nil")"
-        case let .scratchpadRevealChanged(index, _):
-            "scratchpad_reveal_changed index=\(index.map(String.init(describing:)) ?? "nil")"
         case let .visibleWorkspacesChanged(sessions, _):
             "visible_workspaces_changed monitors=\(sessions.count)"
         case let .spaceTopologyChanged(topology, _):

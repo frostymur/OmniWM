@@ -136,7 +136,6 @@ extension LayoutRefreshController {
     func collectUnusedWorkspacesIfIdle() {
         guard let controller,
               layoutState.activeRefresh == nil,
-              !controller.isOverviewOpen(),
               workspaceSwipe.preparation == nil,
               !workspaceSwipe.hasPresentation
         else { return }
@@ -154,7 +153,6 @@ extension LayoutRefreshController {
                 postLayoutAction.runIfCurrent(using: controller.workspaceManager)
             }
             if shouldRequestWorkspaceBarRefresh {
-                controller.requestWorkspaceBarRefresh()
             }
         }
         if let followUpRefresh = completedRefresh.followUpRefresh {

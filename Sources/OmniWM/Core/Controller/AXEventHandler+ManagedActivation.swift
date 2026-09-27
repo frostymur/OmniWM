@@ -95,9 +95,7 @@ extension AXEventHandler {
         }
 
         let restoredFromNativeFullscreen = restoreManagedWindowFromNativeFullscreen(entry)
-        if restoredFromNativeFullscreen,
-           controller.reconcileScratchpadMemberAfterNativeFullscreenExit(entry.token)
-        {
+        if restoredFromNativeFullscreen {
             return nil
         }
         return observeManagedActivation(
@@ -340,10 +338,6 @@ extension AXEventHandler {
            controller.workspaceManager.nativeManagedFocusToken == entry.token
         {
             controller.moveMouseToWindow(entry.token, preferredFrame: preferredMouseFrame)
-        }
-        controller.scratchpadStacking.noteScratchpadStackingAppActivation(pid: entry.pid, source: observation.source)
-        if let confirmedRequest {
-            controller.scratchpadStacking.continueScratchpadStacking(after: confirmedRequest)
         }
     }
 }

@@ -169,19 +169,6 @@ final class AppRevealActions {
             return [
                 targetPID: controller.workspaceManager.appVisibilityGeneration(for: targetPID)
             ]
-        case let .scratchpad(index, _),
-             let .scratchpadWindow(index, _):
-            var pendingApps: [pid_t: UInt64] = [:]
-            for token in controller.workspaceManager.scratchpadMembers(in: index) {
-                guard let pid = controller.workspaceManager.entry(for: token)?.pid,
-                      pendingApps[pid] == nil,
-                      controller.workspaceManager.isAppHidden(pid: pid)
-                else {
-                    continue
-                }
-                pendingApps[pid] = controller.workspaceManager.appVisibilityGeneration(for: pid)
-            }
-            return pendingApps
         }
     }
 
@@ -199,40 +186,7 @@ final class AppRevealActions {
                 workspaceId: workspaceId,
                 focusOrigin: focusOrigin
             )
-        case let .scratchpad(index, monitorId):
-            controller.activateScratchpadFromBar(index: index, on: monitorId) == .executed
-        case let .scratchpadWindow(index, monitorId):
-            performSelectedScratchpadReveal(
-                token: token,
-                workspaceId: workspaceId,
-                index: index,
-                monitorId: monitorId,
-                focusOrigin: focusOrigin
-            )
         }
-    }
-
-    func performSelectedScratchpadReveal(
-        token: WindowToken,
-        workspaceId: WorkspaceDescriptor.ID,
-        index: ScratchpadIndex,
-        monitorId: Monitor.ID?,
-        focusOrigin: ManagedFocusOrigin
-    ) -> Bool {
-        guard let controller else { return false }
-        guard controller.workspaceManager.scratchpadIndex(for: token) == index else {
-            return controller.windowActionHandler.navigateToWindowInternal(
-                token: token,
-                workspaceId: workspaceId,
-                focusOrigin: focusOrigin
-            )
-        }
-        return controller.revealScratchpadWindow(
-            token,
-            index: index,
-            on: monitorId,
-            focusOrigin: focusOrigin
-        ) == .executed
     }
 
     static func appRevealFocusFingerprint(controller: WMController) -> AppRevealFocusFingerprint {

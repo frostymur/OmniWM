@@ -220,16 +220,20 @@ enum MonitorTopologyRestorePlanner {
         let firstAssignedMonitorId = sortedMonitors.first(where: {
             visibleAssignments[$0.id] != nil
         })?.id
-        let resolvedInteractionMonitorId = focus.prioritizesInteractionMonitor
-            ? connectedInteractionMonitorId
-            ?? pendingFocusMonitorId
-            ?? firstAssignedMonitorId
-            ?? sortedMonitors.first?.id
-            : confirmedFocusMonitorId
-            ?? pendingFocusMonitorId
-            ?? connectedInteractionMonitorId
-            ?? firstAssignedMonitorId
-            ?? sortedMonitors.first?.id
+        let fallbackMonitorId = sortedMonitors.first?.id
+        let resolvedInteractionMonitorId: Monitor.ID?
+        if focus.prioritizesInteractionMonitor {
+            resolvedInteractionMonitorId = connectedInteractionMonitorId
+                ?? pendingFocusMonitorId
+                ?? firstAssignedMonitorId
+                ?? fallbackMonitorId
+        } else {
+            resolvedInteractionMonitorId = confirmedFocusMonitorId
+                ?? pendingFocusMonitorId
+                ?? connectedInteractionMonitorId
+                ?? firstAssignedMonitorId
+                ?? fallbackMonitorId
+        }
 
         let resolvedPreviousInteractionMonitorId: Monitor.ID?
         if let connectedInteractionMonitorId,

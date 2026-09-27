@@ -198,31 +198,4 @@ extension CommandHandler {
         }
         return changed ? .executed : .noChange
     }
-
-    func perform(_ action: ScratchpadAction, controller: WMController) -> ExternalCommandResult {
-        switch action {
-        case let .assign(index):
-            guard let index = ScratchpadIndex(index) else { return .invalidArguments }
-            return controller.assignFocusedWindowToScratchpad(index)
-        case let .toggle(index):
-            guard let index = ScratchpadIndex(index) else { return .invalidArguments }
-            return controller.toggleScratchpad(index)
-        }
-    }
-
-    func perform(_ action: IPCPresentationCommand, controller: WMController) -> ExternalCommandResult {
-        switch action {
-        case .workspaceBar:
-            controller.toggleWorkspaceBarVisibility()
-        case .hiddenBar:
-            controller.toggleHiddenBarPanel()
-        case .quakeTerminal:
-            controller.toggleQuakeTerminal()
-        case .overview:
-            controller.toggleOverview()
-        case .systemStats:
-            controller.toggleSystemStats()
-        }
-        return .executed
-    }
 }

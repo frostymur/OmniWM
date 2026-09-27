@@ -27,16 +27,11 @@ extension IPCCommandRequest: Codable {
             try command.encodeArguments(to: &writer)
         case let .workspaceLayout(command):
             try command.encodeArguments(to: &writer)
-        case let .scratchpad(command):
-            try command.encodeArguments(to: &writer)
         case .monitorFocus,
-             .openCommandPalette,
              .raiseAllFloatingWindows,
              .rescueOffscreenWindows,
              .fullscreen,
-             .presentation,
-             .windowState,
-             .openMenuAnywhere:
+             .windowState:
             break
         }
     }

@@ -360,13 +360,6 @@ final class FloatingMonitorRebindFocusTests: XCTestCase {
         controller.surfaceReconciler.cleanup()
         controller.layoutRefreshController.resetState()
         fixture.focusRecorder.focusedTokens.removeAll()
-        let sourceProjectionBefore = projection(on: fixture.sourceMonitor, fixture: fixture)
-        XCTAssertTrue(
-            sourceProjectionBefore.items
-                .first { $0.id == fixture.sourceWorkspaceId }?
-                .floatingWindows.contains { $0.id == moving } == true
-        )
-
         rebind(moving, fixture: fixture)
 
         XCTAssertEqual(manager.workspace(for: moving), fixture.targetWorkspaceId)
@@ -375,18 +368,6 @@ final class FloatingMonitorRebindFocusTests: XCTestCase {
         XCTAssertEqual(manager.lastFloatingFocusedToken(in: fixture.targetWorkspaceId), targetFallback)
         XCTAssertEqual(resolvedFocus(in: fixture.targetWorkspaceId, manager: manager), targetFallback)
         XCTAssertTrue(controller.surfaceReconciler.reconcileScheduled)
-        let sourceProjectionAfter = projection(on: fixture.sourceMonitor, fixture: fixture)
-        let targetProjectionAfter = projection(on: fixture.targetMonitor, fixture: fixture)
-        XCTAssertFalse(
-            sourceProjectionAfter.items
-                .first { $0.id == fixture.sourceWorkspaceId }?
-                .floatingWindows.contains { $0.id == moving } == true
-        )
-        XCTAssertTrue(
-            targetProjectionAfter.items
-                .first { $0.id == fixture.targetWorkspaceId }?
-                .floatingWindows.contains { $0.id == moving } == true
-        )
         XCTAssertTrue(fixture.focusRecorder.focusedTokens.isEmpty)
         XCTAssertNil(controller.layoutRefreshController.layoutState.activeRefresh)
         XCTAssertNil(controller.layoutRefreshController.layoutState.pendingRefresh)
@@ -808,28 +789,6 @@ final class FloatingMonitorRebindFocusTests: XCTestCase {
             inactiveTargetWorkspaceId: inactiveTargetWorkspaceId,
             targetWorkspaceId: targetWorkspaceId,
             focusRecorder: focusRecorder
-        )
-    }
-
-    private func projection(
-        on monitor: Monitor,
-        fixture: Fixture
-    ) -> WorkspaceBarProjection {
-        let controller = fixture.controller
-        return WorkspaceBarDataSource(
-            workspaceManager: controller.workspaceManager,
-            appInfoCache: controller.appInfoCache,
-            iconResolver: controller.workspaceBarIconResolver,
-            settings: controller.settings
-        ).workspaceBarProjection(
-            for: monitor,
-            options: WorkspaceBarProjectionOptions(
-                deduplicateAppIcons: false,
-                hideEmptyWorkspaces: false,
-                showFloatingWindows: true,
-                excludedBundleIDs: []
-            ),
-            focusedToken: controller.workspaceManager.selectedManagedToken
         )
     }
 

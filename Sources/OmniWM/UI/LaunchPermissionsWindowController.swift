@@ -100,12 +100,31 @@ struct LaunchPermissionEnvironment {
             requestAccessibility: {
                 let options: NSDictionary = [axTrustedCheckOptionPrompt as NSString: true]
                 _ = AXIsProcessTrustedWithOptions(options)
+                openSettingsIfStillDenied(.accessibility, isGranted: AXIsProcessTrusted)
             },
             inputMonitoringGranted: HotkeyCenter.inputMonitoringAccessGranted,
-            requestInputMonitoring: { _ = HotkeyCenter.requestInputMonitoringAccess() },
+            requestInputMonitoring: {
+                _ = HotkeyCenter.requestInputMonitoringAccess()
+                openSettingsIfStillDenied(.inputMonitoring, isGranted: HotkeyCenter.inputMonitoringAccessGranted)
+            },
             screenRecordingGranted: CGPreflightScreenCaptureAccess,
-            requestScreenRecording: { _ = CGRequestScreenCaptureAccess() }
+            requestScreenRecording: {
+                _ = CGRequestScreenCaptureAccess()
+                openSettingsIfStillDenied(.screenRecording, isGranted: CGPreflightScreenCaptureAccess)
+            }
         )
+    }
+
+    @MainActor
+    private static func openSettingsIfStillDenied(
+        _ kind: LaunchPermissionKind,
+        isGranted: @escaping @MainActor () -> Bool
+    ) {
+        Task { @MainActor in
+            try? await Task.sleep(for: .seconds(1.2))
+            guard !isGranted(), let url = kind.settingsURL else { return }
+            NSWorkspace.shared.open(url)
+        }
     }
 
     @MainActor

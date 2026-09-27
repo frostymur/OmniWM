@@ -57,9 +57,24 @@ struct StatusMenuControlHoverAction: Sendable {
     }
 }
 
+private struct StatusMenuFocusKey: EnvironmentKey {
+    nonisolated(unsafe) static let defaultValue: FocusState<StatusMenuFocusItem?>.Binding? = nil
+}
+
+private struct StatusMenuControlHoverKey: EnvironmentKey {
+    static let defaultValue = StatusMenuControlHoverAction(handler: { _ in })
+}
+
 extension EnvironmentValues {
-    @Entry var statusMenuFocus: FocusState<StatusMenuFocusItem?>.Binding?
-    @Entry var statusMenuControlHover = StatusMenuControlHoverAction(handler: { _ in })
+    var statusMenuFocus: FocusState<StatusMenuFocusItem?>.Binding? {
+        get { self[StatusMenuFocusKey.self] }
+        set { self[StatusMenuFocusKey.self] = newValue }
+    }
+
+    var statusMenuControlHover: StatusMenuControlHoverAction {
+        get { self[StatusMenuControlHoverKey.self] }
+        set { self[StatusMenuControlHoverKey.self] = newValue }
+    }
 }
 
 struct StatusMenuFocusOrder: PreferenceKey {
@@ -163,9 +178,11 @@ struct StatusMenuPanelView: View {
             }
         }
         .onPreferenceChange(StatusMenuFocusOrder.self) { items in
-            focusOrder = items
-            if focusedItem.map({ !items.contains($0) }) ?? true {
-                focusedItem = items.first
+            Task { @MainActor in
+                focusOrder = items
+                if focusedItem.map({ !items.contains($0) }) ?? true {
+                    focusedItem = items.first
+                }
             }
         }
         .onAppear {

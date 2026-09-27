@@ -270,7 +270,6 @@ extension AXEventHandler {
                 )
             )
         )
-        controller.scratchpadStacking.noteScratchpadStackingAppActivation(pid: pid, source: source)
         let observationGeneration: UInt64
         if let causalGeneration {
             observationGeneration = causalGeneration

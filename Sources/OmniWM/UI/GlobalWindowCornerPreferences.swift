@@ -97,7 +97,7 @@ final class GlobalWindowCornerPreferences {
             return
         }
 
-        let managed = Self.keys.contains(where: operations.isForced)
+        let managed = Self.keys.contains(where: { (try? operations.isForced($0)) == true })
         let snapshot = readSnapshot()
         let observation = ConfirmedObservation(snapshot: snapshot, isManaged: managed)
         if hasRefreshFailure || lastConfirmedObservation.map({ !$0.semanticallyEquals(observation) }) == true {
@@ -157,7 +157,7 @@ final class GlobalWindowCornerPreferences {
 
     private func apply(values: [String: Any], removedKeys: [String], expected: State) {
         guard isSupported else {
-            reportFailure(String(localized: "App window corner controls require macOS 26.4 or later."))
+            reportFailure(String(localized: "App window corner controls require macOS 15.0 or later."))
             return
         }
         guard operations.synchronize() else {
@@ -166,7 +166,7 @@ final class GlobalWindowCornerPreferences {
         }
 
         let previous = readSnapshot()
-        isManaged = Self.keys.contains(where: operations.isForced)
+        isManaged = Self.keys.contains(where: { (try? operations.isForced($0)) == true })
         guard !isManaged else {
             load(snapshot: previous)
             lastConfirmedObservation = ConfirmedObservation(snapshot: previous, isManaged: true)
@@ -260,7 +260,7 @@ final class GlobalWindowCornerPreferences {
     }
 
     private static var systemSupportsFeature: Bool {
-        if #available(macOS 26.4, *) {
+        if #available(macOS 15.0, *) {
             true
         } else {
             false

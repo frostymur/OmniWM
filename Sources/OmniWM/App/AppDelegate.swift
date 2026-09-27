@@ -144,10 +144,8 @@ public final class AppDelegate: NSObject, NSApplicationDelegate {
             persistence: SettingsFilePersistence(directory: storagePaths.configDirectory),
             runtimeState: runtimeState
         )
-        let hiddenBarController = HiddenBarController(settings: settings)
         let controller = WMController(
             settings: settings,
-            hiddenBarController: hiddenBarController,
             clipboardHistoryDirectory: storagePaths.stateDirectory
         )
         controller.applyPersistedSettings(settings)
@@ -167,7 +165,6 @@ public final class AppDelegate: NSObject, NSApplicationDelegate {
         statusBarController = StatusBarController(
             settings: settings,
             controller: controller,
-            hiddenBarController: hiddenBarController,
             cliManager: cliManager,
             updateCoordinator: updateCoordinator
         )

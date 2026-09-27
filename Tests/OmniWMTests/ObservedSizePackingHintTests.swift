@@ -261,7 +261,6 @@ final class ObservedSizePackingHintTests: XCTestCase {
         controller.settings.gaps.outerGapBottom = 0
         controller.settings.borders.enabled = true
         controller.settings.borders.width = 3
-        controller.settings.workspaceBar.reserveLayoutSpace = false
         controller.settings.niri.infiniteLoop = false
         controller.settings.workspaces.configurations = [
             WorkspaceConfiguration(name: "1", monitorAssignment: .main, layoutType: .niri),

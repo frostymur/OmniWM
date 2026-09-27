@@ -4,7 +4,6 @@ include Scripts/dev-tools.env
 
 SWIFTFORMAT := $(CURDIR)/.cache/dev-tools/bin/swiftformat
 SWIFTLINT := $(CURDIR)/.cache/dev-tools/bin/swiftlint
-SWIFT_WITH_GHOSTTY = LIBRARY_PATH="$$(./Scripts/ghostty-preflight.sh print-library-dir)$${LIBRARY_PATH:+:$$LIBRARY_PATH}"
 
 setup:
 	./Scripts/dev-tools.sh setup
@@ -36,8 +35,7 @@ lint-fix: check-tool-versions
 	"$(SWIFTLINT)" lint
 
 build:
-	./Scripts/ghostty-preflight.sh verify
-	$(SWIFT_WITH_GHOSTTY) swift build --arch arm64
+	swift build --arch arm64
 
 localization-check: build
 	python3 Scripts/localization.py check

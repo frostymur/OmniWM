@@ -123,7 +123,6 @@ extension WorkspaceManager {
     func setRevealedScratchpad(_ index: ScratchpadIndex?) -> Bool {
         guard scratchpadState.revealedIndex != index else { return false }
         if let index, scratchpadState.membersBySlot[index] == nil { return false }
-        recordReconcileEvent(.scratchpadRevealChanged(index: index, source: .workspaceManager))
         notifySessionStateChanged()
         drainPendingRuntimeMonitorOverrideClears()
         return true

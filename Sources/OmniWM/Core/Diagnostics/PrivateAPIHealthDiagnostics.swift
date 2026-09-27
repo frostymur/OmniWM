@@ -146,7 +146,7 @@ enum PrivateAPIHealthDiagnostics {
         tests.append(contentsOf: SystemAPIProbes.monitorProbes())
         tests.append(contentsOf: SystemAPIProbes.systemProbes())
         let visibleWindows = SkyLight.shared.queryAllVisibleWindows()
-        let sample = visibleWindows.first(where: isEligibleForeignWindow)
+        let sample = visibleWindows.first { isEligibleForeignWindow($0) }
         let foreignSample = visibleWindows.first {
             isEligibleForeignWindow($0) && foreignWindowEligibility($0)
         }

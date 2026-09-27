@@ -93,38 +93,6 @@ final class SettingsExportApplicationTests: XCTestCase {
         XCTAssertEqual(states, [false, true])
     }
 
-    func testScratchpadObservationRemainsBetweenIconsAndLayout() {
-        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
-        defer { try? FileManager.default.removeItem(at: directory) }
-        let settings = makeSettings(directory: directory)
-        let events = Mutex<[String]>([])
-        withObservationTracking {
-            _ = settings.workspaceBar.iconOverrides
-        } onChange: {
-            events.withLock { $0.append("icons") }
-        }
-        withObservationTracking {
-            _ = settings.scratchpadLabels
-        } onChange: {
-            events.withLock { $0.append("scratchpads") }
-        }
-        withObservationTracking {
-            _ = settings.workspaceBar.reserveLayoutSpace
-        } onChange: {
-            events.withLock { $0.append("layout") }
-        }
-        var export = settings.toExport()
-        export.workspaceBar.iconOverrides = ["example.test": "X"]
-        export.scratchpads.labels = ["3": "DEV"]
-        export.workspaceBar.reserveLayoutSpace.toggle()
-
-        settings.applyExport(export)
-
-        XCTAssertEqual(events.withLock { $0 }, ["icons", "scratchpads", "layout"])
-        XCTAssertEqual(settings.workspaceBar.iconOverrides, export.workspaceBar.iconOverrides)
-        XCTAssertEqual(settings.scratchpadLabel(for: 3), "DEV")
-    }
-
     private func makeSettings(directory: URL) -> SettingsStore {
         SettingsStore(
             persistence: SettingsFilePersistence(directory: directory, startWatching: false, deferSaves: false),

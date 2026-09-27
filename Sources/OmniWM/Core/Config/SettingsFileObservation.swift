@@ -20,9 +20,9 @@ final class SettingsFileObservation {
     private let fileURL: URL
     private weak var persistence: SettingsFilePersistence?
     private var directoryFileDescriptor: CInt = -1
-    private var directoryWatcher: DispatchSourceFileSystemObject?
+    private nonisolated(unsafe) var directoryWatcher: DispatchSourceFileSystemObject?
     private var settingsFileDescriptor: CInt = -1
-    private var settingsFileWatcher: DispatchSourceFileSystemObject?
+    private nonisolated(unsafe) var settingsFileWatcher: DispatchSourceFileSystemObject?
     private var watchedSettingsFileIdentity: FileIdentity?
 
     init(directoryURL: URL, fileURL: URL) {

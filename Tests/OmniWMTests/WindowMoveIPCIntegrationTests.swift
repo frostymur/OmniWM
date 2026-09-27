@@ -129,14 +129,8 @@ final class WindowMoveIPCIntegrationTests: XCTestCase {
             .invalidArguments
         )
 
-        fixture.controller.toggleOverview()
-        defer {
-            if fixture.controller.isOverviewOpen() {
-                fixture.controller.toggleOverview()
-            }
-        }
-        XCTAssertEqual(fixture.router.handle(moveRequest(window, to: "2")), .ignoredOverview)
-        XCTAssertEqual(fixture.controller.workspaceManager.workspace(for: window.id), fixture.workspaceIds[0])
+        XCTAssertEqual(fixture.router.handle(moveRequest(window, to: "2")), .executed)
+        XCTAssertEqual(fixture.controller.workspaceManager.workspace(for: window.id), fixture.workspaceIds[1])
     }
 
     private func moveRequest(_ handle: WindowHandle, to rawWorkspaceID: String) -> IPCWindowRequest {

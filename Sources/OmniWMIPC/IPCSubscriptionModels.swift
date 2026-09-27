@@ -5,7 +5,6 @@ import Foundation
 
 public enum IPCSubscriptionChannel: String, Codable, CaseIterable, Equatable, Hashable, Sendable {
     case focus
-    case workspaceBar = "workspace-bar"
     case activeWorkspace = "active-workspace"
     case focusedMonitor = "focused-monitor"
     case windowsChanged = "windows-changed"

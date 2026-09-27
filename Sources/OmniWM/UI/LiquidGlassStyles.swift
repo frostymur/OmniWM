@@ -7,9 +7,9 @@ extension View {
     @ViewBuilder
     func omniGlassEffect<S: Shape>(in shape: S, prominent: Bool = false) -> some View {
         if prominent {
-            self.glassEffect(.regular.tint(.accentColor), in: shape)
+            self.background(.regularMaterial, in: shape)
         } else {
-            self.glassEffect(.regular, in: shape)
+            self.background(.regularMaterial, in: shape)
         }
     }
 }

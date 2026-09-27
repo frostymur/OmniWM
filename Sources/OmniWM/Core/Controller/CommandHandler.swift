@@ -20,26 +20,13 @@ final class CommandHandler {
     func handleHotkeyInvocation(_ invocation: HotkeyInvocation) -> ExternalCommandResult {
         guard let controller else { return .notFound }
         guard controller.isEnabled else { return .ignoredDisabled }
-        if invocation.command == .presentation(.overview), invocation.trigger?.isRepeat == true {
-            return .executed
-        }
-        switch controller.handleOverviewHotkey(invocation) {
-        case .handled:
-            return .executed
-        case .blocked:
-            return .ignoredOverview
-        case .inactive:
-            return performCommand(invocation.command)
-        }
+        return performCommand(invocation.command)
     }
 
     @discardableResult
     func performCommand(_ command: HotkeyCommand) -> ExternalCommandResult {
         guard let controller else { return .notFound }
         guard controller.isEnabled else { return .ignoredDisabled }
-        guard !Self.shouldIgnoreCommand(command, isOverviewOpen: controller.isOverviewOpen()) else {
-            return .ignoredOverview
-        }
 
         guard Self.isLayoutCompatible(command.layoutCompatibility, with: currentLayoutType()) else {
             return .ignoredLayoutMismatch
@@ -86,8 +73,6 @@ final class CommandHandler {
             return perform(action, controller: controller)
         case let .dwindle(action):
             return perform(action, controller: controller)
-        case .openCommandPalette:
-            controller.openCommandPalette()
         case .raiseAllFloatingWindows:
             controller.raiseAllFloatingWindows()
         case .rescueOffscreenWindows:
@@ -96,18 +81,8 @@ final class CommandHandler {
             return controller.toggleFocusedWindowFloating()
         case .windowState(.close):
             return controller.closeFocusedWindow()
-        case let .scratchpad(action):
-            return perform(action, controller: controller)
-        case .openMenuAnywhere:
-            controller.openMenuAnywhere()
-        case let .presentation(action):
-            return perform(action, controller: controller)
         }
         return .executed
-    }
-
-    static func shouldIgnoreCommand(_ command: HotkeyCommand, isOverviewOpen: Bool) -> Bool {
-        isOverviewOpen && command != .presentation(.overview)
     }
 
     func layoutHandler<T>(as capability: T.Type) -> T? {

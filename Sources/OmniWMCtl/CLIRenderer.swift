@@ -161,8 +161,6 @@ enum CLIRenderer {
             return pong.message
         case let .version(version):
             return humanReadableVersion(version)
-        case let .workspaceBar(payload):
-            return "workspace-bar monitors: \(payload.monitors.count)"
         case let .activeWorkspace(payload):
             return CLIStateRenderer.formattedActiveWorkspace(payload, format: format)
         case let .focusedMonitor(payload):
@@ -303,7 +301,7 @@ enum CLIRenderer {
         _ payload: IPCCapabilitiesQueryResult,
         format: CLIOutputFormat
     ) -> String {
-        let rows = [
+        let rows: [[String]] = [
             ["protocol-version", String(payload.protocolVersion)],
             ["app-version", payload.appVersion ?? "-"],
             ["authorization-required", payload.authorizationRequired ? "true" : "false"],

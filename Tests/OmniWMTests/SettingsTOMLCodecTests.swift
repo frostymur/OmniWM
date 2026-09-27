@@ -400,14 +400,14 @@ final class SettingsTOMLCodecTests: XCTestCase {
         let previous = try SettingsTOMLCodec.encode(.defaults())
 
         var export = try SettingsTOMLCodec.decode(previous)
-        export.quakeTerminal.opacity = nil
+        export.gestures.overviewGestureEnabled = nil
 
         let rewrittenData = try SettingsTOMLCodec.encode(export, preservingUnknownKeysFrom: previous)
         let rewritten = String(decoding: rewrittenData, as: UTF8.self)
         let decoded = try SettingsTOMLCodec.decode(rewrittenData)
 
-        XCTAssertFalse(rewritten.contains("opacity = 1.0"))
-        XCTAssertNil(decoded.quakeTerminal.opacity)
+        XCTAssertFalse(rewritten.contains("overviewGestureEnabled"))
+        XCTAssertNil(decoded.gestures.overviewGestureEnabled)
     }
 
     func testMonitorRankingRoundTripsInOrderAndTableIsOmittedWhenEmpty() throws {
@@ -810,26 +810,6 @@ final class SettingsTOMLCodecTests: XCTestCase {
             ),
             ("singleWindowFit = \"fill\"", "singleWindowFit = \"stretch\"", "singleWindowFit"),
             (
-                "windowLevel = \"\(WorkspaceBarWindowLevel.popup.rawValue)\"",
-                "windowLevel = \"basement\"",
-                "windowLevel"
-            ),
-            (
-                "position = \"\(WorkspaceBarPosition.overlappingMenuBar.rawValue)\"",
-                "position = \"sideways\"",
-                "workspaceBar.position"
-            ),
-            (
-                "notchMode = \"\(WorkspaceBarNotchMode.moveBelowMenuBar.rawValue)\"",
-                "notchMode = \"ignoreNotch\"",
-                "notchMode"
-            ),
-            (
-                "revealModifier = \"\(WorkspaceBarRevealModifier.off.rawValue)\"",
-                "revealModifier = \"fn\"",
-                "revealModifier"
-            ),
-            (
                 "scrollModifierKey = \"\(ScrollModifierKey.optionShift.rawValue)\"",
                 "scrollModifierKey = \"fn\"",
                 "scrollModifierKey"
@@ -859,21 +839,6 @@ final class SettingsTOMLCodecTests: XCTestCase {
                 "workspaceSwipeAxis = \"\(WorkspaceSwipeAxis.vertical.rawValue)\"",
                 "workspaceSwipeAxis = \"diagonal\"",
                 "workspaceSwipeAxis"
-            ),
-            (
-                "position = \"\(QuakeTerminalPosition.center.rawValue)\"",
-                "position = \"corner\"",
-                "quakeTerminal.position"
-            ),
-            (
-                "backgroundEffect = \"\(QuakeTerminalBackgroundEffect.standardBlur.rawValue)\"",
-                "backgroundEffect = \"futureGlass\"",
-                "backgroundEffect"
-            ),
-            (
-                "monitorMode = \"\(QuakeTerminalMonitorMode.focusedWindow.rawValue)\"",
-                "monitorMode = \"everywhere\"",
-                "monitorMode"
             ),
             ("mode = \"\(AppearanceMode.dark.rawValue)\"", "mode = \"sepia\"", "appearance.mode")
         ]

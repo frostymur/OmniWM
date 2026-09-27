@@ -24,8 +24,6 @@ extension IPCCommandRequest {
             self = try .swapWorkspaceWithMonitor(direction: arguments.direction())
         case let .dwindle(name):
             self = try .dwindle(IPCDwindleCommand(name: name, arguments: arguments))
-        case .openCommandPalette:
-            self = try arguments.requireNoArguments(.openCommandPalette)
         case .raiseAllFloatingWindows:
             self = try arguments.requireNoArguments(.raiseAllFloatingWindows)
         case .rescueOffscreenWindows:
@@ -34,14 +32,8 @@ extension IPCCommandRequest {
             self = try .workspaceLayout(IPCWorkspaceLayoutCommand(name: name, arguments: arguments))
         case let .fullscreen(name):
             self = try .fullscreen(arguments.requireNoArguments(name))
-        case let .presentation(name):
-            self = try .presentation(arguments.requireNoArguments(name))
         case let .windowState(name):
             self = try .windowState(arguments.requireNoArguments(name))
-        case let .scratchpad(name):
-            self = try .scratchpad(IPCScratchpadCommand(name: name, arguments: arguments))
-        case .openMenuAnywhere:
-            self = try arguments.requireNoArguments(.openMenuAnywhere)
         }
     }
 }

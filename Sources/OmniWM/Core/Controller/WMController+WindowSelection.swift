@@ -60,60 +60,6 @@ extension WMController {
         return selectedManagedToken ?? frontmostToken
     }
 
-    func captureQuakeTerminalRestoreTarget() -> QuakeTerminalRestoreTarget? {
-        guard let token = workspaceManager.renderableFocusToken
-            ?? focusedOrFrontmostWindowTokenForAutomation(preferFrontmostWhenExternalOrOwnedFocusActive: true)
-        else {
-            return nil
-        }
-
-        if workspaceManager.entry(for: token) != nil {
-            return .managed(token)
-        }
-
-        guard let axRef = AXWindowService.axWindowRef(for: UInt32(token.windowId), pid: token.pid)
-        else {
-            return nil
-        }
-
-        return .external(
-            KeyboardFocusTarget(
-                token: token,
-                axRef: axRef,
-                workspaceId: nil,
-                isManaged: false
-            )
-        )
-    }
-
-    func focusedManagedWindowScreenForQuakeTerminal() -> NSScreen? {
-        guard let token = focusedOrFrontmostWindowTokenForAutomation(
-            preferFrontmostWhenExternalOrOwnedFocusActive: true
-        ),
-            let entry = workspaceManager.entry(for: token)
-        else {
-            return nil
-        }
-
-        if let monitorId = entry.observedState.monitorId
-            ?? entry.desiredState.monitorId
-            ?? workspaceManager.monitorId(for: entry.workspaceId),
-            let screen = screen(for: monitorId)
-        {
-            return screen
-        }
-
-        if let frame = entry.observedState.frame
-            ?? entry.desiredState.floatingFrame
-            ?? entry.floatingState?.lastFrame,
-            let monitor = frame.center.monitorApproximation(in: workspaceManager.monitors)
-        {
-            return screen(for: monitor.id)
-        }
-
-        return nil
-    }
-
     func focusedManagedTokenForCommand() -> WindowToken? {
         let token = focusedOrFrontmostWindowTokenForAutomation()
         guard let token,

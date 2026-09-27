@@ -59,7 +59,6 @@ extension AXEventHandler {
                 return
             }
             AXWindowService.invalidateCachedTitle(windowId: windowId)
-            controller.requestWorkspaceBarRefresh()
             updateManagedReplacementTitle(windowInfo: windowInfo, token: token)
             scheduleWindowRuleReevaluationIfNeeded(targets: [.window(token)])
         }

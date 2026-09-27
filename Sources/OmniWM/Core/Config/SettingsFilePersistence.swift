@@ -217,10 +217,6 @@ final class SettingsFilePersistence {
     ) -> SettingsFileLoadOutcome {
         do {
             let result = try SettingsTOMLCodec.decodeForLoad(contents.data)
-            try OverviewInputSettingsValidation.validate(
-                mouseButton: result.export.overview.mouseButton,
-                hyperTrigger: result.export.systemHyperTrigger
-            )
             try GestureSettingsValidation.validate(result.export, monitorProvider: monitorProvider)
             guard let migration = result.migration else {
                 writeBlockNotice = nil

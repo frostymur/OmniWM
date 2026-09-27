@@ -400,7 +400,7 @@ final class UpdateCoordinator: AppUpdateCoordinating {
         return url
     }
 
-    private static func formattedDate(_ date: Date) -> String {
+    private nonisolated static func formattedDate(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         formatter.timeStyle = .none

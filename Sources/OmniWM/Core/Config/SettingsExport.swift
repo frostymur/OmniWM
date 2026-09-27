@@ -63,14 +63,10 @@ struct SettingsExport: Equatable {
 
     var borders: Borders
 
-    var overview: Overview
-
     var hotkeyBindings: [HotkeyBinding]
     var systemHyperTrigger: SystemHyperTrigger
     var hyperKeyModifiers: HyperKeyModifiers
 
-    var workspaceBar: WorkspaceBar
-    var scratchpads: Scratchpads
     var monitorBarSettings: [MonitorBarSettings]
 
     var appRules: [AppRule]
@@ -87,12 +83,9 @@ struct SettingsExport: Equatable {
     var ipcEnabled: Bool
     var gestures: Gestures
     var statusBar: StatusBar
-    var hiddenBar: HiddenBar
     var animationsEnabled: Bool
 
     var clipboard: Clipboard
-
-    var quakeTerminal: QuakeTerminal
 
     var appearanceMode: AppearanceMode
     var tabRailAppIcons: Bool
@@ -150,35 +143,6 @@ struct SettingsExport: Equatable {
         var moveToRootStable: Bool
     }
 
-    struct Overview: Codable, Equatable {
-        var zoom: Double
-        var backdrop: SettingsColor
-        var windowBorders: OverviewWindowBorders
-        var matchFocusBorder: Bool?
-        var invertScrollDirection: Bool?
-        var mouseScrollSpeed: Double?
-        var mouseButton: Int64?
-    }
-
-    struct OverviewWindowBorders: Codable, Equatable {
-        var normal: SettingsColor
-        var hovered: SettingsColor
-        var selected: SettingsColor
-    }
-
-    struct QuakeTerminal: Codable, Equatable {
-        var enabled: Bool
-        var position: QuakeTerminalPosition
-        var widthPercent: Double
-        var heightPercent: Double
-        var animationDuration: Double
-        var autoHide: Bool
-        var opacity: Double?
-        var backgroundEffect: QuakeTerminalBackgroundEffect
-        var backgroundBlurRadius: Int?
-        var monitorMode: QuakeTerminalMonitorMode?
-    }
-
     struct Borders: Codable, Equatable {
         var enabled: Bool
         var width: Double
@@ -213,16 +177,6 @@ struct SettingsExport: Equatable {
         var showWorkspaceName: Bool
         var showAppNames: Bool
         var useWorkspaceId: Bool
-    }
-
-    struct HiddenBar: Codable, Equatable {
-        var enabled: Bool
-        var hiddenBundleIDs: [String]
-        var rehideIntervalSeconds: Double
-    }
-
-    struct Scratchpads: Codable, Equatable {
-        var labels: [String: String]
     }
 
     struct Clipboard: Codable, Equatable {
@@ -280,12 +234,9 @@ extension SettingsExport {
             workspaceConfigurations: BuiltInSettingsDefaults.workspaceConfigurations,
             defaultLayoutType: .niri,
             borders: Borders.defaults(),
-            overview: Overview.defaults(),
             hotkeyBindings: HotkeyBindingRegistry.defaults(),
             systemHyperTrigger: .default,
             hyperKeyModifiers: .default,
-            workspaceBar: WorkspaceBar.defaults(),
-            scratchpads: Scratchpads(labels: [:]),
             monitorBarSettings: [],
             appRules: BuiltInSettingsDefaults.appRules,
             monitorOrientationSettings: [],
@@ -298,10 +249,8 @@ extension SettingsExport {
             ipcEnabled: false,
             gestures: Gestures.defaults(),
             statusBar: StatusBar.defaults(),
-            hiddenBar: HiddenBar.defaults(),
             animationsEnabled: true,
             clipboard: Clipboard.defaults(),
-            quakeTerminal: QuakeTerminal.defaults(),
             appearanceMode: .dark,
             tabRailAppIcons: false
         )
@@ -390,40 +339,6 @@ extension SettingsExport.Dwindle {
     }
 }
 
-extension SettingsExport.Overview {
-    static func defaults() -> Self {
-        Self(
-            zoom: 1.0,
-            backdrop: SettingsColor(red: 0.05, green: 0.05, blue: 0.08, alpha: 0),
-            windowBorders: SettingsExport.OverviewWindowBorders(
-                normal: SettingsColor(red: 0.3, green: 0.3, blue: 0.35, alpha: 0.5),
-                hovered: SettingsColor(red: 0.4, green: 0.6, blue: 1.0, alpha: 1.0),
-                selected: SettingsColor(red: 0.3, green: 0.8, blue: 0.4, alpha: 1.0)
-            ),
-            matchFocusBorder: true,
-            invertScrollDirection: false,
-            mouseScrollSpeed: 1.0
-        )
-    }
-}
-
-extension SettingsExport.QuakeTerminal {
-    static func defaults() -> Self {
-        Self(
-            enabled: true,
-            position: .center,
-            widthPercent: 50.0,
-            heightPercent: 50.0,
-            animationDuration: 0.2,
-            autoHide: false,
-            opacity: 1.0,
-            backgroundEffect: .standardBlur,
-            backgroundBlurRadius: QuakeTerminalAppearancePolicy.disabledBackgroundBlurRadius,
-            monitorMode: .focusedWindow
-        )
-    }
-}
-
 extension SettingsExport.Borders {
     static func defaults() -> Self {
         Self(
@@ -466,16 +381,6 @@ extension SettingsExport.StatusBar {
             showWorkspaceName: false,
             showAppNames: false,
             useWorkspaceId: false
-        )
-    }
-}
-
-extension SettingsExport.HiddenBar {
-    static func defaults() -> Self {
-        Self(
-            enabled: true,
-            hiddenBundleIDs: [],
-            rehideIntervalSeconds: 5
         )
     }
 }

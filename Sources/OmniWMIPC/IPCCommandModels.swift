@@ -59,15 +59,11 @@ public enum IPCCommandRequest: Equatable, Sendable {
     case sizing(IPCSizingCommand)
     case swapWorkspaceWithMonitor(direction: IPCDirection)
     case dwindle(IPCDwindleCommand)
-    case openCommandPalette
     case raiseAllFloatingWindows
     case rescueOffscreenWindows
     case workspaceLayout(IPCWorkspaceLayoutCommand)
     case fullscreen(IPCFullscreenCommand)
-    case presentation(IPCPresentationCommand)
     case windowState(IPCWindowStateCommand)
-    case scratchpad(IPCScratchpadCommand)
-    case openMenuAnywhere
 
     public var name: IPCCommandName {
         switch self {
@@ -87,8 +83,6 @@ public enum IPCCommandRequest: Equatable, Sendable {
             .swapWorkspaceWithMonitor
         case let .dwindle(command):
             .dwindle(command.name)
-        case .openCommandPalette:
-            .openCommandPalette
         case .raiseAllFloatingWindows:
             .raiseAllFloatingWindows
         case .rescueOffscreenWindows:
@@ -97,14 +91,8 @@ public enum IPCCommandRequest: Equatable, Sendable {
             .workspaceLayout(command.name)
         case let .fullscreen(command):
             .fullscreen(command)
-        case let .presentation(command):
-            .presentation(command)
         case let .windowState(command):
             .windowState(command)
-        case let .scratchpad(command):
-            .scratchpad(command.name)
-        case .openMenuAnywhere:
-            .openMenuAnywhere
         }
     }
 }

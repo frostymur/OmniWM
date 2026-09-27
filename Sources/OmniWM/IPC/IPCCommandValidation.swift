@@ -8,7 +8,6 @@ import OmniWMIPC
 enum IPCCommandValidation {
     static func controllerState(_ controller: WMController) -> ExternalCommandResult? {
         guard controller.isEnabled else { return .ignoredDisabled }
-        guard !controller.isOverviewOpen() else { return .ignoredOverview }
         return nil
     }
 

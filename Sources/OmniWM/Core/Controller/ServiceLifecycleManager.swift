@@ -115,9 +115,6 @@ final class ServiceLifecycleManager {
         controller.eventIntake.open(sink: controller.eventInterpreter)
         controller.layoutRefreshController.setup()
         controller.axManager.onAppLaunched = { [weak controller] app in
-            controller?.refreshUnavailableWorkspaceBarIconOverride(
-                bundleId: app.bundleIdentifier
-            )
             EventIntake.post(.application(.launched(pid: app.processIdentifier)))
         }
         controller.axManager.installWorkspaceObservers()
@@ -127,15 +124,11 @@ final class ServiceLifecycleManager {
         )
         controller.axEventHandler.setup()
         for app in runningApplications {
-            controller.refreshUnavailableWorkspaceBarIconOverride(
-                bundleId: app.bundleIdentifier
-            )
         }
         connectAXFrameCallbacks(controller)
         workspaceObservation.setupWorkspaceObservation()
         controller.mouseEventHandler.setup()
         controller.syncMouseWarpPolicy()
-        controller.syncWorkspaceBarRevealMonitor()
         monitorConfiguration.startObserving()
         workspaceObservation.setupAppActivationObserver()
         workspaceObservation.setupAppDeactivationObserver()
@@ -226,7 +219,6 @@ final class ServiceLifecycleManager {
         isSecureInputActive = isSecure
         controller.reconcileEnabledAndHotkeysState()
         if isSecure {
-            controller.resetWorkspaceBarReveal()
             if didSuppressActiveHotkeys {
                 SecureInputIndicatorController.shared.show()
             }
@@ -265,7 +257,6 @@ final class ServiceLifecycleManager {
         guard let controller else { return }
         _ = controller.workspaceManager.recordReconcileEvent(.systemWake(source: .service))
         controller.axEventHandler.reconcileHiddenApplications()
-        controller.workspaceBarManager.cleanup()
         topologyInventory.schedule(reason: .unlock)
         controller.mouseEventHandler.requestMultitouchRevalidation(.wake)
     }
@@ -298,7 +289,6 @@ final class ServiceLifecycleManager {
             controller.cancelManagedFocusRequestAndRestoreSource(request)
         }
         controller.hasStartedServices = false
-        controller.invalidateOverviewDeferredActionsForServiceStop()
         topologyInventory.cancel()
 
         if !retainingAXWorkers { clearStoppedVisibility(controller) }

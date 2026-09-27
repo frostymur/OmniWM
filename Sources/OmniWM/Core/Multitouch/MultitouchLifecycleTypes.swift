@@ -154,7 +154,9 @@ extension MultitouchGestureSource {
             isRunning = { binding.isRunning($0) }
             stop = { binding.stop($0) }
             unregister = { binding.unregister($0, callback: $1) }
-            sleep = { try await Task.sleep(for: $0) }
+            sleep = { @Sendable duration in
+                try await Task.sleep(for: duration)
+            }
         }
     }
 

@@ -15,7 +15,6 @@ private struct PerformanceOwnerSnapshots {
     let topology: NativeSpaceInventoryController.PerformanceSnapshot?
     let intake: EventIntake.PerformanceSnapshot?
     let input: MouseEventHandler.PerformanceSnapshot?
-    let hiddenBar: HiddenBarController.PerformanceSnapshot?
     let clipboard: ClipboardHistoryService.PerformanceSnapshot?
     let secureInput: SecureInputMonitor.PerformanceSnapshot?
     let sleep: SleepPreventionManager.PerformanceSnapshot?
@@ -30,7 +29,6 @@ private struct PerformanceOwnerSnapshots {
         appendTopology(to: &lines)
         appendIntake(to: &lines)
         appendInput(to: &lines)
-        appendHiddenBar(to: &lines)
         appendPeriodicServices(to: &lines)
         appendAX(to: &lines)
         lines.append(
@@ -134,19 +132,6 @@ private struct PerformanceOwnerSnapshots {
                         + " pending=\(touch.pendingFrames) maxPending=\(touch.maximumPendingFrames)"
                 )
             }
-        }
-    }
-
-    private func appendHiddenBar(to lines: inout [String]) {
-        if let hiddenBar {
-            lines.append(
-                "hiddenBar refreshEvents=\(hiddenBar.refreshEvents) menuQueries=\(hiddenBar.menuGuardQueries)"
-                    + " tasksStarted=\(hiddenBar.reconcealTasksStarted)"
-                    + " tasksCancelled=\(hiddenBar.reconcealTasksCancelled)"
-                    + " deferrals=\(hiddenBar.menuGuardDeferrals)"
-                    + " maxDeferrals=\(hiddenBar.maximumConsecutiveDeferrals)"
-                    + " terminal=\(hiddenBar.terminalReason.map { String(describing: $0) } ?? "none")"
-            )
         }
     }
 
@@ -272,8 +257,6 @@ extension WMController {
             "windowResizeEnabled=\(settings.gestures.windowResizeEnabled)",
             "mouseWarpEnabled=\(settings.pointer.enabled)",
             "bordersEnabled=\(settings.borders.enabled)",
-            "workspaceBarEnabled=\(settings.workspaceBar.enabled)",
-            "hiddenBarEnabled=\(settings.hiddenBar.enabled)",
             "clipboardHistoryEnabled=\(settings.clipboard.historyEnabled)",
             "preventSleepEnabled=\(settings.preventSleepEnabled)",
             "worldSeq=\(workspaceManager.worldSeq)",
@@ -308,7 +291,6 @@ extension WMController {
         serviceLifecycleManager.topologyInventory.beginPerformanceCapture()
         eventIntake.beginPerformanceCapture()
         mouseEventHandler.beginPerformanceCapture()
-        hiddenBarController.performance.begin()
         clipboardHistoryService.beginPerformanceCapture()
         secureInputMonitor.beginPerformanceCapture()
         SleepPreventionManager.shared.beginPerformanceCapture()
@@ -327,7 +309,6 @@ extension WMController {
             topology: serviceLifecycleManager.topologyInventory.performanceSnapshot(),
             intake: eventIntake.performanceSnapshot(),
             input: mouseEventHandler.performanceSnapshot(),
-            hiddenBar: hiddenBarController.performance.snapshot(),
             clipboard: clipboardHistoryService.performanceSnapshot(),
             secureInput: secureInputMonitor.performanceSnapshot(),
             sleep: SleepPreventionManager.shared.performanceSnapshot(),
@@ -344,7 +325,6 @@ extension WMController {
             topology: serviceLifecycleManager.topologyInventory.endPerformanceCapture(),
             intake: eventIntake.endPerformanceCapture(),
             input: mouseEventHandler.endPerformanceCapture(),
-            hiddenBar: hiddenBarController.performance.end(),
             clipboard: clipboardHistoryService.endPerformanceCapture(),
             secureInput: secureInputMonitor.endPerformanceCapture(),
             sleep: SleepPreventionManager.shared.endPerformanceCapture(),

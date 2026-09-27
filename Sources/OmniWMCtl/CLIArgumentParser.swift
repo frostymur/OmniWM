@@ -19,13 +19,6 @@ enum CLIArgumentParser {
         return axis
     }
 
-    static func parseScratchpadIndex(_ rawValue: String) throws -> Int {
-        guard let index = Int(rawValue), IPCScratchpadSlots.range.contains(index) else {
-            throw CLIParseError.usage(CLIParser.usageText)
-        }
-        return index
-    }
-
     static func parsePositiveInteger(_ rawValue: String) throws -> Int {
         guard let value = Int(rawValue), value > 0 else {
             throw CLIParseError.usage(CLIParser.usageText)
@@ -98,8 +91,6 @@ enum CLIArgumentParser {
              .columnIndex,
              .windowIndex:
             return .integer(try parsePositiveInteger(token))
-        case .scratchpadIndex:
-            return .integer(try parseScratchpadIndex(token))
         case .layout:
             return .layout(try parseWorkspaceLayout(token))
         case .resizeAxis:

@@ -92,38 +92,6 @@ extension ScrollModifierKey {
     }
 }
 
-extension QuakeTerminalPosition {
-    var localizedDisplayName: String {
-        switch self {
-        case .top: String(localized: "Top")
-        case .bottom: String(localized: "Bottom")
-        case .left: String(localized: "Left")
-        case .right: String(localized: "Right")
-        case .center: String(localized: "Center")
-        }
-    }
-}
-
-extension QuakeTerminalMonitorMode {
-    var localizedDisplayName: String {
-        switch self {
-        case .mouseCursor: String(localized: "Mouse Cursor's Monitor")
-        case .focusedWindow: String(localized: "Focused Window's Monitor")
-        case .mainMonitor: String(localized: "Main Monitor")
-        }
-    }
-}
-
-extension QuakeTerminalBackgroundEffect {
-    var localizedDisplayName: String {
-        switch self {
-        case .standardBlur: String(localized: "Standard Blur")
-        case .glassRegular: String(localized: "Regular Glass")
-        case .glassClear: String(localized: "Clear Glass")
-        }
-    }
-}
-
 extension MouseMoveModifierKey {
     var localizedDisplayName: String {
         localizedModifierName(displayName)
@@ -137,12 +105,6 @@ extension MouseResizeModifierKey {
 }
 
 extension FocusLockModifier {
-    var localizedDisplayName: String {
-        localizedModifierName(displayName)
-    }
-}
-
-extension WorkspaceBarRevealModifier {
     var localizedDisplayName: String {
         localizedModifierName(displayName)
     }

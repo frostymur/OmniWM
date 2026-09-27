@@ -14,16 +14,7 @@ enum HotkeyAdvisoryDetector {
         let text: String
     }
 
-    private static let knownSystemConflicts: [Advisory] = [
-        Advisory(
-            actionID: "openCommandPalette",
-            command: .openCommandPalette,
-            text: "The Command Palette shortcut (Control+Option+Space) matches an enabled macOS system "
-                + "shortcut. macOS documents this chord for “Select next source in Input menu,” so both can "
-                + "fire together. Reassign this hotkey or clear the matching macOS shortcut in System Settings "
-                + "→ Keyboard → Keyboard Shortcuts → Input Sources."
-        )
-    ]
+    private static let knownSystemConflicts: [Advisory] = []
 
     static func issues(
         currentBindings: [HotkeyBinding],

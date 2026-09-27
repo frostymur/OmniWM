@@ -167,7 +167,6 @@ struct HotkeySettingsView: View {
                         }
                         ForEach(SystemHyperTrigger.selectableMouseButtons, id: \.self) { button in
                             Text("Mouse Button \(button)").tag(SystemHyperTrigger.mouseButton(button))
-                                .disabled(settings.overview.mouseButton == button)
                         }
                     }
                     .labelsHidden()
@@ -414,12 +413,8 @@ extension HotkeySettingsView {
         Binding(
             get: { settings.systemHyperTrigger },
             set: { trigger in
-                do {
-                    try settings.setSystemHyperTrigger(trigger)
-                    hyperTriggerError = nil
-                } catch {
-                    hyperTriggerError = error.localizedDescription
-                }
+                settings.systemHyperTrigger = trigger
+                hyperTriggerError = nil
             }
         )
     }

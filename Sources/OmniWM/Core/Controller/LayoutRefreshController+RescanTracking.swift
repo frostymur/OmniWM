@@ -49,7 +49,6 @@ extension LayoutRefreshController {
         }
 
         if shouldPreservePreFullscreenState {
-            _ = controller.reconcileScratchpadMemberAfterNativeFullscreenExit(admittedToken)
             progress.seenKeys.insert(admittedToken)
             return false
         }

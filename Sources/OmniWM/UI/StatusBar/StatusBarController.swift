@@ -9,7 +9,6 @@ final class StatusBarController: NSObject {
     private var statusItem: NSStatusItem?
     private var menuHost: StatusMenuHost?
 
-    private let hiddenBarController: HiddenBarController
     private let settings: SettingsStore
     private let cliManager: AppCLIManager?
     private let updateCoordinator: (any AppUpdateCoordinating)?
@@ -20,12 +19,10 @@ final class StatusBarController: NSObject {
     init(
         settings: SettingsStore,
         controller: WMController,
-        hiddenBarController: HiddenBarController,
         cliManager: AppCLIManager? = nil,
         updateCoordinator: (any AppUpdateCoordinating)? = nil,
         statusItemDefaults: UserDefaults = .standard
     ) {
-        self.hiddenBarController = hiddenBarController
         self.settings = settings
         self.cliManager = cliManager
         self.updateCoordinator = updateCoordinator
@@ -68,16 +65,7 @@ final class StatusBarController: NSObject {
             self?.updateCoordinator?.checkForUpdatesManually()
         }
         let host = StatusMenuHost(model: model, controller: controller)
-        host.isExemptWindow = { [weak hiddenBarController] in
-            hiddenBarController?.statusItems.ownsStatusItemWindow($0) == true
-        }
         menuHost = host
-
-        hiddenBarController.statusItems.bind(omniButton: button, statusItem: ownedStatusItem)
-        hiddenBarController.statusItems.onFallbackIconClick = { [weak self] event, anchor in
-            self?.routeClick(event: event, anchor: anchor)
-        }
-        hiddenBarController.setup()
         refreshWorkspaces()
     }
 
@@ -94,7 +82,6 @@ final class StatusBarController: NSObject {
         if let event = NSApp.currentEvent {
             routeClick(event: event, anchor: button)
         } else {
-            hiddenBarController.dismissPanel()
             showMenu(from: button)
         }
     }
@@ -104,10 +91,8 @@ final class StatusBarController: NSObject {
             isRightClick: event.type == .rightMouseUp,
             optionHeld: event.modifierFlags.contains(.option)
         ) {
-        case .hiddenIconsBar:
-            controller?.toggleHiddenBarPanel()
-        case .menu:
-            hiddenBarController.dismissPanel()
+        case .hiddenIconsBar,
+             .menu:
             showMenu(from: anchor)
         }
     }
@@ -252,7 +237,6 @@ final class StatusBarController: NSObject {
     private func cleanupOwnedStatusItems() {
         dismissPanel()
         menuHost = nil
-        hiddenBarController.cleanup()
         if let item = statusItem {
             NSStatusBar.system.removeStatusItem(item)
             statusItem = nil

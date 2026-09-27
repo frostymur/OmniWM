@@ -16,30 +16,6 @@ final class WindowActionHandler {
     private let floatingWindows: FloatingWindowRaiser
     private let appReveal: AppRevealActions
 
-    @ObservationIgnored
-    private var overviewControllerStorage: OverviewController?
-    private var overviewController: OverviewController {
-        if let overviewControllerStorage {
-            return overviewControllerStorage
-        }
-        guard let controller else { fatal("WindowActionHandler requires controller") }
-        let oc = OverviewController(wmController: controller, motionPolicy: controller.motionPolicy)
-        oc.onPrepareActivation = { [weak self] handle, workspaceId in
-            self?.prepareOverviewSelection(handle: handle, workspaceId: workspaceId)
-        }
-        oc.onActivateWindow = { [weak self] handle, workspaceId in
-            self?.activateWindowFromOverview(handle: handle, workspaceId: workspaceId)
-        }
-        oc.onActivateWorkspace = { [weak self] workspaceId in
-            self?.controller?.workspaceNavigationHandler.activateOverviewWorkspace(workspaceId) ?? false
-        }
-        oc.onCloseWindow = { [weak self] handle in
-            self?.closeWindow(handle: handle) ?? false
-        }
-        overviewControllerStorage = oc
-        return oc
-    }
-
     init(
         controller: WMController,
         visibleOwnedWindowsProvider: @escaping () -> [NSWindow] = {
@@ -80,97 +56,51 @@ final class WindowActionHandler {
         appReveal.completeAppRevealFocus(intentId: intentId)
     }
 
-    func openMenuAnywhere() {
-        guard controller != nil else { return }
-        MenuAnywhereController.shared.showNativeMenu()
-    }
+    func toggleOverview() {}
 
-    func toggleOverview() {
-        controller?.layoutRefreshController.workspaceSwipe.cancel(reason: "overview")
-        overviewController.toggle()
-    }
+    func openOverview() {}
 
-    func openOverview() {
-        controller?.layoutRefreshController.workspaceSwipe.cancel(reason: "overview")
-        overviewController.input.beginGestureScrollSuppression()
-        overviewController.open()
-    }
-
-    func dismissOverview() {
-        overviewControllerStorage?.input.dismissToSelection(animated: true)
-    }
+    func dismissOverview() {}
 
     var overviewState: OverviewState {
-        overviewControllerStorage?.state ?? .closed
+        .closed
     }
 
     var isOverviewGestureActive: Bool {
-        overviewControllerStorage?.isInteractiveTransitionActive == true
+        false
     }
 
     var overviewTransitionProgress: Double {
-        overviewControllerStorage?.transitionProgress ?? 0
+        0
     }
 
     func beginOverviewGesture() -> Bool {
-        controller?.layoutRefreshController.workspaceSwipe.cancel(reason: "overview")
-        return overviewController.beginInteractiveTransition()
+        false
     }
 
     func updateOverviewGesture(
         cumulativeUnits: Double, timestamp: TimeInterval, recognitionMovement: SwipeEvent? = nil
-    ) {
-        overviewControllerStorage?.updateInteractiveTransition(
-            cumulativeUnits: cumulativeUnits, timestamp: timestamp, recognitionMovement: recognitionMovement
-        )
-    }
+    ) {}
 
-    func endOverviewGesture(timestamp: TimeInterval?) {
-        overviewControllerStorage?.endInteractiveTransition(timestamp: timestamp)
-    }
+    func endOverviewGesture(timestamp: TimeInterval?) {}
 
     func handleOverviewHotkey(_ invocation: HotkeyInvocation) -> OverviewHotkeyDisposition {
-        overviewControllerStorage?.input.handleHotkeyInvocation(invocation) ?? .inactive
+        .inactive
     }
 
-    func updateOverviewSettings() {
-        overviewControllerStorage?.updateSettings()
-    }
+    func updateOverviewSettings() {}
 
-    func invalidateOverviewDeferredActionsForServiceStop() {
-        overviewControllerStorage?.invalidateDeferredActionsForServiceStop()
-    }
+    func invalidateOverviewDeferredActionsForServiceStop() {}
 
-    func handleOverviewWindowRemoved(_ entry: WindowState) {
-        overviewControllerStorage?.handleManagedWindowRemoved(entry)
-    }
+    func handleOverviewWindowRemoved(_ entry: WindowState) {}
 
     func refreshOverviewProjection(
         affectedWorkspaceIds: Set<WorkspaceDescriptor.ID>,
         selectedToken: WindowToken? = nil
-    ) {
-        let selectedHandle = selectedToken.flatMap { controller?.workspaceManager.handle(for: $0) }
-        overviewControllerStorage?.refreshCachedOverviewProjection(
-            affectedWorkspaceIds: affectedWorkspaceIds,
-            selectedHandle: selectedHandle
-        )
-    }
+    ) {}
 
     func isOverviewOpen() -> Bool {
-        overviewState.isOpen
-    }
-
-    private func activateWindowFromOverview(handle: WindowHandle, workspaceId: WorkspaceDescriptor.ID) {
-        guard let controller else { return }
-        guard let entry = controller.workspaceManager.entry(for: handle) else { return }
-        if entry.layoutReason == .nativeFullscreen {
-            guard let record = controller.workspaceManager.nativeFullscreenRecord(for: entry.token) else { return }
-            controller.activateNativeFullscreenPlaceholder(record.originalToken)
-            return
-        }
-        navigateToWindowInternal(
-            token: handle.id, workspaceId: workspaceId, affectedWorkspaces: [workspaceId]
-        )
+        false
     }
 
     func closeWindow(handle: WindowHandle) -> Bool {
@@ -206,35 +136,7 @@ final class WindowActionHandler {
         focusOrigin: ManagedFocusOrigin = .keyboardOrProgrammatic
     ) -> Bool {
         guard let controller else { return false }
-        let destination: AppRevealFocusDestination = controller.workspaceManager
-            .scratchpadIndex(for: handle.id)
-            .map { .scratchpadWindow(index: $0, monitorId: nil) } ?? .window
-        return appReveal.requestIfNeeded(handle: handle, destination: destination, focusOrigin: focusOrigin)
-    }
-
-    @discardableResult
-    func revealScratchpadWindowFromBar(
-        handle: WindowHandle,
-        index: ScratchpadIndex,
-        monitorId: Monitor.ID
-    ) -> Bool {
-        appReveal.requestIfNeeded(
-            handle: handle,
-            destination: .scratchpadWindow(index: index, monitorId: monitorId),
-            focusOrigin: .pointerSelection
-        )
-    }
-
-    @discardableResult
-    func revealScratchpadFromBar(
-        handle: WindowHandle,
-        index: ScratchpadIndex,
-        monitorId: Monitor.ID?
-    ) -> Bool {
-        appReveal.requestIfNeeded(
-            handle: handle,
-            destination: .scratchpad(index: index, monitorId: monitorId)
-        )
+        return appReveal.requestIfNeeded(handle: handle, destination: .window, focusOrigin: focusOrigin)
     }
 
     @discardableResult

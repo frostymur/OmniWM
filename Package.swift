@@ -1,15 +1,14 @@
-// swift-tools-version: 6.4
+// swift-tools-version: 6.0
 import Foundation
 import PackageDescription
 
 let packageDirectory = URL(fileURLWithPath: #filePath).deletingLastPathComponent().path
-let ghosttyMacOSLibraryDirectory = "\(packageDirectory)/Frameworks/GhosttyKit.xcframework/macos-arm64"
 
 let package = Package(
     name: "OmniWM",
     defaultLocalization: "en",
     platforms: [
-        .macOS(.v26)
+        .macOS(.v15)
     ],
     products: [
         .executable(
@@ -25,45 +24,30 @@ let package = Package(
         .package(url: "https://github.com/mattt/swift-toml.git", from: "2.0.0")
     ],
     targets: [
-        .binaryTarget(
-            name: "GhosttyKit",
-            path: "Frameworks/GhosttyKit.xcframework"
-        ),
         .target(
             name: "OmniWMIPC",
             path: "Sources/OmniWMIPC",
             swiftSettings: [
-                .swiftLanguageMode(.v6),
-                .treatAllWarnings(as: .error)
+                .swiftLanguageMode(.v6)
             ]
         ),
-        .target(
-            name: "OmniWMMenuBarAssertion",
-            path: "Sources/OmniWMMenuBarAssertion",
-            cSettings: [
-                .treatAllWarnings(as: .error)
-            ]
-        ),
+
         .target(
             name: "OmniWMLayerCorners",
             path: "Sources/OmniWMLayerCorners",
             cSettings: [
-                .treatAllWarnings(as: .error)
             ]
         ),
         .target(
             name: "OmniWMLauncherSPI",
             path: "Sources/OmniWMLauncherSPI",
             cSettings: [
-                .treatAllWarnings(as: .error)
             ]
         ),
         .target(
             name: "OmniWM",
             dependencies: [
-                "GhosttyKit",
                 "OmniWMIPC",
-                "OmniWMMenuBarAssertion",
                 "OmniWMLayerCorners",
                 "OmniWMLauncherSPI",
                 .product(name: "TOML", package: "swift-toml")
@@ -75,9 +59,7 @@ let package = Package(
             ],
             swiftSettings: [
                 .swiftLanguageMode(.v6),
-                .treatAllWarnings(as: .error),
-                .interoperabilityMode(.C),
-                .unsafeFlags(["-Xfrontend", "-disable-autolink-framework", "-Xfrontend", "FoundationModels"])
+                .interoperabilityMode(.C)
             ],
             linkerSettings: [
                 .linkedFramework("AppKit"),
@@ -88,9 +70,8 @@ let package = Package(
                 .linkedFramework("QuartzCore"),
                 .linkedLibrary("z"),
                 .linkedLibrary("c++"),
-                .unsafeFlags(["-L\(ghosttyMacOSLibraryDirectory)"]),
-                .unsafeFlags(["-F/System/Library/PrivateFrameworks", "-framework", "SkyLight"]),
-                .unsafeFlags(["-weak_framework", "FoundationModels"])
+
+                .unsafeFlags(["-F/System/Library/PrivateFrameworks", "-framework", "SkyLight"])
             ]
         ),
         .executableTarget(
@@ -98,8 +79,7 @@ let package = Package(
             dependencies: ["OmniWM"],
             path: "Sources/OmniWMApp",
             swiftSettings: [
-                .swiftLanguageMode(.v6),
-                .treatAllWarnings(as: .error)
+                .swiftLanguageMode(.v6)
             ]
         ),
         .executableTarget(
@@ -113,8 +93,7 @@ let package = Package(
                 .embedInCode("Completions/completion.nu")
             ],
             swiftSettings: [
-                .swiftLanguageMode(.v6),
-                .treatAllWarnings(as: .error)
+                .swiftLanguageMode(.v6)
             ]
         ),
         .testTarget(
@@ -125,8 +104,7 @@ let package = Package(
                 .copy("Fixtures")
             ],
             swiftSettings: [
-                .swiftLanguageMode(.v6),
-                .treatAllWarnings(as: .error)
+                .swiftLanguageMode(.v6)
             ]
         )
     ]

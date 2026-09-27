@@ -61,9 +61,6 @@ extension WorkspaceManager {
         if index != nil, workspaceId == nil {
             return false
         }
-        recordReconcileEvent(
-            .scratchpadMembershipChanged(token: token, index: index, source: .workspaceManager)
-        )
         if let workspaceId {
             noteInvalidation(workspaceId: workspaceId, domains: [.workspace, .layout, .focus])
         }

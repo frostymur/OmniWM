@@ -7,7 +7,6 @@ public enum IPCResultKind: String, Codable, Equatable, Sendable {
     case pong
     case version
     case capture
-    case workspaceBar = "workspace-bar"
     case activeWorkspace = "active-workspace"
     case focusedMonitor = "focused-monitor"
     case apps
@@ -60,7 +59,6 @@ public struct IPCResult: Codable, Equatable, Sendable {
         case pong(IPCPingResult)
         case version(IPCVersionResult)
         case capture(IPCCaptureResult)
-        case workspaceBar(IPCWorkspaceBarQueryResult)
         case activeWorkspace(IPCActiveWorkspaceQueryResult)
         case focusedMonitor(IPCFocusedMonitorQueryResult)
         case apps(IPCAppsQueryResult)
@@ -96,10 +94,6 @@ public struct IPCResult: Codable, Equatable, Sendable {
 
     public init(capture: IPCCaptureResult) {
         self.init(kind: .capture, payload: .capture(capture))
-    }
-
-    public init(workspaceBar: IPCWorkspaceBarQueryResult) {
-        self.init(kind: .workspaceBar, payload: .workspaceBar(workspaceBar))
     }
 
     public init(activeWorkspace: IPCActiveWorkspaceQueryResult) {
@@ -178,8 +172,6 @@ public struct IPCResult: Codable, Equatable, Sendable {
             payload = .version(try container.decode(IPCVersionResult.self, forKey: .payload))
         case .capture:
             payload = .capture(try container.decode(IPCCaptureResult.self, forKey: .payload))
-        case .workspaceBar:
-            payload = .workspaceBar(try container.decode(IPCWorkspaceBarQueryResult.self, forKey: .payload))
         case .activeWorkspace:
             payload = .activeWorkspace(try container.decode(IPCActiveWorkspaceQueryResult.self, forKey: .payload))
         case .focusedMonitor:
@@ -223,8 +215,6 @@ public struct IPCResult: Codable, Equatable, Sendable {
         case let .version(payload):
             try container.encode(payload, forKey: .payload)
         case let .capture(payload):
-            try container.encode(payload, forKey: .payload)
-        case let .workspaceBar(payload):
             try container.encode(payload, forKey: .payload)
         case let .activeWorkspace(payload):
             try container.encode(payload, forKey: .payload)

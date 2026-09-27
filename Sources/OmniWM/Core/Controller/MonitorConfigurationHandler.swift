@@ -87,6 +87,5 @@ struct MonitorConfigurationHandler {
         controller.workspaceManager.garbageCollectUnusedWorkspaces(focusedWorkspaceId: focusedWsId)
 
         inventory.schedule(reason: .monitorConfigurationChanged)
-        controller.reapplyQuakeTerminalGeometryForMonitorChange()
     }
 }

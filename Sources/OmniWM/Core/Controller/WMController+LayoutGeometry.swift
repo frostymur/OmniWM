@@ -44,7 +44,7 @@ extension WMController {
         for monitor: Monitor,
         scale: CGFloat
     ) -> MonitorLayoutFrames {
-        let reservedTopInset = workspaceBarReservedTopInset(for: monitor)
+        let reservedTopInset: CGFloat = 0
         let gaps = settings.gaps.resolved(for: monitor)
         let menuBarInset = max(0, monitor.frame.maxY - monitor.visibleFrame.maxY)
         let normalizedTop = normalizedTopStrut(
@@ -135,16 +135,6 @@ extension WMController {
             width: CGFloat(settings.borders.width),
             scale: scale
         )
-    }
-
-    private func workspaceBarReservedTopInset(for monitor: Monitor) -> CGFloat {
-        guard settings.workspaceBar.revealModifier == .off else { return 0 }
-        let resolved = settings.workspaceBar.resolved(for: monitor)
-        return WorkspaceBarGeometry.resolve(
-            monitor: monitor,
-            resolved: resolved,
-            isVisible: isWorkspaceBarConfiguredVisible(on: monitor, resolved: resolved)
-        ).reservedTopInset
     }
 
     private func ungappedFullscreenFrames(

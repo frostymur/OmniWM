@@ -86,12 +86,6 @@ extension LayoutRefreshController {
             {
                 progress.seenKeys.insert(.init(pid: entry.pid, windowId: entry.windowId))
             }
-
-            preserveScratchpadHiddenWindowsDuringFullRescan(
-                trackedEntries,
-                windowServerInfoByWindowId: enumerationSnapshot.windowServerInfoByWindowId,
-                seenKeys: &progress.seenKeys
-            )
         }
     }
 

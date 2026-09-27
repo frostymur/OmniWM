@@ -107,7 +107,6 @@ extension LayoutRefreshController {
             to: controller.workspaceManager.worldSeq
         )
         if reveal.hiddenState.isScratchpad {
-            controller.requestWorkspaceBarRefresh()
         }
         controller.axManager.unsuppressFrameWrites(reveal.frameEntry)
     }

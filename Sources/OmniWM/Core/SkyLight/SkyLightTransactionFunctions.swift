@@ -24,7 +24,7 @@ struct SkyLightTransactionFunctions {
     init(resolver: inout SkyLightSymbolResolver) {
         transactionCreate = resolver.resolve("SLSTransactionCreate", as: TransactionCreateFunc.self)
         transactionCommit = resolver.resolve("SLSTransactionCommit", as: TransactionCommitFunc.self)
-        transactionOrderWindow = resolver.resolve("SLSTransactionOrderWindow", as: TransactionOrderWindowFunc.self)
+        transactionOrderWindow = resolver.resolve("SLSTransactionOrderWindowGroup", as: TransactionOrderWindowFunc.self)
         windowIsOrderedIn = resolver.resolve("SLSWindowIsOrderedIn", as: WindowIsOrderedInFunc.self)
         transactionMoveWindowWithGroup = resolver.resolve(
             "SLSTransactionMoveWindowWithGroup",

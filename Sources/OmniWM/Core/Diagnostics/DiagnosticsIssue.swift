@@ -281,14 +281,8 @@ extension DiagnosticsIssue {
             case .requiresInputMonitoring:
                 return String(localized: "This shortcut needs Input Monitoring permission.")
             }
-        case let .hotkeyCoFireAdvisory(actionID, _, _, advisory):
-            if actionID == "openCommandPalette" {
-                return String(
-                    localized: "The Command Palette shortcut (Control+Option+Space) matches an enabled macOS system shortcut. macOS documents this chord for “Select next source in Input menu,” so both can fire together. Reassign this hotkey or clear the matching macOS shortcut in System Settings → Keyboard → Keyboard Shortcuts → Input Sources."
-                )
-            } else {
-                return advisory
-            }
+        case let .hotkeyCoFireAdvisory(_, _, _, advisory):
+            return advisory
         case let .hotkeySidedHyper(actionID, command, chord, side):
             let localizedSide = side == "Left"
                 ? String(localized: LocalizedStringResource(

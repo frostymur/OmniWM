@@ -322,7 +322,7 @@ final class SurfaceScene {
     }
 
     private var visibleNodes: [SurfaceNode] {
-        nodesByID.values.filter(isVisible)
+        nodesByID.values.filter { isVisible($0) }
     }
 
     private func matchingVisibleNodes(

@@ -42,7 +42,7 @@ extension SkyLight {
             if let sample = Self.cornerSample(resolved: resolved, raw: nil, observedSize: observedSize) {
                 return sample
             }
-            let raw = windowIteratorGetCornerRadii(iterator, 0)?.takeRetainedValue()
+            let raw = windowIteratorGetCornerRadii?(iterator, 0)?.takeRetainedValue()
             return Self.cornerSample(resolved: nil, raw: raw, observedSize: observedSize)
         }
     }
@@ -53,7 +53,7 @@ extension SkyLight {
         queryWindowIterator(forWindowId: wid) { iterator in
             let observedSize = queries.windowIteratorGetBounds(iterator).size
             let resolved = queries.windowIteratorGetResolvedCornerRadii?(iterator, 0)?.takeRetainedValue()
-            let raw = queries.windowIteratorGetCornerRadii(iterator, 0)?.takeRetainedValue()
+            let raw = queries.windowIteratorGetCornerRadii?(iterator, 0)?.takeRetainedValue()
             return Self.diagnosticCornerSamples(
                 resolved: resolved,
                 raw: raw,
@@ -87,7 +87,7 @@ extension SkyLight {
         if let sample = Self.cornerSample(resolved: resolved, raw: nil, observedSize: observedSize) {
             return sample
         }
-        let raw = queries.windowIteratorGetCornerRadii(iterator, 0)?.takeRetainedValue()
+        let raw = queries.windowIteratorGetCornerRadii?(iterator, 0)?.takeRetainedValue()
         return Self.cornerSample(resolved: nil, raw: raw, observedSize: observedSize)
     }
 

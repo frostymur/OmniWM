@@ -49,22 +49,16 @@ enum HotkeyCommand: Equatable, Hashable {
     case fullscreen(IPCFullscreenCommand)
     case moveColumn(Direction)
 
-    case openCommandPalette
-
     case raiseAllFloatingWindows
     case rescueOffscreenWindows
     case windowState(IPCWindowStateCommand)
 
-    case openMenuAnywhere
-
-    case presentation(IPCPresentationCommand)
     case focusNavigation(FocusNavigationAction)
     case windowMovement(WindowMovementAction)
     case column(ColumnAction)
     case workspace(WorkspaceAction)
     case sizing(SizingAction)
     case dwindle(DwindleAction)
-    case scratchpad(ScratchpadAction)
 
     var displayName: String {
         ActionCatalog.title(for: self) ?? String(describing: self)

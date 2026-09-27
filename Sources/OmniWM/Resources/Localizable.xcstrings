@@ -16946,126 +16946,126 @@
         }
       }
     },
-    "App window corner controls require macOS 26.4 or later." : {
+    "App window corner controls require macOS 15.4 or later." : {
       "localizations" : {
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アプリウィンドウのコーナーコントロールにはmacOS 26.4以降が必要です。"
+            "value" : "アプリウィンドウのコーナーコントロールにはmacOS 15.4以降が必要です。"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die Steuerelemente in der Ecke des App-Fensters erfordern macOS 26.4 oder später."
+            "value" : "Die Steuerelemente in der Ecke des App-Fensters erfordern macOS 15.4 oder später."
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kontroller for hjørnet av appvinduet krever macOS 26.4 eller nyere."
+            "value" : "Kontroller for hjørnet av appvinduet krever macOS 15.4 eller nyere."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kontrollerna i hörnet av appfönstret kräver macOS 26.4 eller senare."
+            "value" : "Kontrollerna i hörnet av appfönstret kräver macOS 15.4 eller senare."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Los controles en la esquina de la ventana de la aplicación requieren macOS 26.4 o posterior."
+            "value" : "Los controles en la esquina de la ventana de la aplicación requieren macOS 15.4 o posterior."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "应用程序窗口角控件需要macOS 26.4或更高版本。"
+            "value" : "应用程序窗口角控件需要macOS 15.4或更高版本。"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ऐप विंडो कॉर्नर कंट्रोल्स के लिए macOS 26.4 या बाद के संस्करण की आवश्यकता होती है।"
+            "value" : "ऐप विंडो कॉर्नर कंट्रोल्स के लिए macOS 15.4 या बाद के संस्करण की आवश्यकता होती है।"
           }
         },
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "تتطلب عناصر التحكم في زاوية نافذة التطبيق macOS 26.4 أو أحدث."
+            "value" : "تتطلب عناصر التحكم في زاوية نافذة التطبيق macOS 15.4 أو أحدث."
           }
         },
         "sr-Latn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ugao kontrole aplikacije zahteva macOS 26.4 ili kasniji."
+            "value" : "Ugao kontrole aplikacije zahteva macOS 15.4 ili kasniji."
           }
         },
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Τα χειριστήρια γωνίας παραθύρων App απαιτούν macOS 26.4 ή αργότερα."
+            "value" : "Τα χειριστήρια γωνίας παραθύρων App απαιτούν macOS 15.4 ή αργότερα."
           }
         },
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "בקרות חלון יישומים דורשות macOS 26.4 או מאוחר יותר."
+            "value" : "בקרות חלון יישומים דורשות macOS 15.4 או מאוחר יותר."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Контролирование угла окна приложения требует macOS 26.4 или более."
+            "value" : "Контролирование угла окна приложения требует macOS 15.4 или более."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Paski sterowania w oknie aplikacji wymagają macOS 26.4 lub nowszego."
+            "value" : "Paski sterowania w oknie aplikacji wymagają macOS 15.4 lub nowszego."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Керування кутами вікон програм потребує macOS 26.4 або новішої версії."
+            "value" : "Керування кутами вікон програм потребує macOS 15.4 або новішої версії."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les commandes de coin de fenêtre de l'application nécessitent macOS 26.4 ou plus tard."
+            "value" : "Les commandes de coin de fenêtre de l'application nécessitent macOS 15.4 ou plus tard."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vensterbedieningen van de App-vensterhoek vereisen macOS 26.4 of later."
+            "value" : "Vensterbedieningen van de App-vensterhoek vereisen macOS 15.4 of later."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "I comandi dell'angolo della finestra dell'app richiedono macOS 26.4 o successivi."
+            "value" : "I comandi dell'angolo della finestra dell'app richiedono macOS 15.4 o successivi."
           }
         },
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sovellusikkunan kulmaohjain vaatii macOS 26.4 tai myöhemmin."
+            "value" : "Sovellusikkunan kulmaohjain vaatii macOS 15.4 tai myöhemmin."
           }
         },
         "da" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App vindue hjørne kontrol kræver macOS 26.4 eller nyere."
+            "value" : "App vindue hjørne kontrol kræver macOS 15.4 eller nyere."
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "앱 창 모서리 컨트롤에는 macOS 26.4 이상이 필요합니다."
+            "value" : "앱 창 모서리 컨트롤에는 macOS 15.4 이상이 필요합니다."
           }
         }
       }
@@ -59379,126 +59379,126 @@
         }
       }
     },
-    "Hiding requires macOS 27 or later." : {
+    "Hiding requires macOS 15 or later." : {
       "localizations" : {
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ハイドイングにはmacOS 27以降が必要です。"
+            "value" : "ハイドイングにはmacOS 15以降が必要です。"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Das Verbergen erfordert macOS 27 oder später."
+            "value" : "Das Verbergen erfordert macOS 15 oder später."
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skjuling krever macOS 27 eller senere."
+            "value" : "Skjuling krever macOS 15 eller senere."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Att dölja kräver macOS 27 eller senare."
+            "value" : "Att dölja kräver macOS 15 eller senare."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "El ocultamiento requiere macOS 27 o más."
+            "value" : "El ocultamiento requiere macOS 15 o más."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "隐藏需要macOS 27或更晚。"
+            "value" : "隐藏需要macOS 15或更晚。"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "छिपाने के लिए macOS 27 या बाद के की आवश्यकता होती है।"
+            "value" : "छिपाने के लिए macOS 15 या बाद के की आवश्यकता होती है।"
           }
         },
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "يتطلب الإخفاء macOS 27 أو أكثر."
+            "value" : "يتطلب الإخفاء macOS 15 أو أكثر."
           }
         },
         "sr-Latn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skrivanje zahteva macOS 27 ili kasnije."
+            "value" : "Skrivanje zahteva macOS 15 ili kasnije."
           }
         },
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Το κρύψιμο απαιτεί macOS 27 ή αργότερα."
+            "value" : "Το κρύψιμο απαιτεί macOS 15 ή αργότερα."
           }
         },
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "הסתרה דורשת macOS 27 או מאוחר יותר."
+            "value" : "הסתרה דורשת macOS 15 או מאוחר יותר."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "При скрытии требуется macOS 27 или позже."
+            "value" : "При скрытии требуется macOS 15 или позже."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ukrywanie wymaga macOS 27 lub nowszego."
+            "value" : "Ukrywanie wymaga macOS 15 lub nowszego."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Приховання вимагає macOS 27 або новіше."
+            "value" : "Приховання вимагає macOS 15 або новіше."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cacher nécessite macOS 27 ou plus tard."
+            "value" : "Cacher nécessite macOS 15 ou plus tard."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verbergen vereist macOS 27 of later."
+            "value" : "Verbergen vereist macOS 15 of later."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nascondersi richiede macOS 27 o più tardi."
+            "value" : "Nascondersi richiede macOS 15 o più tardi."
           }
         },
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Piileskely vaatii macOS 27 tai myöhemmin."
+            "value" : "Piileskely vaatii macOS 15 tai myöhemmin."
           }
         },
         "da" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skjul kræver macOS 27 eller nyere."
+            "value" : "Skjul kræver macOS 15 eller nyere."
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "숨기려면 macOS 27 이상이 필요합니다."
+            "value" : "숨기려면 macOS 15 이상이 필요합니다."
           }
         }
       }

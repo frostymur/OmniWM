@@ -32,8 +32,6 @@ extension WMEvent {
              .nativeFullscreenTransition,
              .niriPlacementsResolved,
              .dwindlePlacementsResolved,
-             .scratchpadMembershipChanged,
-             .scratchpadRevealChanged,
              .selectionChanged,
              .spaceTopologyChanged,
              .suppressedFocusChanged,

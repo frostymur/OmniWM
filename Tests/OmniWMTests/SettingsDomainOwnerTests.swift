@@ -16,7 +16,6 @@ final class SettingsDomainOwnerTests: XCTestCase {
         let settings = makeSettings(directory: directory)
         let focus = settings.focus
         let niri = settings.niri
-        let bar = settings.workspaceBar
         let workspaces = settings.workspaces
         let observed = Mutex(0)
         withObservationTracking {
@@ -29,14 +28,12 @@ final class SettingsDomainOwnerTests: XCTestCase {
         var values = settings.toExport()
         values.focus.followsMouse.toggle()
         values.niri.visibleContainerCount = 4
-        values.workspaceBar.showLabels.toggle()
         let savedBeforeImport = try Data(contentsOf: settings.settingsFileURL)
 
         settings.applyExport(values)
 
         XCTAssertTrue(settings.focus === focus)
         XCTAssertTrue(settings.niri === niri)
-        XCTAssertTrue(settings.workspaceBar === bar)
         XCTAssertTrue(settings.workspaces === workspaces)
         XCTAssertEqual(observed.withLock { $0 }, 1)
         XCTAssertEqual(settings.toExport(), values)

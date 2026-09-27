@@ -138,7 +138,6 @@ extension WMController {
             intentLedger.enableDeferredRetryRaise(for: request)
         }
         if let previousRequestId {
-            scratchpadStacking.abortScratchpadStacking(matching: previousRequestId)
         }
         _ = workspaceManager.beginManagedFocusRequest(
             request.token,

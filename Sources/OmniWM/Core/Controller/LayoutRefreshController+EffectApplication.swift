@@ -81,7 +81,6 @@ extension LayoutRefreshController {
         for postLayoutAction in forwardedPostLayoutActions(acceptedSeqs) {
             postLayoutAction.runIfCurrent(using: controller.workspaceManager)
         }
-        controller.scratchpadStacking.resumeRehomedScratchpadStackingAfterFocusHandoff()
 
         completeEffectPlan(plan, controller: controller)
     }
@@ -96,7 +95,6 @@ extension LayoutRefreshController {
             let resolvedActiveWorkspaceIds = activeWorkspaceIds ?? currentActiveWorkspaceIds()
             activeWorkspaceIds = resolvedActiveWorkspaceIds
             controller.withRuntimeFrameJobCancellationSuppressed {
-                controller.scratchpadStacking.rehomeRevealedScratchpad(activeWorkspaceIds: resolvedActiveWorkspaceIds)
                 restoreWorkspaceInactiveFloatingWindows(activeWorkspaceIds: resolvedActiveWorkspaceIds)
                 hideInactiveWorkspaces(activeWorkspaceIds: resolvedActiveWorkspaceIds)
             }

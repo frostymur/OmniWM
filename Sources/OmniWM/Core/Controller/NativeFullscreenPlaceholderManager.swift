@@ -51,14 +51,8 @@ enum NativeFullscreenCaptureExclusionOutcome: String, Equatable {
 
     static func resolve(writeAccepted: Bool, readback: Bool?) -> NativeFullscreenCaptureExclusionOutcome {
         guard writeAccepted else { return .failed }
-        switch readback {
-        case true:
-            return .verified
-        case nil:
-            return .acceptedUnverified
-        case false:
-            return .failed
-        }
+        guard let readback else { return .acceptedUnverified }
+        return readback ? .verified : .failed
     }
 }
 

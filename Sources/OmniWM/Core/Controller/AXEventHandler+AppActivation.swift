@@ -296,7 +296,6 @@ extension AXEventHandler {
             workspaceId: request.workspaceId,
             requestId: request.requestId
         )
-        controller.scratchpadStacking.advanceScratchpadStackingAfterFocusRetryExhaustion(request)
 
         if let token = controller.workspaceManager.renderableFocusToken {
             controller.surfaceReconciler.noteRestackOccurred()

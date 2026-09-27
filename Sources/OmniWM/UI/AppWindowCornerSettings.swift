@@ -183,7 +183,7 @@ struct AppWindowCornerSettings: View {
     @ViewBuilder
     private var statusContent: some View {
         if !preferences.isSupported {
-            Text("App window corner controls require macOS 26.4 or later.")
+            Text("App window corner controls require macOS 15.0 or later.")
                 .font(.caption)
                 .foregroundStyle(.secondary)
         } else if preferences.isManaged {

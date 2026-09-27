@@ -34,8 +34,6 @@ final class IPCCommandRouter {
             return swapWorkspaceWithMonitor(direction: Direction(ipc: ipcDirection))
         case let .dwindle(command):
             return controller.commandHandler.performCommand(HotkeyCommand(ipc: command))
-        case .openCommandPalette:
-            return controller.commandHandler.performCommand(.openCommandPalette)
         case .raiseAllFloatingWindows:
             return raiseAllFloatingWindows()
         case .rescueOffscreenWindows:
@@ -44,14 +42,8 @@ final class IPCCommandRouter {
             return handle(command)
         case let .fullscreen(command):
             return controller.commandHandler.performCommand(.fullscreen(command))
-        case let .presentation(command):
-            return controller.commandHandler.performCommand(.presentation(command))
         case let .windowState(command):
             return controller.commandHandler.performCommand(.windowState(command))
-        case let .scratchpad(command):
-            return controller.commandHandler.performCommand(HotkeyCommand(ipc: command))
-        case .openMenuAnywhere:
-            return controller.commandHandler.performCommand(.openMenuAnywhere)
         }
     }
 

@@ -331,6 +331,8 @@ def check():
 
 def package(bundle, app):
     source = bundle / "Contents/Resources"
+    if not source.is_dir():
+        source = bundle
     target = app / "Contents/Resources"
     if not source.is_dir():
         raise ValueError(f"SwiftPM resource bundle has no Contents/Resources: {bundle}")

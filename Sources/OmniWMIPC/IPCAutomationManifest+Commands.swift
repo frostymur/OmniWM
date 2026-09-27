@@ -375,10 +375,6 @@ extension IPCAutomationManifest {
             layoutCompatibility: .dwindle
         ),
         .init(
-            name: .openCommandPalette,
-            summary: "Toggle the command palette."
-        ),
-        .init(
             name: .raiseAllFloatingWindows,
             summary: "Raise all visible floating windows."
         ),
@@ -393,35 +389,6 @@ extension IPCAutomationManifest {
         .init(
             name: .windowState(.close),
             summary: "Close the focused managed window through its close button."
-        ),
-        .init(
-            commandWords: ["scratchpad", "assign"],
-            name: .scratchpad(.assign),
-            summary: "Assign the focused managed window to a scratchpad, or remove it when already there.",
-            arguments: [.scratchpadIndex]
-        ),
-        .init(
-            commandWords: ["scratchpad", "toggle"],
-            name: .scratchpad(.toggle),
-            summary: "Show or hide a scratchpad's windows.",
-            arguments: [.scratchpadIndex]
-        ),
-        .init(
-            name: .openMenuAnywhere,
-            summary: "Open the menu surface anywhere."
-        ),
-        .init(
-            name: .presentation(.workspaceBar),
-            summary: "Toggle runtime workspace bar visibility."
-        ),
-        .init(
-            commandWords: ["hidden-bar", "panel"],
-            name: .presentation(.hiddenBar),
-            summary: "Toggle the hidden-bar items panel."
-        ),
-        .init(
-            name: .presentation(.quakeTerminal),
-            summary: "Toggle the configured Quake terminal."
         ),
         .init(
             name: .workspaceLayout(.toggle),
@@ -439,14 +406,6 @@ extension IPCAutomationManifest {
         .init(
             name: .fullscreen(.native),
             summary: "Toggle native macOS fullscreen."
-        ),
-        .init(
-            name: .presentation(.overview),
-            summary: "Toggle the overview surface."
-        ),
-        .init(
-            name: .presentation(.systemStats),
-            summary: "Toggle the system stats popup when a workspace-bar System Stats button is available."
         )
     ]
 }

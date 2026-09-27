@@ -205,11 +205,10 @@ actor IPCConnection {
         guard !isClosed else { throw POSIXError(.ECANCELED) }
     }
 
-    nonisolated static func decodeUTF8(_ bytes: Span<UInt8>) throws -> String {
-        do {
-            return String(copying: try UTF8Span(validating: bytes))
-        } catch {
+    nonisolated static func decodeUTF8(_ bytes: Data) throws -> String {
+        guard let line = String(data: bytes, encoding: .utf8) else {
             throw POSIXError(.EINVAL)
         }
+        return line
     }
 }

@@ -26,27 +26,6 @@ final class IPCProtocolEnvelopeTests: XCTestCase {
         XCTAssertEqual(OmniWMIPCProtocol.version, 16)
     }
 
-    func testScratchpadCommandDecodesLiteralScratchpadIndexField() throws {
-        let data = Data(#"{"name":"scratchpad-assign","arguments":{"scratchpadIndex":4}}"#.utf8)
-
-        XCTAssertEqual(
-            try JSONDecoder().decode(IPCCommandRequest.self, from: data),
-            .scratchpad(.assign(index: 4))
-        )
-    }
-
-    func testScratchpadCommandEncodesLiteralScratchpadIndexField() throws {
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = [.sortedKeys]
-
-        let data = try encoder.encode(IPCCommandRequest.scratchpad(.toggle(index: 10)))
-
-        XCTAssertEqual(
-            String(decoding: data, as: UTF8.self),
-            #"{"arguments":{"scratchpadIndex":10},"name":"scratchpad-toggle"}"#
-        )
-    }
-
     func testV14WindowIdFieldIsAdditiveOnWire() throws {
         let legacy = IPCWindowQuerySnapshot(id: "ow_a", pid: 7)
         let legacyData = try IPCWire.makeEncoder().encode(legacy)
@@ -57,32 +36,6 @@ final class IPCProtocolEnvelopeTests: XCTestCase {
         let currentData = try IPCWire.makeEncoder().encode(current)
         XCTAssertTrue(String(decoding: currentData, as: UTF8.self).contains("\"windowId\":42"))
         XCTAssertEqual(try IPCWire.makeDecoder().decode(IPCWindowQuerySnapshot.self, from: currentData), current)
-    }
-
-    func testV14WorkspaceBarAppBundleIdIsAdditiveOnWire() throws {
-        let unknown = IPCWorkspaceBarApp(
-            id: "ow_a",
-            appName: "A",
-            bundleId: nil,
-            isFocused: false,
-            windowCount: 1,
-            allWindows: []
-        )
-        let unknownData = try IPCWire.makeEncoder().encode(unknown)
-        XCTAssertFalse(String(decoding: unknownData, as: UTF8.self).contains("bundleId"))
-        XCTAssertEqual(try IPCWire.makeDecoder().decode(IPCWorkspaceBarApp.self, from: unknownData), unknown)
-
-        let known = IPCWorkspaceBarApp(
-            id: "ow_a",
-            appName: "A",
-            bundleId: "com.example.a",
-            isFocused: true,
-            windowCount: 2,
-            allWindows: []
-        )
-        let knownData = try IPCWire.makeEncoder().encode(known)
-        XCTAssertTrue(String(decoding: knownData, as: UTF8.self).contains("\"bundleId\":\"com.example.a\""))
-        XCTAssertEqual(try IPCWire.makeDecoder().decode(IPCWorkspaceBarApp.self, from: knownData), known)
     }
 
     func testV11FullscreenOuterGapDisplayFieldIsAdditiveOnWire() throws {

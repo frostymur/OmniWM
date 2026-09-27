@@ -245,7 +245,7 @@ extension Monitor {
 
 extension NSScreen {
     var displayId: CGDirectDisplayID? {
-        cgDirectDisplayID
+        deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? CGDirectDisplayID
     }
 }
 

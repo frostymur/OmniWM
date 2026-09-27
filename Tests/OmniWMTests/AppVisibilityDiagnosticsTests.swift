@@ -46,7 +46,7 @@ final class AppVisibilityDiagnosticsTests: XCTestCase {
                 interactionMonitorId: nil,
                 activeWorkspaceIdsByMonitor: [:]
             ),
-            destination: .scratchpad(index: 1, monitorId: nil)
+            destination: .window
         )
         defer {
             controller.axManager.setMacOSAppHidden(
@@ -64,7 +64,7 @@ final class AppVisibilityDiagnosticsTests: XCTestCase {
         XCTAssertTrue(report.contains("axManagerHidden=true appAXHidden=true"))
         XCTAssertTrue(report.contains("windows=1 workspaces=1 activeWorkspaces=1"))
         XCTAssertTrue(report.contains("pendingReveal=id:\(reveal.id),win:\(token.windowId)"))
-        XCTAssertTrue(report.contains("destination:scratchpad"))
+        XCTAssertTrue(report.contains("destination:window"))
         XCTAssertTrue(report.contains("hidden=scratchpad layout=nativeFullscreen"))
         XCTAssertTrue(report.contains("sync=unverified-os"))
         XCTAssertTrue(report.contains("projection workspace=\(workspaceId.uuidString) expectedExcluded=1"))

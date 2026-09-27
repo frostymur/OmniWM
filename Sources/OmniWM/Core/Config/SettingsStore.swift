@@ -16,7 +16,6 @@ final class SettingsStore {
     let niri = NiriSettings()
     let dwindle: DwindlePreferences
     let gestures = GestureSettings()
-    let workspaceBar = WorkspaceBarSettings()
     let workspaces = WorkspaceSettings()
 
     private let persistence: SettingsFilePersistence
@@ -51,8 +50,6 @@ final class SettingsStore {
 
     let borders = BorderSettings()
 
-    let overview = OverviewSettings()
-
     var hotkeyBindings = SettingsStore.defaultExport.hotkeyBindings {
         didSet { scheduleSave() }
     }
@@ -74,12 +71,6 @@ final class SettingsStore {
         hyperKeyModifiersStorage = newValue
         hotkeyBindings = retargeted
         scheduleSave()
-    }
-
-    private(set) var scratchpadLabels = SettingsStore.normalizedScratchpadLabels(
-        SettingsStore.defaultExport.scratchpads.labels
-    ) {
-        didSet { scheduleSave() }
     }
 
     private(set) var appRulesRevision: UInt64 = 0
@@ -119,22 +110,6 @@ final class SettingsStore {
 
     let statusBar = StatusBarSettings()
 
-    let hiddenBar = HiddenBarSettings()
-
-    var commandPaletteLastMode = RuntimeStateStore.defaultCommandPaletteLastMode {
-        didSet { runtimeState.commandPaletteLastMode = commandPaletteLastMode }
-    }
-
-    var commandPaletteApplicationsViewStyle: LauncherViewStyle {
-        get { runtimeState.commandPaletteViewStyle(for: .applications) }
-        set { runtimeState.setCommandPaletteViewStyle(newValue, for: .applications) }
-    }
-
-    var commandPaletteFilesViewStyle: LauncherViewStyle {
-        get { runtimeState.commandPaletteViewStyle(for: .files) }
-        set { runtimeState.setCommandPaletteViewStyle(newValue, for: .files) }
-    }
-
     func recordLauncherLaunch(targetID: String, query: String, displayName: String? = nil) {
         runtimeState.recordLauncherLaunch(
             targetID: targetID,
@@ -165,38 +140,6 @@ final class SettingsStore {
     }
 
     let clipboard = ClipboardSettings()
-
-    let quakeTerminal = QuakeTerminalSettings()
-
-    var quakeTerminalUseCustomFrame = RuntimeStateStore.defaultQuakeTerminalUseCustomFrame {
-        didSet {
-            if !quakeTerminalUseCustomFrame, quakeTerminalCustomFrameStorage != nil {
-                quakeTerminalCustomFrameStorage = nil
-            }
-            syncQuakeTerminalCustomFrameToRuntimeState()
-        }
-    }
-
-    private var quakeTerminalCustomFrameStorage: NSRect? {
-        didSet { syncQuakeTerminalCustomFrameToRuntimeState() }
-    }
-
-    var quakeTerminalCustomFrame: NSRect? {
-        get { quakeTerminalCustomFrameStorage }
-        set {
-            if let frame = QuakeTerminalGeometryPolicy.normalizedCustomFrame(newValue) {
-                quakeTerminalCustomFrameStorage = frame
-            } else {
-                quakeTerminalCustomFrameStorage = nil
-                quakeTerminalUseCustomFrame = false
-            }
-        }
-    }
-
-    func resetQuakeTerminalCustomFrame() {
-        quakeTerminalUseCustomFrame = false
-        quakeTerminalCustomFrame = nil
-    }
 
     var appearanceMode = SettingsStore.defaultExport.appearanceMode {
         didSet { scheduleSave() }
@@ -237,15 +180,9 @@ final class SettingsStore {
         self.persistence = persistence
         self.runtimeState = runtimeState
         self.autosaveEnabled = autosaveEnabled
-        commandPaletteLastMode = runtimeState.commandPaletteLastMode
         monitorSetupStatus = runtimeState.monitorSetupStatus
         isApplyingRuntimeState = true
-        quakeTerminalCustomFrameStorage = QuakeTerminalGeometryPolicy.normalizedCustomFrame(
-            runtimeState.quakeTerminalCustomFrame
-        )
-        quakeTerminalUseCustomFrame = runtimeState.quakeTerminalUseCustomFrame && quakeTerminalCustomFrameStorage != nil
         isApplyingRuntimeState = false
-        syncQuakeTerminalCustomFrameToRuntimeState()
 
         focus.onChange = { [weak self] in self?.scheduleSave() }
         pointer.onChange = { [weak self] in self?.scheduleSave() }
@@ -254,14 +191,10 @@ final class SettingsStore {
         niri.onChange = { [weak self] in self?.scheduleSave() }
         dwindle.onChange = { [weak self] in self?.scheduleSave() }
         gestures.onChange = { [weak self] in self?.scheduleSave() }
-        workspaceBar.onChange = { [weak self] in self?.scheduleSave() }
         workspaces.onChange = { [weak self] in self?.scheduleSave() }
         borders.onChange = { [weak self] in self?.scheduleSave() }
-        overview.onChange = { [weak self] in self?.scheduleSave() }
         statusBar.onChange = { [weak self] in self?.scheduleSave() }
-        hiddenBar.onChange = { [weak self] in self?.scheduleSave() }
         clipboard.onChange = { [weak self] in self?.scheduleSave() }
-        quakeTerminal.onChange = { [weak self] in self?.scheduleSave() }
         gestures.onAvailabilityChanged = { [weak self] available in
             guard let self, !self.isApplyingExport else { return }
             self.onTrackpadGestureAvailabilityChanged?(available)
@@ -302,17 +235,6 @@ final class SettingsStore {
         runtimeState.flushNow()
     }
 
-    private func syncQuakeTerminalCustomFrameToRuntimeState() {
-        guard !isApplyingRuntimeState else { return }
-        if let quakeTerminalCustomFrameStorage, quakeTerminalUseCustomFrame {
-            runtimeState.quakeTerminalCustomFrame = quakeTerminalCustomFrameStorage
-            runtimeState.quakeTerminalUseCustomFrame = true
-        } else {
-            runtimeState.quakeTerminalUseCustomFrame = false
-            runtimeState.quakeTerminalCustomFrame = nil
-        }
-    }
-
     private func handleExternalReload(_ outcome: SettingsFileLoadOutcome) {
         transitionConfigNotice(to: outcome.notice)
         guard let export = outcome.export else { return }
@@ -330,23 +252,6 @@ final class SettingsStore {
         guard autosaveEnabled, !isApplyingExport else { return }
         persistence.scheduleSave(toExport())
     }
-
-    static func normalizedScratchpadLabels(_ labels: [String: String]) -> [String: String] {
-        labels.reduce(into: [:]) { normalized, entry in
-            guard let index = Int(entry.key.trimmingCharacters(in: .whitespacesAndNewlines)),
-                  IPCScratchpadSlots.range.contains(index)
-            else {
-                return
-            }
-            let label = entry.value.trimmingCharacters(in: .whitespacesAndNewlines)
-            guard !label.isEmpty else { return }
-            normalized[String(index)] = label
-        }
-    }
-
-    func scratchpadLabel(for index: Int) -> String? {
-        scratchpadLabels[String(index)]
-    }
 }
 
 extension SettingsStore {
@@ -362,13 +267,10 @@ extension SettingsStore {
             workspaceConfigurations: workspaces.configurations,
             defaultLayoutType: workspaces.defaultLayoutType,
             borders: borders.export(),
-            overview: overview.export(),
             hotkeyBindings: hotkeyBindings,
             systemHyperTrigger: systemHyperTrigger,
             hyperKeyModifiers: hyperKeyModifiersStorage,
-            workspaceBar: workspaceBar.export(),
-            scratchpads: SettingsExport.Scratchpads(labels: scratchpadLabels),
-            monitorBarSettings: workspaceBar.monitorOverrides,
+            monitorBarSettings: [],
             appRules: appRules,
             monitorOrientationSettings: monitors.orientationOverrides,
             monitorNiriSettings: niri.monitorOverrides,
@@ -380,10 +282,8 @@ extension SettingsStore {
             ipcEnabled: ipcEnabled,
             gestures: gestures.export(),
             statusBar: statusBar.export(),
-            hiddenBar: hiddenBar.export(),
             animationsEnabled: animationsEnabled,
             clipboard: clipboard.export(),
-            quakeTerminal: quakeTerminal.export(),
             appearanceMode: appearanceMode,
             tabRailAppIcons: tabRailAppIcons
         )
@@ -418,16 +318,10 @@ extension SettingsStore {
 
         borders.apply(export.borders)
 
-        overview.apply(export.overview, baseline: baseline.overview)
-
         hyperKeyModifiersStorage = export.hyperKeyModifiers
         KeySymbolMapper.setHyperKeyModifiers(export.hyperKeyModifiers)
         hotkeyBindings = export.hotkeyBindings
         systemHyperTrigger = export.systemHyperTrigger
-
-        workspaceBar.applyIdentity(export.workspaceBar)
-        scratchpadLabels = SettingsStore.normalizedScratchpadLabels(export.scratchpads.labels)
-        workspaceBar.applyAppearance(export.workspaceBar, monitorOverrides: export.monitorBarSettings)
 
         appRules = export.appRules
         monitors.orientationOverrides = export.monitorOrientationSettings
@@ -442,11 +336,8 @@ extension SettingsStore {
         ipcEnabled = export.ipcEnabled
         gestures.apply(export.gestures)
         statusBar.apply(export.statusBar)
-        hiddenBar.apply(export.hiddenBar)
         animationsEnabled = export.animationsEnabled
         clipboard.apply(export.clipboard)
-
-        quakeTerminal.apply(export.quakeTerminal, baseline: baseline.quakeTerminal)
 
         appearanceMode = export.appearanceMode
         tabRailAppIcons = export.tabRailAppIcons

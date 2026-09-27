@@ -277,61 +277,6 @@ final class WorkspaceSwipePresentationTests: XCTestCase {
         XCTAssertNil(swipe.preparation)
     }
 
-    func testPhysicalPreparationPromotesOwnerWarmupWithoutRestartingStream() async throws {
-        let driver = OverviewPreviewTestDriver()
-        let capture = driver.makeCapture()
-        let preview = WorkspaceSwipePreview(
-            ownedWindowRegistry: OwnedWindowRegistry(), previewCapture: capture,
-            backdrop: try makeBackdrop(), hasCaptureAccess: { true }
-        )
-        let (controller, swipe, monitor, source) = try fixture(previewSurface: preview)
-        controller.niriLayoutHandler.enableNiriLayout()
-        let pid: pid_t = 764_941
-        let windowId = 764_942
-        let token = controller.workspaceManager.addWindow(
-            AXWindowRef(element: AXUIElementCreateApplication(pid), windowId: windowId),
-            pid: pid, windowId: windowId, to: source
-        )
-        controller.workspaceManager.setCachedConstraints(.unconstrained, for: token)
-        let engine = try XCTUnwrap(controller.niriEngine)
-        let node = engine.addWindow(token: token, to: source, afterSelection: nil)
-        controller.workspaceManager.withNiriViewportState(for: source) { $0.selectedNodeId = node.id }
-        controller.axManager.confirmFrameWrite(
-            for: windowId, frame: CGRect(x: 50, y: 50, width: 600, height: 500)
-        )
-        let preparation = try XCTUnwrap(swipe.makePreparation(monitorId: monitor.id))
-        XCTAssertEqual(preparation.source.items.map(\.handle.token), [token])
-        preview.warm(
-            source: preparation.source.items,
-            destination: (preparation.previous?.items ?? []) + (preparation.next?.items ?? []),
-            monitor: monitor, workingFrame: preparation.frame
-        )
-        await driver.waitForStarts(1)
-        XCTAssertTrue(preview.isWarming)
-        let stream = driver.streams[0]
-
-        XCTAssertFalse(swipe.prepare(monitorId: monitor.id, timestamp: 1))
-
-        XCTAssertFalse(preview.isWarming)
-        XCTAssertNotNil(swipe.preparation)
-        XCTAssertEqual(driver.streams.count, 1)
-        XCTAssertEqual(stream.stopCount, 0)
-        driver.completeAllStarts()
-        for _ in 0 ..< 2 {
-            let frame = try makeOverviewPreviewFrame()
-            let published = expectation(description: "promoted owner stream publishes")
-            capture.onPreview = { _, image in if image === frame { published.fulfill() } }
-            stream.output.offer(frame)
-            await fulfillment(of: [published], timeout: 1)
-            XCTAssertTrue(capture.preview(for: stream.request.handle) === frame)
-            XCTAssertEqual(stream.stopCount, 0)
-        }
-        XCTAssertEqual(driver.streams.count, 1)
-        XCTAssertFalse(preview.isVisible)
-        swipe.stopPreparing()
-        await driver.waitForStops(1)
-    }
-
     private func makeSettings() -> SettingsStore {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         return SettingsStore(
@@ -360,8 +305,7 @@ final class WorkspaceSwipePresentationTests: XCTestCase {
         _ = controller.workspaceManager.workspaceId(for: "2", createIfMissing: true)
         XCTAssertTrue(controller.workspaceManager.setActiveWorkspace(source, on: monitor.id))
         let preview = try previewSurface ?? WorkspaceSwipePreview(
-            ownedWindowRegistry: controller.ownedWindowRegistry,
-            backdrop: makeBackdrop(), hasCaptureAccess: { true }
+            ownedWindowRegistry: controller.ownedWindowRegistry
         )
         let swipe = WorkspaceSwipePresentation(
             refreshController: controller.layoutRefreshController,
@@ -391,7 +335,7 @@ final class WorkspaceSwipePresentationTests: XCTestCase {
         context.setFillColor(CGColor(red: 0.2, green: 0.3, blue: 0.4, alpha: 1))
         context.fill(CGRect(x: 0, y: 0, width: 1600, height: 900))
         let image = try XCTUnwrap(context.makeImage())
-        let wallpaper = OverviewWallpaperCache()
+        let wallpaper = WallpaperCaptureCache()
         wallpaper.desktopImageURL = { _ in nil }
         wallpaper.captureWallpaper = { _ in image }
         return WorkspaceSwipeBackdrop(wallpaperCache: wallpaper)

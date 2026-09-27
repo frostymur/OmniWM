@@ -7,7 +7,7 @@ import QuartzCore
 
 extension WorkspaceManager {
     func workspaces(on monitorId: Monitor.ID) -> [WorkspaceDescriptor] {
-        workspaceIdsByMonitor()[monitorId]?.compactMap(descriptor(for:)) ?? []
+        workspaceIdsByMonitor()[monitorId]?.compactMap { descriptor(for: $0) } ?? []
     }
 
     func primaryWorkspace() -> WorkspaceDescriptor? {

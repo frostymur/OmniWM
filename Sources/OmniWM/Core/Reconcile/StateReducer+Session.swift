@@ -34,10 +34,6 @@ extension StateReducer {
 
     static func reduceSessionNotes(_ event: WMEvent, context: ReductionContext, plan: inout ActionPlan) {
         switch event {
-        case let .scratchpadMembershipChanged(_, index, _):
-            plan.notes = ["scratchpad_membership=\(index.map(String.init(describing:)) ?? "none")"]
-        case let .scratchpadRevealChanged(index, _):
-            plan.notes = ["scratchpad_reveal=\(index.map(String.init(describing:)) ?? "none")"]
         case let .visibleWorkspacesChanged(sessions, _):
             plan.notes = ["visible_workspaces=\(sessions.count)"]
         case let .spaceTopologyChanged(topology, _):

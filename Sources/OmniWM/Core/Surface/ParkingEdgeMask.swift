@@ -7,10 +7,10 @@ import AppKit
 final class ParkingEdgeMaskManager {
     private var windowsByKey: [ParkingEdgeMaskKey: ParkingEdgeMaskWindow] = [:]
 
-    isolated deinit {
-        for window in windowsByKey.values {
-            window.destroy()
-        }
+    deinit {
+//        for window in windowsByKey.values {
+//            window.destroy()
+//        }
     }
 
     func apply(_ masks: [DesiredParkingEdgeMask]) {

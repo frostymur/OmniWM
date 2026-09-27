@@ -55,7 +55,7 @@ enum RuntimeDiagnosticsReport {
             formatAppVisibilityPID(
                 $0,
                 controller: controller,
-                pendingReveal: pendingReveals[$0.pid].map(formatAppReveal) ?? "none"
+                pendingReveal: pendingReveals[$0.pid].map { formatAppReveal($0) } ?? "none"
             )
         }
         lines.append(contentsOf: projectionSnapshots.map {
@@ -110,13 +110,7 @@ enum RuntimeDiagnosticsReport {
 
     private static func formatAppReveal(_ intent: Intent) -> String {
         guard case let .appRevealFocus(payload) = intent.kind else { return "none" }
-        let destination = switch payload.destination {
-        case .window:
-            "window"
-        case .scratchpad,
-             .scratchpadWindow:
-            "scratchpad"
-        }
+        let destination = "window"
         return "id:\(intent.id),win:\(payload.token.windowId),workspace:\(payload.workspaceId.uuidString),destination:\(destination)"
     }
 

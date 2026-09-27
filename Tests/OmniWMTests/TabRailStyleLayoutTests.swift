@@ -177,7 +177,6 @@ final class TabRailStyleLayoutTests: XCTestCase {
     func testControllerToggleAndReloadUpdateBothEngines() throws {
         let settings = makeSettings()
         settings.borders.enabled = false
-        settings.workspaceBar.enabled = false
         let controller = WMController(settings: settings)
         defer { controller.layoutRefreshController.resetState() }
         controller.niriLayoutHandler.enableNiriLayout()

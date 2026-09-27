@@ -98,25 +98,6 @@ extension WMController {
                 )
             )
         }
-        MenuAnywhereController.shared.onMenuTrackingChanged = { [weak self] isTracking in
-            guard let self else { return }
-            if isTracking {
-                self.focusPolicyEngine.beginLease(
-                    owner: .nativeMenu,
-                    reason: "menu_anywhere",
-                    suppressesFocusFollowsMouse: true,
-                    duration: nil
-                )
-            } else {
-                self.focusPolicyEngine.endLease(owner: .nativeMenu)
-            }
-        }
-        self.hiddenBarController.onCursorWarp = { [weak self] point in
-            self?.mouseWarpHandler.noteProgrammaticCursorMove(to: point)
-        }
-        self.hiddenBarController.statusItems.fallbackPlacementsProvider = { [weak self] in
-            self?.hiddenBarFallbackIconPlacements() ?? []
-        }
     }
 
     func setHotkeyRecordingActive(_ active: Bool) {

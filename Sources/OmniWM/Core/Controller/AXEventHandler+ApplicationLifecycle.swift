@@ -106,7 +106,6 @@ extension AXEventHandler {
             controller.mouseEventHandler.discardNativeTitleBarDrag(for: entry.token)
             controller.axManager.removeWindowState(pid: entry.pid, expectedWindow: entry.axRef)
             if scratchpadTokens.contains(entry.token) {
-                controller.cleanupScratchpadWindowResources(for: entry.token)
             }
         }
     }

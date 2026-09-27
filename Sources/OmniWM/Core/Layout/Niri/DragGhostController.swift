@@ -2,7 +2,7 @@
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 
 import AppKit
-import ScreenCaptureKit
+@preconcurrency import ScreenCaptureKit
 
 @MainActor
 final class DragGhostController {
@@ -21,9 +21,7 @@ final class DragGhostController {
         self.captureAccessAllowed = captureAccessAllowed
     }
 
-    isolated deinit {
-        destroy()
-    }
+    deinit {}
 
     func beginDrag(windowId: Int, originalFrame: CGRect, cursorLocation: CGPoint) {
         isActive = true

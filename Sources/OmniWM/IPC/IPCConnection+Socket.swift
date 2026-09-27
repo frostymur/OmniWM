@@ -69,7 +69,7 @@ extension IPCConnection {
             guard lineByteCount <= Self.maxRequestLineBytes else {
                 throw ReadLoopError.requestTooLarge
             }
-            let line = try Self.decodeUTF8(readBuffer.span.extracting(first: lineByteCount))
+            let line = try Self.decodeUTF8(readBuffer.prefix(lineByteCount))
             readBuffer.removeSubrange(...newlineIndex)
             return line
         }
@@ -79,7 +79,7 @@ extension IPCConnection {
         }
 
         guard inputFinished, !readBuffer.isEmpty else { return nil }
-        let line = try Self.decodeUTF8(readBuffer.span)
+        let line = try Self.decodeUTF8(readBuffer)
         readBuffer.removeAll(keepingCapacity: true)
         return line
     }

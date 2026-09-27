@@ -4,7 +4,7 @@
 import AppKit
 import Observation
 import OmniWMLauncherSPI
-import QuickLookThumbnailing
+@preconcurrency import QuickLookThumbnailing
 
 @MainActor
 @Observable

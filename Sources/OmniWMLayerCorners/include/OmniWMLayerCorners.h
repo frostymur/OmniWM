@@ -1,7 +1,12 @@
 // SPDX-License-Identifier: GPL-2.0-only
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 
+#import <Foundation/Foundation.h>
 #import <QuartzCore/QuartzCore.h>
+
+#ifndef NS_SWIFT_MAIN_ACTOR
+#define NS_SWIFT_MAIN_ACTOR
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -60,13 +60,6 @@ final class IPCCaptureBridgeTests: XCTestCase {
         harness.controller.isEnabled = false
         harness.controller.settings.animationsEnabled = false
         harness.controller.settings.workspaces.defaultLayoutType = .dwindle
-        harness.controller.toggleOverview()
-        defer {
-            if harness.controller.isOverviewOpen() {
-                harness.controller.toggleOverview()
-            }
-        }
-        XCTAssertTrue(harness.controller.isOverviewOpen())
         XCTAssertEqual(harness.controller.settings.workspaces.defaultLayoutType, .dwindle)
 
         let start = await harness.bridge.response(

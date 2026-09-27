@@ -240,11 +240,11 @@ extension SkyLight {
             numericUInt64(space["id"]) == spaceId
     }
 
-    private static func spaceId(_ space: [String: Any]) -> UInt64? {
+    private nonisolated static func spaceId(_ space: [String: Any]) -> UInt64? {
         numericUInt64(space["id64"]) ?? numericUInt64(space["ManagedSpaceID"]) ?? numericUInt64(space["id"])
     }
 
-    private static func spaceType(_ space: [String: Any]) -> Int? {
+    private nonisolated static func spaceType(_ space: [String: Any]) -> Int? {
         switch space["type"] {
         case let value as Int:
             value
@@ -255,7 +255,7 @@ extension SkyLight {
         }
     }
 
-    static func numericUInt64(_ value: Any?) -> UInt64? {
+    nonisolated static func numericUInt64(_ value: Any?) -> UInt64? {
         switch value {
         case let value as UInt64:
             value

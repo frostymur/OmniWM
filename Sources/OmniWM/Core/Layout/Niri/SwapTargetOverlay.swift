@@ -13,9 +13,7 @@ final class SwapTargetOverlay {
         self.surfaceCoordinator = surfaceCoordinator
     }
 
-    isolated deinit {
-        destroy()
-    }
+    deinit {}
 
     func show(at frame: CGRect) {
         if overlayWindow == nil {

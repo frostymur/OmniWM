@@ -36,39 +36,6 @@ final class IPCQueryRouter {
         )
     }
 
-    func workspaceBarResult() -> IPCWorkspaceBarQueryResult {
-        let monitors = controller.workspaceManager.monitors.map { monitor in
-            let resolved = controller.settings.workspaceBar.resolved(for: monitor)
-            let isVisible = controller.isWorkspaceBarVisible(on: monitor, resolved: resolved)
-            let geometry = WorkspaceBarGeometry.resolve(
-                monitor: monitor,
-                resolved: resolved,
-                isVisible: isVisible
-            )
-            let projection = controller.workspaceBarProjection(
-                for: monitor,
-                projection: resolved.projectionOptions
-            )
-
-            return IPCWorkspaceBarMonitor(
-                id: IPCDisplayRef.identifier(monitor.id),
-                name: monitor.name,
-                enabled: resolved.enabled,
-                isVisible: isVisible,
-                showLabels: resolved.showLabels,
-                backgroundOpacity: resolved.backgroundOpacity,
-                barHeight: Double(geometry.barHeight),
-                scratchpads: projection.scratchpads.map(workspaceBarScratchpad(from:)),
-                workspaces: projection.items.map(workspaceBarWorkspace(from:))
-            )
-        }
-
-        return IPCWorkspaceBarQueryResult(
-            interactionMonitorId: controller.workspaceManager.interactionMonitorId.map(IPCDisplayRef.identifier),
-            monitors: monitors
-        )
-    }
-
     func activeWorkspaceResult() -> IPCActiveWorkspaceQueryResult {
         let (monitor, workspace) = controller.interactionWorkspaceProjection()
         let focusedApp: IPCAppRef?
@@ -220,43 +187,6 @@ final class IPCQueryRouter {
             workspaceActions: IPCAutomationManifest.workspaceActionDescriptors,
             windowActions: IPCAutomationManifest.windowActionDescriptors,
             subscriptions: IPCAutomationManifest.subscriptionDescriptors
-        )
-    }
-
-    private func workspaceBarWorkspace(from item: WorkspaceBarItem) -> IPCWorkspaceBarWorkspace {
-        IPCWorkspaceBarWorkspace(
-            id: item.id.uuidString,
-            rawName: item.rawName,
-            displayName: item.name,
-            number: workspaceNumber(from: item.rawName),
-            isFocused: item.isFocused,
-            windows: item.windows.map(workspaceBarApp(from:))
-        )
-    }
-
-    private func workspaceBarApp(from item: WorkspaceBarWindowItem) -> IPCWorkspaceBarApp {
-        IPCWorkspaceBarApp(
-            id: IPCWindowOpaqueID.encode(token: item.id, sessionToken: sessionToken),
-            appName: item.appName,
-            bundleId: item.bundleId,
-            isFocused: item.isFocused,
-            windowCount: item.windowCount,
-            allWindows: item.allWindows.map { window in
-                IPCWorkspaceBarWindow(
-                    id: IPCWindowOpaqueID.encode(token: window.id, sessionToken: sessionToken),
-                    title: window.title,
-                    isFocused: window.isFocused
-                )
-            }
-        )
-    }
-
-    private func workspaceBarScratchpad(from item: WorkspaceBarScratchpadItem) -> IPCWorkspaceBarScratchpad {
-        IPCWorkspaceBarScratchpad(
-            index: item.index,
-            label: item.label,
-            windows: item.windows.map(workspaceBarApp(from:)),
-            isVisible: item.isVisible
         )
     }
 

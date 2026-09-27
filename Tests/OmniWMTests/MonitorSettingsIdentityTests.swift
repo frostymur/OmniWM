@@ -441,15 +441,6 @@ final class MonitorSettingsIdentityTests: XCTestCase {
         let monitor = makeMonitor(displayId: 42, name: "Selected", displayUUID: displayUUIDA)
         let settings = makeSettingsStore()
 
-        settings.workspaceBar.update(
-            MonitorBarSettings(
-                monitorName: "Wrong",
-                monitorDisplayUUID: displayUUIDB,
-                monitorDisplayId: 7,
-                enabled: false
-            ),
-            for: monitor
-        )
         settings.monitors.updateOrientationSettings(
             MonitorOrientationSettings(
                 monitorName: "Wrong",
@@ -488,7 +479,6 @@ final class MonitorSettingsIdentityTests: XCTestCase {
             for: monitor
         )
 
-        assertIdentity(try XCTUnwrap(settings.workspaceBar.monitorOverrides.first), monitor: monitor)
         assertIdentity(try XCTUnwrap(settings.monitors.orientationOverrides.first), monitor: monitor)
         assertIdentity(try XCTUnwrap(settings.niri.monitorOverrides.first), monitor: monitor)
         assertIdentity(try XCTUnwrap(settings.dwindle.monitorOverrides.first), monitor: monitor)

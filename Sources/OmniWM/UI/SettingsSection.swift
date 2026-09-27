@@ -10,13 +10,9 @@ enum SettingsSection: String, CaseIterable, Identifiable {
     case dwindle
     case monitors
     case workspaces
-    case overview
     case borders
-    case bar
-    case hiddenBar
     case hotkeys
     case mouseTrackpad
-    case quakeTerminal
     case reportIssue
 
     var id: String {
@@ -31,13 +27,9 @@ enum SettingsSection: String, CaseIterable, Identifiable {
         case .dwindle: String(localized: "Dwindle Layout")
         case .monitors: String(localized: "Monitors")
         case .workspaces: String(localized: "Workspaces")
-        case .overview: String(localized: "Overview")
         case .borders: String(localized: "Borders")
-        case .bar: String(localized: "Workspace Bar")
-        case .hiddenBar: String(localized: "Hidden Bar")
         case .hotkeys: String(localized: "Hotkeys")
         case .mouseTrackpad: String(localized: "Mouse & Trackpad")
-        case .quakeTerminal: String(localized: "Quake Terminal")
         case .reportIssue: String(localized: "Report an Issue")
         }
     }
@@ -50,13 +42,9 @@ enum SettingsSection: String, CaseIterable, Identifiable {
         case .dwindle: "square.split.2x2"
         case .monitors: "display"
         case .workspaces: "rectangle.3.group"
-        case .overview: "rectangle.grid.2x2"
         case .borders: "square.dashed"
-        case .bar: "menubar.rectangle"
-        case .hiddenBar: "eye.slash"
         case .hotkeys: "keyboard"
         case .mouseTrackpad: "computermouse"
-        case .quakeTerminal: "terminal"
         case .reportIssue: "ladybug"
         }
     }
@@ -90,9 +78,9 @@ enum SettingsSectionGroup: String, CaseIterable, Identifiable {
         case .layouts:
             [.niri, .dwindle, .monitors]
         case .workspace:
-            [.workspaces, .overview, .borders, .bar, .hiddenBar]
+            [.workspaces, .borders]
         case .input:
-            [.hotkeys, .mouseTrackpad, .quakeTerminal]
+            [.hotkeys, .mouseTrackpad]
         case .help:
             [.reportIssue, .diagnostics]
         }

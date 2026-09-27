@@ -5,7 +5,7 @@ import AppKit
 import ApplicationServices
 import Carbon
 import IOKit.pwr_mgt
-import ScreenCaptureKit
+@preconcurrency import ScreenCaptureKit
 
 @MainActor
 enum SystemAPIProbes {
@@ -160,7 +160,6 @@ enum SystemAPIProbes {
             "\(availability)"
         ))
         tests.append(slpsFocusProbe())
-        tests.append(PrivateAPISelfTest("GhosttyKit", .inconclusive, "statically linked; surface lifecycle not probed"))
         return tests
     }
 

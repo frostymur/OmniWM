@@ -53,7 +53,7 @@ final class IPCCommandBoundaryTests: XCTestCase {
         let payloads: [(name: String, firstField: String)] = [
             ("focus", "direction"), ("switch-workspace", "workspaceNumber"),
             ("switch-workspace-slot", "slotNumber"), ("focus-column", "columnIndex"),
-            ("scratchpad-assign", "scratchpadIndex"), ("focus-window-in-column", "windowIndex"),
+            ("focus-window-in-column", "windowIndex"),
             ("move-to-workspace-on-monitor", "workspaceNumber"), ("set-workspace-layout", "layout"),
             ("resize", "axis"), ("resize-focused", "operation"), ("set-container-primary-span", "change")
         ]
@@ -153,8 +153,7 @@ final class IPCCommandBoundaryTests: XCTestCase {
             .direction(.left)
         case .workspaceNumber,
              .columnIndex,
-             .windowIndex,
-             .scratchpadIndex:
+             .windowIndex:
             .integer(1)
         case .layout:
             .layout(.niri)

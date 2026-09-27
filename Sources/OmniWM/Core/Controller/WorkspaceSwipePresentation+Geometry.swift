@@ -8,7 +8,6 @@ extension WorkspaceSwipePresentation {
         guard flight == nil, preparation == nil,
               let controller, controller.hasStartedServices,
               controller.motionPolicy.animationsEnabled, controller.settings.gestures.workspaceSwipeEnabled,
-              !controller.isOverviewOpen(),
               let monitor = controller.monitorForInteraction(),
               let preparation = makePreparation(monitorId: monitor.id)
         else { return }
@@ -94,7 +93,6 @@ extension WorkspaceSwipePresentation {
               let monitor = controller.workspaceManager.monitor(byId: flight.preparation.monitor.id),
               monitor.frame == flight.preparation.monitor.frame,
               monitor.visibleFrame == flight.preparation.monitor.visibleFrame,
-              !controller.isOverviewOpen(),
               let activeId = controller.workspaceManager.activeWorkspaceOrFirst(on: monitor.id)?.id,
               activeId == (flight.committing ? flight.destination.id : flight.preparation.source.id)
               || (flight.phase == .committing && activeId == flight.preparation.source.id)

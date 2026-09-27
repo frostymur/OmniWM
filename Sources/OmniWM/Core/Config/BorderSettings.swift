@@ -65,15 +65,15 @@ final class BorderSettings {
         glow = Self.validatedGlow(values.glow, fallback: glow)
     }
 
-    private static func validatedWidth(_ width: Double) -> Double {
+    private nonisolated static func validatedWidth(_ width: Double) -> Double {
         min(12.0, max(1.0, width))
     }
 
-    private static func validatedColorComponent(_ value: Double) -> Double {
+    private nonisolated static func validatedColorComponent(_ value: Double) -> Double {
         min(1.0, max(0.0, value))
     }
 
-    private static func validatedColor(_ color: SettingsColor) -> SettingsColor {
+    private nonisolated static func validatedColor(_ color: SettingsColor) -> SettingsColor {
         SettingsColor(
             red: validatedColorComponent(color.red),
             green: validatedColorComponent(color.green),
@@ -82,7 +82,7 @@ final class BorderSettings {
         )
     }
 
-    private static func validatedColor(
+    private nonisolated static func validatedColor(
         _ newValue: SettingsColor?,
         keepingPrevious previous: SettingsColor?
     ) -> SettingsColor? {
@@ -91,7 +91,7 @@ final class BorderSettings {
         return validatedColor(newValue)
     }
 
-    private static func isFinite(_ color: SettingsColor) -> Bool {
+    private nonisolated static func isFinite(_ color: SettingsColor) -> Bool {
         color.red.isFinite && color.green.isFinite && color.blue.isFinite && color.alpha.isFinite
     }
 

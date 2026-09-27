@@ -167,8 +167,6 @@ struct RestorePlanner {
              .nativeFullscreenTransition,
              .niriPlacementsResolved,
              .dwindlePlacementsResolved,
-             .scratchpadMembershipChanged,
-             .scratchpadRevealChanged,
              .selectionChanged,
              .spaceTopologyChanged,
              .suppressedFocusChanged,
