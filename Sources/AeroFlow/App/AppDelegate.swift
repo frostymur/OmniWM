@@ -146,8 +146,7 @@ public final class AppDelegate: NSObject, NSApplicationDelegate {
             runtimeState: runtimeState
         )
         let controller = WMController(
-            settings: settings,
-            clipboardHistoryDirectory: storagePaths.stateDirectory
+            settings: settings
         )
         controller.applyPersistedSettings(settings)
         startSystemMotionPreferenceObservation(controller)
@@ -370,19 +369,6 @@ public final class AppDelegate: NSObject, NSApplicationDelegate {
         NSApplication.shared.activate(ignoringOtherApps: true)
         _ = alert.runModal()
     }
-
-    private func confirmQuitWithoutSavingClipboardHistory(_ error: Error) -> Bool {
-        let alert = NSAlert()
-        alert.alertStyle = .warning
-        alert.messageText = String(localized: "Clipboard History Could Not Be Saved")
-        alert.informativeText = String(localized:
-            "\(error.localizedDescription)\n\nQuit anyway? Unsaved clipboard history will be lost."
-        )
-        alert.addButton(withTitle: String(localized: "Keep AeroFlow Open"))
-        alert.addButton(withTitle: String(localized: "Quit Without Saving"))
-        NSApplication.shared.activate(ignoringOtherApps: true)
-        return alert.runModal() == .alertSecondButtonReturn
-    }
 }
 
 extension AppDelegate {
@@ -391,16 +377,6 @@ extension AppDelegate {
         return deferTermination(
             stop: { completion in
                 Task { @MainActor in
-                    do {
-                        try await controller.clipboardHistoryService.flushForQuit()
-                    } catch {
-                        if !self.confirmQuitWithoutSavingClipboardHistory(error) {
-                            controller.clipboardHistoryService.resumeAfterCanceledQuit()
-                            self.terminationPending = false
-                            application.reply(toApplicationShouldTerminate: false)
-                            return
-                        }
-                    }
                     controller.serviceLifecycleManager.stopRestoringWindows(forQuit: true, completion: completion)
                 }
             },

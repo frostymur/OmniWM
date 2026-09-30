@@ -337,7 +337,6 @@ private final class StatusMenuPanelFixture {
         )
         controller = WMController(
             settings: settings,
-            clipboardHistoryDirectory: root.appendingPathComponent("clipboard"),
             diagnosticsDirectory: root.appendingPathComponent("diagnostics")
         )
         model = StatusMenuModel(settings: settings, controller: controller)

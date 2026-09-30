@@ -85,8 +85,6 @@ struct SettingsExport: Equatable {
     var animationsEnabled: Bool
     var animationStyle: AnimationStyle
 
-    var clipboard: Clipboard
-
     var appearanceMode: AppearanceMode
     var tabRailAppIcons: Bool
 
@@ -177,44 +175,6 @@ struct SettingsExport: Equatable {
         var useWorkspaceId: Bool
     }
 
-    struct Clipboard: Codable, Equatable {
-        var historyEnabled: Bool
-        var maxItems: Int
-        var maxItemBytes: Int
-        var maxTotalBytes: Int
-        var ignoredTypes: [String]
-
-        init(
-            historyEnabled: Bool,
-            maxItems: Int,
-            maxItemBytes: Int,
-            maxTotalBytes: Int,
-            ignoredTypes: [String] = []
-        ) {
-            self.historyEnabled = historyEnabled
-            self.maxItems = maxItems
-            self.maxItemBytes = maxItemBytes
-            self.maxTotalBytes = maxTotalBytes
-            self.ignoredTypes = ignoredTypes
-        }
-
-        init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: ClipboardCodingKey.self)
-            historyEnabled = try container.decode(Bool.self, forKey: .historyEnabled)
-            maxItems = try container.decode(Int.self, forKey: .maxItems)
-            maxItemBytes = try container.decode(Int.self, forKey: .maxItemBytes)
-            maxTotalBytes = try container.decode(Int.self, forKey: .maxTotalBytes)
-            ignoredTypes = try container.decodeIfPresent([String].self, forKey: .ignoredTypes) ?? []
-        }
-    }
-}
-
-private enum ClipboardCodingKey: String, CodingKey {
-    case historyEnabled
-    case maxItems
-    case maxItemBytes
-    case maxTotalBytes
-    case ignoredTypes
 }
 
 // MARK: - Defaults & Diffing
@@ -248,21 +208,8 @@ extension SettingsExport {
             statusBar: StatusBar.defaults(),
             animationsEnabled: true,
             animationStyle: .snappy,
-            clipboard: Clipboard.defaults(),
             appearanceMode: .dark,
             tabRailAppIcons: false
-        )
-    }
-}
-
-extension SettingsExport.Clipboard {
-    static func defaults() -> Self {
-        Self(
-            historyEnabled: false,
-            maxItems: 200,
-            maxItemBytes: 8_388_608,
-            maxTotalBytes: 67_108_864,
-            ignoredTypes: []
         )
     }
 }

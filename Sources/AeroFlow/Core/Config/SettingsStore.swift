@@ -144,7 +144,6 @@ final class SettingsStore {
         didSet { scheduleSave() }
     }
 
-    let clipboard = ClipboardSettings()
 
     var appearanceMode = SettingsStore.defaultExport.appearanceMode {
         didSet { scheduleSave() }
@@ -199,7 +198,6 @@ final class SettingsStore {
         workspaces.onChange = { [weak self] in self?.scheduleSave() }
         borders.onChange = { [weak self] in self?.scheduleSave() }
         statusBar.onChange = { [weak self] in self?.scheduleSave() }
-        clipboard.onChange = { [weak self] in self?.scheduleSave() }
         gestures.onAvailabilityChanged = { [weak self] available in
             guard let self, !self.isApplyingExport else { return }
             self.onTrackpadGestureAvailabilityChanged?(available)
@@ -288,7 +286,6 @@ extension SettingsStore {
             statusBar: statusBar.export(),
             animationsEnabled: animationsEnabled,
             animationStyle: animationStyle,
-            clipboard: clipboard.export(),
             appearanceMode: appearanceMode,
             tabRailAppIcons: tabRailAppIcons
         )
@@ -343,7 +340,6 @@ extension SettingsStore {
         statusBar.apply(export.statusBar)
         animationsEnabled = export.animationsEnabled
         animationStyle = export.animationStyle
-        clipboard.apply(export.clipboard)
 
         appearanceMode = export.appearanceMode
         tabRailAppIcons = export.tabRailAppIcons

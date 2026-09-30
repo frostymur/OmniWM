@@ -15,39 +15,6 @@ extension WMController {
         }
     }
 
-    func clipboardPaletteItems() -> [ClipboardPaletteItem] {
-        clipboardHistoryService.paletteItems
-    }
-
-    func setClipboardHistoryEnabled(_ enabled: Bool) {
-        settings.clipboard.historyEnabled = enabled
-        syncClipboardHistoryService()
-    }
-
-    func copyClipboardItem(id: UUID, plainText: Bool = false) async -> Bool {
-        await clipboardHistoryService.copyItemToPasteboard(id: id, plainText: plainText)
-    }
-
-    func clipboardItemPreview(id: UUID) async -> ClipboardPalettePreview? {
-        await clipboardHistoryService.preview(id: id)
-    }
-
-    func setClipboardItemPinned(_ pinned: Bool, id: UUID) async -> [ClipboardPaletteItem] {
-        await clipboardHistoryService.setPinned(pinned, id: id)
-    }
-
-    func deleteClipboardItem(id: UUID) async -> [ClipboardPaletteItem] {
-        await clipboardHistoryService.deleteItem(id: id)
-    }
-
-    func clearClipboardHistory() async throws -> [ClipboardPaletteItem] {
-        try await clipboardHistoryService.clearHistory()
-    }
-
-    func syncClipboardHistoryService() {
-        clipboardHistoryService.updateConfiguration(clipboardHistoryConfiguration())
-    }
-
     func openSponsorsWindow() {
         sponsorsWindowController.show()
     }

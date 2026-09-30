@@ -17,7 +17,6 @@ struct CanonicalTOMLConfig: Codable, Equatable {
     var borders: SettingsExport.Borders
     var gestures: SettingsExport.Gestures
     var statusBar: SettingsExport.StatusBar
-    var clipboard: SettingsExport.Clipboard
     var appearance: Appearance
     var hotkeys: [HotkeyBinding]
     var workspaces: [WorkspaceConfiguration]
@@ -89,7 +88,6 @@ extension CanonicalTOMLConfig {
         borders = try container.decode(SettingsExport.Borders.self, forKey: .borders)
         gestures = try container.decode(SettingsExport.Gestures.self, forKey: .gestures)
         statusBar = try container.decode(SettingsExport.StatusBar.self, forKey: .statusBar)
-        clipboard = try container.decode(SettingsExport.Clipboard.self, forKey: .clipboard)
         appearance = try container.decode(Appearance.self, forKey: .appearance)
         let persistedHotkeys = try container.decode([PersistedHotkeyBinding].self, forKey: .hotkeys)
         hotkeys = try HotkeyBindingRegistry.resolve(persistedHotkeys)
@@ -129,7 +127,6 @@ extension CanonicalTOMLConfig {
         borders = export.borders
         gestures = export.gestures
         statusBar = export.statusBar
-        clipboard = export.clipboard
         appearance = Appearance(mode: export.appearanceMode, tabRailAppIcons: export.tabRailAppIcons)
         hotkeys = export.hotkeyBindings
         workspaces = export.workspaceConfigurations
@@ -175,7 +172,6 @@ extension CanonicalTOMLConfig {
             statusBar: statusBar,
             animationsEnabled: general.animationsEnabled,
             animationStyle: general.animationStyle,
-            clipboard: clipboard,
             appearanceMode: appearance.mode,
             tabRailAppIcons: appearance.tabRailAppIcons
         )

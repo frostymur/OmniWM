@@ -33,7 +33,6 @@ extension WMController {
         setMoveMouseToFocusedWindow(settings.focus.moveMouseToFocusedWindow)
 
         setPreventSleepEnabled(settings.preventSleepEnabled)
-        syncClipboardHistoryService()
 
         _ = syncMouseWarpPolicy()
 

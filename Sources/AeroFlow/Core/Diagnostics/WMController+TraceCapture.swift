@@ -16,7 +16,6 @@ private struct PerformanceOwnerSnapshots {
     let topology: NativeSpaceInventoryController.PerformanceSnapshot?
     let intake: EventIntake.PerformanceSnapshot?
     let input: MouseEventHandler.PerformanceSnapshot?
-    let clipboard: ClipboardHistoryService.PerformanceSnapshot?
     let secureInput: SecureInputMonitor.PerformanceSnapshot?
     let sleep: SleepPreventionManager.PerformanceSnapshot?
     let ax: AppAXContextRuntimeSnapshot
@@ -137,12 +136,11 @@ private struct PerformanceOwnerSnapshots {
     }
 
     private func appendPeriodicServices(to lines: inout [String]) {
-        if let clipboard,
-           let secureInput,
+        if let secureInput,
            let sleep
         {
             lines.append(
-                "periodic clipboard=\(clipboard.timerFires) secureInput=\(secureInput.recoveryTimerFires)"
+                "periodic secureInput=\(secureInput.recoveryTimerFires)"
                     + " sleepAssertions=\(sleep.assertionAcquisitions)"
             )
         }
@@ -258,7 +256,6 @@ extension WMController {
             "windowResizeEnabled=\(settings.gestures.windowResizeEnabled)",
             "mouseWarpEnabled=\(settings.pointer.enabled)",
             "bordersEnabled=\(settings.borders.enabled)",
-            "clipboardHistoryEnabled=\(settings.clipboard.historyEnabled)",
             "preventSleepEnabled=\(settings.preventSleepEnabled)",
             "worldSeq=\(workspaceManager.worldSeq)",
             "monitors=\(workspaceManager.monitors.count)",
@@ -292,7 +289,6 @@ extension WMController {
         serviceLifecycleManager.topologyInventory.beginPerformanceCapture()
         eventIntake.beginPerformanceCapture()
         mouseEventHandler.beginPerformanceCapture()
-        clipboardHistoryService.beginPerformanceCapture()
         secureInputMonitor.beginPerformanceCapture()
         SleepPreventionManager.shared.beginPerformanceCapture()
         AppAXContextRuntimeMetrics.shared.beginCapture(
@@ -310,7 +306,6 @@ extension WMController {
             topology: serviceLifecycleManager.topologyInventory.performanceSnapshot(),
             intake: eventIntake.performanceSnapshot(),
             input: mouseEventHandler.performanceSnapshot(),
-            clipboard: clipboardHistoryService.performanceSnapshot(),
             secureInput: secureInputMonitor.performanceSnapshot(),
             sleep: SleepPreventionManager.shared.performanceSnapshot(),
             ax: AppAXContextRuntimeMetrics.shared.snapshot(),
@@ -326,7 +321,6 @@ extension WMController {
             topology: serviceLifecycleManager.topologyInventory.endPerformanceCapture(),
             intake: eventIntake.endPerformanceCapture(),
             input: mouseEventHandler.endPerformanceCapture(),
-            clipboard: clipboardHistoryService.endPerformanceCapture(),
             secureInput: secureInputMonitor.endPerformanceCapture(),
             sleep: SleepPreventionManager.shared.endPerformanceCapture(),
             ax: endAXRuntimeCapture(),

@@ -132,8 +132,6 @@ final class WMController {
     }
 
     @ObservationIgnored
-    lazy var clipboardHistoryService = ClipboardHistoryService(configuration: clipboardHistoryConfiguration())
-    @ObservationIgnored
     private(set) lazy var focusNotificationDispatcher = FocusNotificationDispatcher(controller: self)
     @ObservationIgnored
     var hasStartedServices = false
@@ -151,7 +149,6 @@ final class WMController {
     let animationClock = AnimationClock()
     let motionPolicy: MotionPolicy
     let diagnosticsDirectory: URL
-    private let clipboardHistoryDirectory: URL
     let windowFocusOperations: WindowFocusOperations
     weak var statusBarController: StatusBarController?
     @ObservationIgnored
@@ -161,7 +158,6 @@ final class WMController {
 
     init(
         settings: SettingsStore,
-        clipboardHistoryDirectory: URL = AeroFlowStoragePaths.live.stateDirectory,
         diagnosticsDirectory: URL = AeroFlowStoragePaths.live.diagnosticsDirectory,
         windowFocusOperations: WindowFocusOperations = .live,
         ownedWindowRegistry: OwnedWindowRegistry = .shared
@@ -172,7 +168,6 @@ final class WMController {
             width: CGFloat(settings.borders.width)
         )
         motionPolicy = MotionPolicy(animationsEnabled: settings.animationsEnabled)
-        self.clipboardHistoryDirectory = clipboardHistoryDirectory
         self.diagnosticsDirectory = diagnosticsDirectory
         traceCaptureCoordinator = RuntimeTraceCaptureCoordinator(diagnosticsDirectory: diagnosticsDirectory)
         self.windowFocusOperations = windowFocusOperations
@@ -307,16 +302,6 @@ extension WMController {
         }
     #endif
 
-    func clipboardHistoryConfiguration() -> ClipboardHistoryConfiguration {
-        ClipboardHistoryConfiguration(
-            isEnabled: settings.clipboard.historyEnabled,
-            maxItems: settings.clipboard.maxItems,
-            maxItemBytes: settings.clipboard.maxItemBytes,
-            maxTotalBytes: settings.clipboard.maxTotalBytes,
-            storageDirectory: clipboardHistoryDirectory,
-            ignoredTypes: settings.clipboard.ignoredTypes
-        )
-    }
 
     @discardableResult
     func syncMouseWarpPolicy(for monitors: [Monitor]? = nil) -> Bool {
