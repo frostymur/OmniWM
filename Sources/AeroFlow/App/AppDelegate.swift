@@ -4,51 +4,20 @@
 
 import AppKit
 import Observation
+import os
 import AeroFlowIPC
 
-struct MonitorSetupPresentationPolicy {
-    static func shouldAutomaticallyPresent(
-        status: MonitorSetupStatus,
-        monitors: [Monitor]
-    ) -> Bool {
-        status == .notPresented
-            && monitors.count >= 2
-            && monitors.allSatisfy { $0.frame.width > 1 && $0.frame.height > 1 }
-    }
-}
+private let appLogger = Logger(subsystem: "com.frostymur.AeroFlow", category: "app")
 
 @MainActor @Observable
 public final class AppBootstrapState {
     var settings: SettingsStore?
     var controller: WMController?
-    var updateCoordinator: (any AppUpdateCoordinating)?
 
     public init() {}
 
     public var isReady: Bool {
         settings != nil && controller != nil
-    }
-
-    public func registerRedirectWindow(_ window: NSWindow) {
-        OwnedWindowRegistry.shared.register(window)
-    }
-
-    public func unregisterRedirectWindow(_ window: NSWindow) {
-        OwnedWindowRegistry.shared.unregister(window)
-    }
-
-    public func showSettingsAndCloseRedirectWindow(_ window: NSWindow?) {
-        guard let settings, let controller else { return }
-        SettingsWindowController.shared.show(
-            settings: settings,
-            controller: controller,
-            updateCoordinator: updateCoordinator
-        )
-        guard let window else { return }
-        unregisterRedirectWindow(window)
-        DispatchQueue.main.async {
-            window.close()
-        }
     }
 }
 
@@ -60,73 +29,67 @@ public final class AppDelegate: NSObject, NSApplicationDelegate {
         super.init()
     }
 
-    private var statusBarController: StatusBarController?
     private var ipcServer: IPCServerLifecycle?
-    private var cliManager: AppCLIManager?
-    private var updateCoordinator: (any AppUpdateCoordinating)?
     private var runtimeStateStore: RuntimeStateStore?
-    private var monitorSetupScreenObserver: NSObjectProtocol?
-    private var monitorSetupEvaluationTask: Task<Void, Never>?
-    private var launchPermissionsWindowController: LaunchPermissionsWindowController?
     private var didFinishBootstrap = false
     private var terminationPending = false
+    private var permissionPollTask: Task<Void, Never>?
+    private var loggedConflict = false
 
     public func applicationDidFinishLaunching(_: Notification) {
-        NSApplication.shared.setActivationPolicy(.accessory)
+        NSApplication.shared.setActivationPolicy(.prohibited)
         _ = AeroFlowBuildInfo.executableSHA256
         bootstrapApplication()
     }
 
     public func applicationWillTerminate(_: Notification) {
-        statusBarController?.cleanup()
         if let controller = AppDelegate.sharedBootstrap?.controller {
             if !terminationPending { controller.serviceLifecycleManager.stop() }
             controller.workspaceManager.flushPersistedWindowRestoreCatalogNow()
         }
         AppDelegate.sharedBootstrap?.settings?.flushNow()
-        stopMonitorSetupPresentationObservation()
+        permissionPollTask?.cancel()
         stopIPCServer()
         runtimeStateStore?.flushNow()
     }
 
-    func bootstrapApplication() {
-        let checker = LaunchConflictChecker()
+    private func bootstrapApplication() {
         LaunchConflictGate.run(
-            scan: checker.scan,
+            scan: { LaunchConflictChecker().scan() },
             present: { reason in
-                self.presentLaunchConflictAlert(reason: reason, rescan: checker.scan)
+                if !self.loggedConflict {
+                    appLogger.error("Another window manager is running (\(String(describing: reason))); waiting for it to exit.")
+                    self.loggedConflict = true
+                }
+                Thread.sleep(forTimeInterval: 1)
+                return .checkAgain
             },
-            onClear: beginPermissionGate,
+            onClear: { self.beginPermissionGate() },
             onQuit: { NSApplication.shared.terminate(nil) }
         )
     }
 
     private func beginPermissionGate() {
-        guard !didFinishBootstrap, launchPermissionsWindowController == nil else { return }
-
-        let windowController = LaunchPermissionsWindowController()
-        guard !windowController.snapshot.allGranted else {
+        guard !didFinishBootstrap else { return }
+        if Self.requiredPermissionsGranted() {
             finishBootstrap()
             return
         }
-
-        launchPermissionsWindowController = windowController
-        NSApplication.shared.setActivationPolicy(.regular)
-        windowController.show(
-            onStart: { [weak self] in
-                self?.endPermissionGate()
-                self?.finishBootstrap()
-            },
-            onQuit: { [weak self] in
-                self?.endPermissionGate()
-                NSApplication.shared.terminate(nil)
+        let options = ["kAXTrustedCheckOptionPrompt": true] as CFDictionary
+        _ = AXIsProcessTrustedWithOptions(options)
+        HotkeyCenter.requestInputMonitoringAccess()
+        appLogger.notice("Accessibility/Input Monitoring not granted yet; AeroFlow starts once permissions are granted (System Settings → Privacy & Security).")
+        permissionPollTask = Task { @MainActor [weak self] in
+            while !Task.isCancelled, !Self.requiredPermissionsGranted() {
+                try? await Task.sleep(for: .seconds(1))
             }
-        )
+            guard !Task.isCancelled else { return }
+            self?.finishBootstrap()
+        }
     }
 
-    private func endPermissionGate() {
-        launchPermissionsWindowController = nil
-        NSApplication.shared.setActivationPolicy(.accessory)
+    private static func requiredPermissionsGranted() -> Bool {
+        AXIsProcessTrusted() && HotkeyCenter.inputMonitoringAccessGranted()
     }
 
     func finishBootstrap() {
@@ -141,45 +104,31 @@ public final class AppDelegate: NSObject, NSApplicationDelegate {
             persistence: SettingsFilePersistence(directory: storagePaths.configDirectory),
             runtimeState: runtimeState
         )
-        let controller = WMController(
-            settings: settings
-        )
+        let controller = WMController(settings: settings)
         controller.applyPersistedSettings(settings)
         startSystemMotionPreferenceObservation(controller)
-        let cliManager = AppCLIManager()
-        let updateCoordinator = UpdateCoordinator(settings: settings, runtimeState: runtimeState)
-        self.cliManager = cliManager
-        self.updateCoordinator = updateCoordinator
 
         AppDelegate.sharedBootstrap?.settings = settings
         AppDelegate.sharedBootstrap?.controller = controller
-        AppDelegate.sharedBootstrap?.updateCoordinator = updateCoordinator
 
         FatalCapture.install(controllerProvider: { AppDelegate.sharedBootstrap?.controller })
         controller.pendingCrashReport = FatalCapture.consumePending()
 
-        statusBarController = StatusBarController(
-            settings: settings,
-            controller: controller,
-            cliManager: cliManager,
-            updateCoordinator: updateCoordinator
-        )
-        controller.statusBarController = statusBarController
+        do {
+            _ = try AppCLIManager().installCLIToPATH()
+        } catch {
+            appLogger.error("Could not install aeroflowctl to PATH: \(error.localizedDescription)")
+        }
+
         observeSettings(settings, controller: controller)
-        statusBarController?.setup()
         do {
             try setIPCEnabled(settings.ipcEnabled, controller: controller)
         } catch {
-            presentInfoAlert(
-                title: String(localized: "IPC Failed to Start"),
-                message: error.localizedDescription
-            )
+            appLogger.error("IPC failed to start: \(error.localizedDescription)")
             settings.ipcEnabled = false
         }
-        updateCoordinator.startAutomaticChecks()
 
-        startMonitorSetupPresentationObservation()
-        scheduleMonitorSetupEvaluation()
+        appLogger.notice("AeroFlow started.")
     }
 
     private func observeSettings(_ settings: SettingsStore, controller: WMController) {
@@ -188,10 +137,7 @@ public final class AppDelegate: NSObject, NSApplicationDelegate {
             do {
                 try self.setIPCEnabled(isEnabled, controller: controller)
             } catch {
-                self.presentInfoAlert(
-                    title: String(localized: "IPC Failed to Start"),
-                    message: error.localizedDescription
-                )
+                appLogger.error("IPC failed to start: \(error.localizedDescription)")
                 if isEnabled {
                     settings.ipcEnabled = false
                 }
@@ -237,120 +183,6 @@ public final class AppDelegate: NSObject, NSApplicationDelegate {
                 controller?.motionPolicy.systemReducesMotion = NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
             }
         }
-    }
-
-    private func startMonitorSetupPresentationObservation() {
-        guard monitorSetupScreenObserver == nil else { return }
-        monitorSetupScreenObserver = NotificationCenter.default.addObserver(
-            forName: NSApplication.didChangeScreenParametersNotification,
-            object: nil,
-            queue: .main
-        ) { [weak self] _ in
-            Task { @MainActor [weak self] in
-                self?.scheduleMonitorSetupEvaluation()
-            }
-        }
-    }
-
-    private func scheduleMonitorSetupEvaluation() {
-        monitorSetupEvaluationTask?.cancel()
-        monitorSetupEvaluationTask = Task { @MainActor [weak self] in
-            try? await Task.sleep(for: .milliseconds(500))
-            guard !Task.isCancelled else { return }
-            self?.evaluateMonitorSetupPresentation()
-        }
-    }
-
-    private func evaluateMonitorSetupPresentation() {
-        guard let bootstrap = AppDelegate.sharedBootstrap,
-              let settings = bootstrap.settings,
-              let controller = bootstrap.controller
-        else { return }
-        let shouldPresent = MonitorSetupPresentationPolicy.shouldAutomaticallyPresent(
-            status: settings.monitorSetupStatus,
-            monitors: Monitor.current()
-        )
-        guard shouldPresent else {
-            if settings.monitorSetupStatus != .notPresented {
-                stopMonitorSetupPresentationObservation()
-            }
-            return
-        }
-
-        settings.monitorSetupStatus = .dismissed
-        stopMonitorSetupPresentationObservation()
-        SettingsWindowController.shared.show(
-            settings: settings,
-            controller: controller,
-            updateCoordinator: bootstrap.updateCoordinator,
-            presentMonitorSetup: true
-        )
-    }
-
-    private func stopMonitorSetupPresentationObservation() {
-        monitorSetupEvaluationTask?.cancel()
-        monitorSetupEvaluationTask = nil
-        if let monitorSetupScreenObserver {
-            NotificationCenter.default.removeObserver(monitorSetupScreenObserver)
-            self.monitorSetupScreenObserver = nil
-        }
-    }
-
-    private func presentLaunchConflictAlert(
-        reason: LaunchConflictBlockReason,
-        rescan: @escaping @MainActor () -> LaunchConflictCheckResult
-    ) -> LaunchConflictGateAction {
-        let previousApplication = NSWorkspace.shared.frontmostApplication.flatMap { application in
-            application.processIdentifier == getpid() ? nil : application
-        }
-        let alert = NSAlert()
-        alert.alertStyle = .warning
-        switch reason {
-        case let .conflicts(conflicts):
-            alert.messageText = String(localized: "Conflicting Window Managers Detected")
-            let conflictList = conflicts.map { "• \($0.displayName)" }.joined(separator: "\n")
-            alert.informativeText = String(localized:
-                "AeroFlow has not started. Quit these window managers or stop their background services. AeroFlow continues automatically once they are gone, or click Check Again:\n\n\(conflictList)"
-            )
-        case let .unidentifiedProcess(pid):
-            alert.messageText = String(localized: "Couldn’t Identify a Running Process")
-            alert.informativeText = String(localized:
-                "AeroFlow has not started because it could not identify process \(pid) (see `ps -p \(pid)`). It retries every second; click Check Again to retry now, or quit AeroFlow."
-            )
-        case .scanUnavailable:
-            alert.messageText = String(localized: "Couldn’t Check Running Processes")
-            alert.informativeText = String(localized:
-                "AeroFlow has not started because it could not safely inspect every running process. It retries every second; click Check Again to retry now, or quit AeroFlow."
-            )
-        }
-        alert.addButton(withTitle: String(localized: "Check Again"))
-        alert.addButton(withTitle: String(localized: "Quit AeroFlow"))
-        alert.buttons.last?.keyEquivalent = "\u{1b}"
-        NSApplication.shared.activate(ignoringOtherApps: true)
-        let autoRecheck = LaunchConflictAutoRecheck(scan: rescan) {
-            NSApplication.shared.abortModal()
-        }
-        autoRecheck.start()
-        let response = alert.runModal()
-        autoRecheck.stop()
-        let action: LaunchConflictGateAction = response == .alertSecondButtonReturn ? .quit : .checkAgain
-        if action == .checkAgain {
-            NSApplication.shared.deactivate()
-            if let previousApplication, !previousApplication.isTerminated {
-                previousApplication.activate(options: [])
-            }
-        }
-        return action
-    }
-
-    private func presentInfoAlert(title: String, message: String) {
-        let alert = NSAlert()
-        alert.alertStyle = .informational
-        alert.messageText = title
-        alert.informativeText = message
-        alert.addButton(withTitle: String(localized: "OK"))
-        NSApplication.shared.activate(ignoringOtherApps: true)
-        _ = alert.runModal()
     }
 }
 

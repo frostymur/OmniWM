@@ -154,12 +154,6 @@ enum SystemAPIProbes {
         } else {
             tests.append(PrivateAPISelfTest("IOPMAssertionCreateWithDescription", .failed, "create=\(createResult)"))
         }
-        let availability = IssueRewritingFactory.make()?.availability ?? .unsupported
-        tests.append(PrivateAPISelfTest(
-            "FoundationModels availability",
-            availability == .available ? .works : .inconclusive,
-            "\(availability)"
-        ))
         tests.append(slpsFocusProbe())
         return tests
     }

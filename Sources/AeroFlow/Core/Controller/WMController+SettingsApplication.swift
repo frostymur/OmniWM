@@ -38,7 +38,6 @@ extension WMController {
         if startServices {
             setEnabled(true)
         }
-        refreshStatusBar()
     }
 
     func setAnimationsEnabled(_ enabled: Bool, persist: Bool = true) {

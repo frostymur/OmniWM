@@ -54,8 +54,7 @@ let package = Package(
             ],
             path: "Sources/AeroFlow",
             resources: [
-                .process("Resources"),
-                .copy("Core/IssueReporter/Prompts")
+                .process("Resources")
             ],
             swiftSettings: [
                 .swiftLanguageMode(.v6),

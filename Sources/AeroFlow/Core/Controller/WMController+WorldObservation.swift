@@ -12,9 +12,6 @@ extension WMController {
             surfaceReconciler.noteWorldChanged()
         }
         let changeSet = focusNotificationDispatcher.notifyFocusChangesIfNeeded()
-        if statusBarRefreshIsEnabled {
-            refreshStatusBar()
-        }
         if let ipcApplicationBridge {
             Task {
                 if changeSet.focusChanged {

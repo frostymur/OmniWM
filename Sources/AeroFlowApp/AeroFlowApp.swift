@@ -4,22 +4,15 @@
 
 import AppKit
 import AeroFlow
-import SwiftUI
 
 @main
-struct AeroFlowApp: App {
-    @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
-    @State private var bootstrap: AppBootstrapState
-
-    init() {
+@MainActor
+enum AeroFlowApp {
+    static func main() {
         let bootstrap = AppBootstrapState()
-        _bootstrap = State(wrappedValue: bootstrap)
         AppDelegate.sharedBootstrap = bootstrap
-    }
-
-    var body: some Scene {
-        Settings {
-            SettingsSceneRedirectView(bootstrap: bootstrap)
-        }
+        let app = NSApplication.shared
+        app.delegate = AppDelegate()
+        app.run()
     }
 }

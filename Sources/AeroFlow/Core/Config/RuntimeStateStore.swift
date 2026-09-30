@@ -6,25 +6,6 @@ import CoreGraphics
 import Darwin
 import Foundation
 
-struct IssueDraft: Codable, Equatable, Sendable {
-    var title: String = ""
-    var actual: String = ""
-    var expected: String = ""
-    var repro: String = ""
-    var affectedApps: String = ""
-    var category: String = ""
-    var layout: String = ""
-    var regression: String = ""
-    var regressionVersion: String = ""
-    var polishedBody: String = ""
-}
-
-enum MonitorSetupStatus: String, Codable, Equatable, Sendable {
-    case notPresented
-    case dismissed
-    case completed
-}
-
 struct LauncherLaunch: Codable, Equatable, Sendable {
     let date: Date
     let foldedQuery: String
@@ -43,16 +24,12 @@ struct RuntimeState: Codable, Equatable, Sendable {
     var launcherLaunches: [String: [LauncherLaunch]]?
     var launcherShortcuts: [String: LauncherShortcut]?
     var launcherHiddenSuggestions: [String]?
-    var issueDraft: IssueDraft?
-    var hasSeenIssueWalkthrough: Bool?
-    var monitorSetupStatus: MonitorSetupStatus?
 }
 
 @MainActor
 final class RuntimeStateStore {
     nonisolated static let defaultDirectoryURL = AeroFlowStoragePaths.live.stateDirectory
     nonisolated static let fileName = "runtime-state.json"
-    nonisolated static let defaultMonitorSetupStatus = MonitorSetupStatus.notPresented
     let directoryURL: URL
     let fileURL: URL
 
@@ -211,32 +188,6 @@ final class RuntimeStateStore {
         }
     }
 
-    var issueDraft: IssueDraft? {
-        get { state.issueDraft }
-        set {
-            guard state.issueDraft != newValue else { return }
-            state.issueDraft = newValue
-            scheduleSave()
-        }
-    }
-
-    var hasSeenIssueWalkthrough: Bool {
-        get { state.hasSeenIssueWalkthrough ?? false }
-        set {
-            guard hasSeenIssueWalkthrough != newValue else { return }
-            state.hasSeenIssueWalkthrough = newValue
-            scheduleSave()
-        }
-    }
-
-    var monitorSetupStatus: MonitorSetupStatus {
-        get { state.monitorSetupStatus ?? Self.defaultMonitorSetupStatus }
-        set {
-            guard monitorSetupStatus != newValue else { return }
-            state.monitorSetupStatus = newValue
-            scheduleSave()
-        }
-    }
 
     nonisolated static func writeState(_ state: RuntimeState, to fileURL: URL) throws {
         let directoryURL = fileURL.deletingLastPathComponent()

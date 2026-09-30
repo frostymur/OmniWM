@@ -7,38 +7,7 @@ import Foundation
 import AeroFlowIPC
 
 extension WMController {
-    func refreshStatusBar() {
-        statusBarController?.refreshWorkspaces()
-    }
-
-    func activeStatusBarWorkspaceSummary() -> StatusBarWorkspaceSummary? {
-        guard let monitor = monitorForInteraction(),
-              let workspace = workspaceManager.activeWorkspace(on: monitor.id)
-        else {
-            return nil
-        }
-
-        let focusedAppName: String? = if let focusedToken = workspaceManager.selectedManagedToken,
-                                         let entry = workspaceManager.entry(for: focusedToken),
-                                         entry.workspaceId == workspace.id
-        {
-            resolvedAppInfo(for: entry.pid)?.name
-        } else {
-            nil
-        }
-
-        return StatusBarWorkspaceSummary(
-            monitorId: monitor.id,
-            workspaceLabel: settings.workspaces.displayName(for: workspace.name),
-            workspaceRawName: workspace.name,
-            focusedAppName: focusedAppName
-        )
-    }
-
     func publishWorkspaceDataChanged() {
-        if statusBarRefreshIsEnabled {
-            refreshStatusBar()
-        }
         if let ipcApplicationBridge {
             Task {
                 await ipcApplicationBridge.publishEvent(.windowsChanged)

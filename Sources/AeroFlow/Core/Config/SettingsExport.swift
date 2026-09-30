@@ -34,10 +34,8 @@ struct SettingsExport: Equatable {
     var monitorGapSettings: [MonitorGapSettings]
 
     var preventSleepEnabled: Bool
-    var updateChecksEnabled: Bool
     var ipcEnabled: Bool
     var gestures: Gestures
-    var statusBar: StatusBar
     var animationsEnabled: Bool
     var animationStyle: AnimationStyle
 
@@ -116,12 +114,6 @@ struct SettingsExport: Equatable {
         var windowGestureSensitivity: Double? = 1.0
     }
 
-    struct StatusBar: Codable, Equatable {
-        var showWorkspaceName: Bool
-        var showAppNames: Bool
-        var useWorkspaceId: Bool
-    }
-
 }
 
 // MARK: - Defaults & Diffing
@@ -148,10 +140,8 @@ extension SettingsExport {
             monitorDwindleSettings: [],
             monitorGapSettings: [],
             preventSleepEnabled: false,
-            updateChecksEnabled: true,
-            ipcEnabled: false,
+            ipcEnabled: true,
             gestures: Gestures.defaults(),
-            statusBar: StatusBar.defaults(),
             animationsEnabled: true,
             animationStyle: .snappy,
             appearanceMode: .dark,
@@ -248,12 +238,3 @@ extension SettingsExport.Gestures {
     }
 }
 
-extension SettingsExport.StatusBar {
-    static func defaults() -> Self {
-        Self(
-            showWorkspaceName: false,
-            showAppNames: false,
-            useWorkspaceId: false
-        )
-    }
-}

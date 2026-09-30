@@ -75,12 +75,6 @@ final class WMController {
     @ObservationIgnored
     let floatDemotionTracker = FloatDemotionTracker()
 
-    @ObservationIgnored
-    private(set) lazy var sponsorsWindowController: SponsorsWindowController = .init(
-        motionPolicy: motionPolicy,
-        ownedWindowRegistry: ownedWindowRegistry
-    )
-
     var isTransferringWindow: Bool = false
 
     @ObservationIgnored
@@ -139,7 +133,6 @@ final class WMController {
     let motionPolicy: MotionPolicy
     let diagnosticsDirectory: URL
     let windowFocusOperations: WindowFocusOperations
-    weak var statusBarController: StatusBarController?
 
     init(
         settings: SettingsStore,
@@ -227,10 +220,6 @@ extension WMController {
     func refreshHotkeyFailureSnapshots() {
         hotkeyRegistrationFailures = hotkeys.registrationFailures
         systemHyperTriggerFailure = hotkeys.systemHyperTriggerFailure
-    }
-
-    var statusBarRefreshIsEnabled: Bool {
-        statusBarController != nil && settings.statusBar.showWorkspaceName
     }
 
     func handleRuntimeInvalidation(

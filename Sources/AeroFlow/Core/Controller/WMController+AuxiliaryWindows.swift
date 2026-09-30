@@ -14,8 +14,4 @@ extension WMController {
             SleepPreventionManager.shared.allowSleep()
         }
     }
-
-    func openSponsorsWindow() {
-        sponsorsWindowController.show()
-    }
 }

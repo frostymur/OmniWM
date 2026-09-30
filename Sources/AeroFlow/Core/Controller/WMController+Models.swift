@@ -7,13 +7,6 @@ import Foundation
 import AeroFlowIPC
 
 extension WMController {
-    struct StatusBarWorkspaceSummary: Equatable {
-        let monitorId: Monitor.ID
-        let workspaceLabel: String
-        let workspaceRawName: String
-        let focusedAppName: String?
-    }
-
     struct WindowDecisionEvaluation {
         let token: WindowToken
         let facts: WindowRuleFacts

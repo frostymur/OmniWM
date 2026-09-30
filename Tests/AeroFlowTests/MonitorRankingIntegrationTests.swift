@@ -95,28 +95,6 @@ final class MonitorRankingIntegrationTests: XCTestCase {
         XCTAssertEqual(manager.effectiveMonitor(for: workspace)?.id, monitors[0].id)
     }
 
-    func testMonitorSetupCoverageUsesRankedRoles() {
-        let monitors = makeMonitors()
-        var draft = MonitorSetupDraft(
-            monitors: monitors,
-            routingMode: .macOS,
-            arrangements: [],
-            mouseWarpEnabled: false,
-            workspaceConfigurations: [
-                WorkspaceConfiguration(name: "1", monitorAssignment: .main, layoutType: .niri),
-                WorkspaceConfiguration(name: "2", monitorAssignment: .tertiary, layoutType: .niri)
-            ],
-            monitorRanking: [OutputId(from: monitors[1]), OutputId(from: monitors[2]), OutputId(from: monitors[0])]
-        )
-
-        XCTAssertEqual(draft.uncoveredMonitors(in: monitors).map(\.id), [monitors[2].id])
-        XCTAssertFalse(draft.hasWorkspaceCoverage(in: monitors))
-
-        draft.addWorkspace(for: monitors[2])
-
-        XCTAssertTrue(draft.hasWorkspaceCoverage(in: monitors))
-    }
-
     private func makeMonitors() -> [Monitor] {
         (0 ..< 3).map { index in
             let displayId = CGDirectDisplayID(960_001 + index)

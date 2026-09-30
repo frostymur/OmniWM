@@ -26,7 +26,5 @@
 	<true/>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
-	<key>NSScreenCaptureUsageDescription</key>
-	<string>AeroFlow uses screen capture for desktop wallpaper and window drag previews.</string>
 </dict>
 </plist>

@@ -24,9 +24,6 @@ extension WMController {
     }
 
     func configureSurfaceCallbacks() {
-        traceCaptureCoordinator.onStateChange = { [weak self] in
-            self?.statusBarController?.handleTraceCaptureStateChange()
-        }
         tabRailManager.onSelect = { [weak self] info, visualIndex, token in
             guard let self else { return }
             switch info.owner {

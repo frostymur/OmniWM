@@ -96,10 +96,6 @@ final class SettingsStore {
         didSet { scheduleSave() }
     }
 
-    var updateChecksEnabled = SettingsStore.defaultExport.updateChecksEnabled {
-        didSet { scheduleSave() }
-    }
-
     var ipcEnabled = SettingsStore.defaultExport.ipcEnabled {
         didSet {
             guard oldValue != ipcEnabled else { return }
@@ -108,7 +104,6 @@ final class SettingsStore {
         }
     }
 
-    let statusBar = StatusBarSettings()
 
     func recordLauncherLaunch(targetID: String, query: String, displayName: String? = nil) {
         runtimeState.recordLauncherLaunch(
@@ -160,19 +155,6 @@ final class SettingsStore {
         runtimeState.windowRestoreCatalog = catalog.entries.isEmpty ? nil : catalog
     }
 
-    var issueDraft: IssueDraft? {
-        get { runtimeState.issueDraft }
-        set { runtimeState.issueDraft = newValue }
-    }
-
-    var hasSeenIssueWalkthrough: Bool {
-        get { runtimeState.hasSeenIssueWalkthrough }
-        set { runtimeState.hasSeenIssueWalkthrough = newValue }
-    }
-
-    var monitorSetupStatus = RuntimeStateStore.defaultMonitorSetupStatus {
-        didSet { runtimeState.monitorSetupStatus = monitorSetupStatus }
-    }
 
     init(
         persistence: SettingsFilePersistence = SettingsFilePersistence(),
@@ -183,7 +165,6 @@ final class SettingsStore {
         self.persistence = persistence
         self.runtimeState = runtimeState
         self.autosaveEnabled = autosaveEnabled
-        monitorSetupStatus = runtimeState.monitorSetupStatus
         isApplyingRuntimeState = true
         isApplyingRuntimeState = false
 
@@ -195,7 +176,6 @@ final class SettingsStore {
         dwindle.onChange = { [weak self] in self?.scheduleSave() }
         gestures.onChange = { [weak self] in self?.scheduleSave() }
         workspaces.onChange = { [weak self] in self?.scheduleSave() }
-        statusBar.onChange = { [weak self] in self?.scheduleSave() }
         gestures.onAvailabilityChanged = { [weak self] available in
             guard let self, !self.isApplyingExport else { return }
             self.onTrackpadGestureAvailabilityChanged?(available)
@@ -277,10 +257,8 @@ extension SettingsStore {
             monitorDwindleSettings: dwindle.monitorOverrides,
             monitorGapSettings: gaps.monitorOverrides.filter(\.hasOverrides),
             preventSleepEnabled: preventSleepEnabled,
-            updateChecksEnabled: updateChecksEnabled,
             ipcEnabled: ipcEnabled,
             gestures: gestures.export(),
-            statusBar: statusBar.export(),
             animationsEnabled: animationsEnabled,
             animationStyle: animationStyle,
             appearanceMode: appearanceMode,
@@ -330,10 +308,8 @@ extension SettingsStore {
         gaps.monitorOverrides = export.monitorGapSettings.filter(\.hasOverrides)
 
         preventSleepEnabled = export.preventSleepEnabled
-        updateChecksEnabled = export.updateChecksEnabled
         ipcEnabled = export.ipcEnabled
         gestures.apply(export.gestures)
-        statusBar.apply(export.statusBar)
         animationsEnabled = export.animationsEnabled
         animationStyle = export.animationStyle
 
