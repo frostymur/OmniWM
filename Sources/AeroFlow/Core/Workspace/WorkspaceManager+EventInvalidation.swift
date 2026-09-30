@@ -27,7 +27,7 @@ extension WorkspaceManager {
             noteInvalidation(
                 workspaceId: workspaceId,
                 domains: [.workspace, .layout],
-                surfaceScope: .border
+                surfaceScope: .full
             )
 
         case let .floatingStateChanged(_, workspaceId, _, _),
@@ -104,7 +104,7 @@ extension WorkspaceManager {
             noteInvalidation(workspaceId: nil, domains: .focus)
 
         case .nativeFocusOwnerChanged:
-            noteInvalidation(workspaceId: nil, domains: .focus, surfaceScope: .border)
+            noteInvalidation(workspaceId: nil, domains: .focus, surfaceScope: .full)
 
         default: preconditionFailure("Expected a FocusEvent event")
         }

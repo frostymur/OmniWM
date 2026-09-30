@@ -11,7 +11,6 @@ enum SettingsSection: String, CaseIterable, Identifiable {
     case dwindle
     case monitors
     case workspaces
-    case borders
     case hotkeys
     case mouseTrackpad
     case reportIssue
@@ -28,7 +27,6 @@ enum SettingsSection: String, CaseIterable, Identifiable {
         case .dwindle: String(localized: "Dwindle Layout")
         case .monitors: String(localized: "Monitors")
         case .workspaces: String(localized: "Workspaces")
-        case .borders: String(localized: "Borders")
         case .hotkeys: String(localized: "Hotkeys")
         case .mouseTrackpad: String(localized: "Mouse & Trackpad")
         case .reportIssue: String(localized: "Report an Issue")
@@ -43,7 +41,6 @@ enum SettingsSection: String, CaseIterable, Identifiable {
         case .dwindle: "square.split.2x2"
         case .monitors: "display"
         case .workspaces: "rectangle.3.group"
-        case .borders: "square.dashed"
         case .hotkeys: "keyboard"
         case .mouseTrackpad: "computermouse"
         case .reportIssue: "ladybug"
@@ -79,7 +76,7 @@ enum SettingsSectionGroup: String, CaseIterable, Identifiable {
         case .layouts:
             [.niri, .dwindle, .monitors]
         case .workspace:
-            [.workspaces, .borders]
+            [.workspaces]
         case .input:
             [.hotkeys, .mouseTrackpad]
         case .help:

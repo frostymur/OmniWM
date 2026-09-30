@@ -43,8 +43,6 @@ struct SettingsDetailView: View {
             )
         case .workspaces:
             WorkspacesSettingsTab(settings: settings, controller: controller)
-        case .borders:
-            BorderSettingsTab(settings: settings, controller: controller)
         case .hotkeys:
             HotkeySettingsView(settings: settings, controller: controller)
         case .mouseTrackpad:

@@ -6,7 +6,6 @@ import Foundation
 
 enum SessionSurfaceInvalidationScope: Equatable, Sendable {
     case full
-    case border
 }
 
 extension WorkspaceManager {
@@ -112,7 +111,7 @@ extension WorkspaceManager {
             )
         )
         if changed {
-            notifySessionStateChanged(surfaceScope: .border)
+            notifySessionStateChanged(surfaceScope: .full)
         }
         return changed
     }
@@ -133,7 +132,7 @@ extension WorkspaceManager {
             )
         )
         if changed {
-            notifySessionStateChanged(surfaceScope: .border)
+            notifySessionStateChanged(surfaceScope: .full)
         }
         return changed
     }
@@ -179,17 +178,17 @@ extension WorkspaceManager {
                 source: .workspaceManager
             )
         ) {
-            notifySessionStateChanged(surfaceScope: .border)
+            notifySessionStateChanged(surfaceScope: .full)
         }
         if clearsNativeFullscreenOwner {
             _ = clearNativeFocusOwner()
         }
     }
 
-    func suppressFocusBorder(for token: WindowToken) {
+    func suppressManagedFocus(for token: WindowToken) {
         guard suppressedFocusToken != token else { return }
         if applyFocusReconcileEvent(.suppressedFocusChanged(token: token, source: .workspaceManager)) {
-            notifySessionStateChanged(surfaceScope: .border)
+            notifySessionStateChanged(surfaceScope: .full)
         }
     }
 
@@ -198,7 +197,7 @@ extension WorkspaceManager {
         if applyFocusReconcileEvent(
             .systemModalFocusChanged(token: token, source: .workspaceManager)
         ) {
-            notifySessionStateChanged(surfaceScope: .border)
+            notifySessionStateChanged(surfaceScope: .full)
         }
     }
 }

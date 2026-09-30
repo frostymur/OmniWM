@@ -239,8 +239,8 @@ final class ForeignTransientFocusRecoveryTests: XCTestCase {
         XCTAssertTrue(fixture.controller.shouldSuppressManagedFocusRecovery)
     }
 
-    func testUnrelatedNativeFullscreenTransitionDoesNotSuppressManagedBorder() throws {
-        let fixture = try makeFixture(prefix: "AeroFlowFullscreenBorderScopeTests")
+    func testNativeFullscreenTransitionPendingStateIsScopedToWorkspace() throws {
+        let fixture = try makeFixture(prefix: "AeroFlowFullscreenTransitionScopeTests")
         let otherWorkspaceId = try XCTUnwrap(
             fixture.controller.workspaceManager.workspaceId(for: "2", createIfMissing: true)
         )
@@ -252,18 +252,17 @@ final class ForeignTransientFocusRecoveryTests: XCTestCase {
             windowId: 559_213,
             to: otherWorkspaceId
         )
-        let frame = CGRect(x: 120, y: 90, width: 800, height: 600)
-        let world = WorldView(controller: fixture.controller, liveBoundsProvider: { windowId in
-            windowId == fixture.mainToken.windowId ? frame : nil
-        })
-
         XCTAssertTrue(
             fixture.controller.workspaceManager.requestNativeFullscreenEnter(
                 otherToken,
                 in: otherWorkspaceId
             )
         )
-        XCTAssertNotNil(SurfaceDerivation.deriveBorder(world: world))
+        XCTAssertFalse(
+            fixture.controller.workspaceManager.hasPendingNativeFullscreenTransition(
+                in: fixture.workspaceId
+            )
+        )
 
         let sameWorkspaceToken = fixture.controller.workspaceManager.addWindow(
             WindowAdmissionTestSupport.axRef(
@@ -279,7 +278,11 @@ final class ForeignTransientFocusRecoveryTests: XCTestCase {
                 in: fixture.workspaceId
             )
         )
-        XCTAssertNil(SurfaceDerivation.deriveBorder(world: world))
+        XCTAssertTrue(
+            fixture.controller.workspaceManager.hasPendingNativeFullscreenTransition(
+                in: fixture.workspaceId
+            )
+        )
     }
 
     func testExitRequestedPlaceholderCannotReclaimExternalFocus() async throws {

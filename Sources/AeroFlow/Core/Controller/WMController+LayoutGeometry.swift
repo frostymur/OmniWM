@@ -12,10 +12,9 @@ extension WMController {
     }
 
     func innerGap(for monitor: Monitor, scale: CGFloat) -> CGFloat {
-        let rawGap = settings.gaps.settings(for: monitor)?.innerGap == nil
+        return settings.gaps.settings(for: monitor)?.innerGap == nil
             ? CGFloat(workspaceManager.gaps)
             : settings.gaps.resolved(for: monitor).innerGap
-        return max(rawGap, borderClearance(scale: scale))
     }
 
     func innerGap(for workspaceId: WorkspaceDescriptor.ID) -> CGFloat {
@@ -37,7 +36,7 @@ extension WMController {
             splitWidthMultiplier: resolved.splitWidthMultiplier,
             singleWindowFit: resolved.singleWindowFit,
             useGlobalGaps: resolved.useGlobalGaps,
-            innerGap: max(resolved.innerGap, borderClearance(scale: scale))
+            innerGap: resolved.innerGap
         )
     }
 
@@ -59,31 +58,19 @@ extension WMController {
             top: normalizedTop,
             bottom: gaps.outerGapBottom
         )
-        let clearance = borderClearance(scale: scale)
-        let effectiveStruts = Struts(
-            left: max(rawStruts.left, clearance),
-            right: max(rawStruts.right, clearance),
-            top: max(rawStruts.top, clearance),
-            bottom: max(rawStruts.bottom, clearance)
-        )
-        let rawWorkingFrame = computeWorkingArea(
+        let workingFrame = computeWorkingArea(
             parentArea: monitor.visibleFrame,
             scale: scale,
             struts: rawStruts
         )
-        let workingFrame = computeWorkingArea(
-            parentArea: monitor.visibleFrame,
-            scale: scale,
-            struts: effectiveStruts
-        )
         let fullscreenLayoutFrame: CGRect
         let borderSafeFillFrame: CGRect
         if gaps.fullscreenUsesOuterGaps {
-            fullscreenLayoutFrame = rawWorkingFrame
+            fullscreenLayoutFrame = workingFrame
             borderSafeFillFrame = workingFrame
         } else {
             (fullscreenLayoutFrame, borderSafeFillFrame) = ungappedFullscreenFrames(
-                for: monitor, scale: scale, reservedTopInset: reservedTopInset, clearance: clearance
+                for: monitor, scale: scale, reservedTopInset: reservedTopInset
             )
         }
         return MonitorLayoutFrames(
@@ -130,35 +117,16 @@ extension WMController {
         NSScreen.screens.first(where: { $0.displayId == monitor.displayId })?.backingScaleFactor ?? 2.0
     }
 
-    private func borderClearance(scale: CGFloat) -> CGFloat {
-        BorderConfig.layoutClearance(
-            enabled: settings.borders.enabled,
-            width: CGFloat(settings.borders.width),
-            scale: scale
-        )
-    }
-
     private func ungappedFullscreenFrames(
         for monitor: Monitor,
         scale: CGFloat,
-        reservedTopInset: CGFloat,
-        clearance: CGFloat
+        reservedTopInset: CGFloat
     ) -> (layout: CGRect, borderSafe: CGRect) {
         let layout = computeWorkingArea(
             parentArea: monitor.visibleFrame,
             scale: scale,
             struts: Struts(top: reservedTopInset)
         )
-        let borderSafe = computeWorkingArea(
-            parentArea: monitor.visibleFrame,
-            scale: scale,
-            struts: Struts(
-                left: clearance,
-                right: clearance,
-                top: max(reservedTopInset, clearance),
-                bottom: clearance
-            )
-        )
-        return (layout, borderSafe)
+        return (layout, layout)
     }
 }

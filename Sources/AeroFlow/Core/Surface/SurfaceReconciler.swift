@@ -14,16 +14,9 @@ final class SurfaceReconciler {
         Bool
     ) -> Void
 
-    enum ReconcileScope: Equatable {
-        case borderOnly
-        case fullScene
-    }
-
     private weak var controller: WMController?
     private(set) var reconcileScheduled = false
     private(set) var forceOrderingOnNextReconcile = false
-    private(set) var pendingReconcileScope: ReconcileScope?
-    private let borderApplier: BorderSurfaceApplier
     private let parkingEdgeMaskManager = ParkingEdgeMaskManager()
     private let applyTabRails: TabRailApply
     private let applyNativeFullscreenPlaceholders: NativeFullscreenPlaceholderApply
@@ -36,7 +29,6 @@ final class SurfaceReconciler {
 
     init(
         controller: WMController,
-        borderApplier: BorderSurfaceApplier = BorderSurfaceApplier(),
         applyTabRails: @escaping TabRailApply = { controller, infos, forceOrdering in
             controller.tabRailManager.updateRails(
                 infos, forceOrdering: forceOrdering, style: controller.tabRailStyle
@@ -53,37 +45,15 @@ final class SurfaceReconciler {
         }
     ) {
         self.controller = controller
-        self.borderApplier = borderApplier
         self.applyTabRails = applyTabRails
         self.applyNativeFullscreenPlaceholders = applyNativeFullscreenPlaceholders
-        borderApplier.onWindowLevelResolved = { [weak self] in
-            self?.noteBorderChanged()
-        }
-        borderApplier.onDisplayScaleInvalidated = { [weak self] in
-            self?.noteBorderChanged()
-        }
-        borderApplier.onCornerSampleResolved = { [weak self] in
-            self?.noteBorderChanged()
-        }
     }
 
     func noteWorldChanged() {
-        scheduleReconcile(.fullScene)
+        scheduleReconcile()
     }
 
-    func noteBorderChanged() {
-        scheduleReconcile(.borderOnly)
-    }
-
-    private func scheduleReconcile(_ scope: ReconcileScope) {
-        switch (pendingReconcileScope, scope) {
-        case (.fullScene, _),
-             (_, .fullScene):
-            pendingReconcileScope = .fullScene
-        case (.borderOnly, .borderOnly),
-             (nil, .borderOnly):
-            pendingReconcileScope = .borderOnly
-        }
+    private func scheduleReconcile() {
         guard !reconcileScheduled else { return }
         reconcileScheduled = true
         let mainRunLoop = CFRunLoopGetMain()
@@ -97,39 +67,16 @@ final class SurfaceReconciler {
 
     func noteRestackOccurred() {
         forceOrderingOnNextReconcile = true
-        noteBorderChanged()
+        noteWorldChanged()
     }
 
     func reconcileNow() {
-        let scope = pendingReconcileScope ?? .fullScene
         let forceOrdering = forceOrderingOnNextReconcile
         reconcileScheduled = false
         forceOrderingOnNextReconcile = false
-        pendingReconcileScope = nil
-        switch scope {
-        case .borderOnly:
-            runBorderReconcile(forceOrdering: forceOrdering)
-        case .fullScene:
-            runFullReconcile(forceOrdering: forceOrdering)
-        }
+        runFullReconcile(forceOrdering: forceOrdering)
     }
 
-    func reconcileAnimationTick() {
-        guard let controller else { return }
-        let world = WorldView(controller: controller)
-        let desiredBorder = world.hasStartedServices
-            ? SurfaceDerivation.deriveAnimationBorder(world: world, previous: appliedScene.border)
-            : nil
-        let outcome = borderApplier.apply(
-            desiredBorder,
-            forceOrdering: false,
-            refreshCornerRadii: false
-        )
-        appliedScene.border = outcome.didApply ? desiredBorder : nil
-        if outcome.needsWindowLevelRetry {
-            noteBorderChanged()
-        }
-    }
 
     func applyAcceptedNativeFullscreenSlots(
         _ slots: [WindowToken: NativeFullscreenSlotProjection],
@@ -201,18 +148,10 @@ final class SurfaceReconciler {
         controller.tabRailManager.applyAnimationGeometry(commands, in: workspaceId)
     }
 
-    func handleVerifiedFrameApplySuccess(_ result: AXFrameApplyResult) {
-        guard let controller else { return }
-        let token = WindowToken(pid: result.pid, windowId: result.windowId)
-        guard controller.workspaceManager.borderFocusToken == token else { return }
-        noteBorderChanged()
-    }
 
     func cleanup() {
         reconcileScheduled = false
         forceOrderingOnNextReconcile = false
-        pendingReconcileScope = nil
-        borderApplier.cleanup()
         parkingEdgeMaskManager.removeAll()
         nativeFullscreenState.cleanup()
         appliedScene = .empty
@@ -224,7 +163,6 @@ final class SurfaceReconciler {
     }
 
     private func runFullReconcile(forceOrdering: Bool) {
-        BorderOpMetricsRecorder.shared.noteFullScenePass()
         guard let controller else { return }
         let world = WorldView(controller: controller)
         nativeFullscreenState.prepareForReconcile(
@@ -252,61 +190,20 @@ final class SurfaceReconciler {
             }
             return resolved
         }
-        let outcome = applyFull(
+        applyFull(
             desired,
             on: controller,
-            forceOrdering: forceOrdering,
-            refreshCornerRadii: shouldRefreshCornerRadii(for: desired.border, controller: controller)
+            forceOrdering: forceOrdering
         )
-        if outcome.needsWindowLevelRetry {
-            noteBorderChanged()
-        }
     }
 
-    private func runBorderReconcile(forceOrdering: Bool) {
-        BorderOpMetricsRecorder.shared.noteBorderOnlyPass()
-        guard let controller else { return }
-        let world = WorldView(controller: controller)
-        let desiredBorder = world.hasStartedServices
-            ? SurfaceDerivation.deriveBorder(world: world)
-            : nil
-        let outcome = borderApplier.apply(
-            desiredBorder,
-            forceOrdering: forceOrdering,
-            refreshCornerRadii: shouldRefreshCornerRadii(for: desiredBorder, controller: controller)
-        )
-        if forceOrdering {
-            applyTabRails(controller, appliedScene.tabRails, true)
-            applyNativeFullscreenPlaceholders(controller, appliedScene.placeholders, true)
-        }
-        appliedScene.border = outcome.didApply ? desiredBorder : nil
-        if outcome.needsWindowLevelRetry {
-            noteBorderChanged()
-        }
-    }
 
-    private func shouldRefreshCornerRadii(
-        for border: DesiredBorderSurface?,
-        controller: WMController
-    ) -> Bool {
-        guard let border,
-              let entry = controller.workspaceManager.entry(for: border.token)
-        else { return false }
-        return !controller.workspaceManager.animationDriver.hasMotion(in: entry.workspaceId)
-            && !controller.axManager.hasPendingFrameWrite(for: border.windowId)
-    }
 
     private func applyFull(
         _ desired: DesiredSurfaceScene,
         on controller: WMController,
-        forceOrdering: Bool,
-        refreshCornerRadii: Bool
-    ) -> BorderSurfaceApplyResult {
-        let borderOutcome = borderApplier.apply(
-            desired.border,
-            forceOrdering: forceOrdering,
-            refreshCornerRadii: refreshCornerRadii
-        )
+        forceOrdering: Bool
+    ) {
         if desired.tabRails != appliedScene.tabRails || desired.tabRailStyle != appliedScene
             .tabRailStyle || forceOrdering
         {
@@ -317,9 +214,5 @@ final class SurfaceReconciler {
         }
         parkingEdgeMaskManager.apply(desired.parkingEdgeMasks)
         appliedScene = desired
-        if !borderOutcome.didApply {
-            appliedScene.border = nil
-        }
-        return borderOutcome
     }
 }

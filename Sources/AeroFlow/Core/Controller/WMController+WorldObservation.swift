@@ -8,11 +8,8 @@ import AeroFlowIPC
 
 extension WMController {
     func handleSessionStateChanged(surfaceScope: SessionSurfaceInvalidationScope) {
-        switch surfaceScope {
-        case .full:
+        if surfaceScope == .full {
             surfaceReconciler.noteWorldChanged()
-        case .border:
-            surfaceReconciler.noteBorderChanged()
         }
         let changeSet = focusNotificationDispatcher.notifyFocusChangesIfNeeded()
         if statusBarRefreshIsEnabled {

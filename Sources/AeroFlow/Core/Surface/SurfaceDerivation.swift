@@ -6,16 +6,10 @@ import CoreGraphics
 import Foundation
 
 enum SurfaceDerivation {
-    private enum BorderFramePolicy {
-        case complete
-        case animation(previous: DesiredBorderSurface?)
-    }
-
     @MainActor
     static func derive(world: WorldView) -> DesiredSurfaceScene {
         guard world.hasStartedServices else { return .empty }
         return DesiredSurfaceScene(
-            border: deriveBorder(world: world),
             tabRails: world.tabRailInfos(),
             tabRailStyle: world.tabRailStyle,
             placeholders: world.nativeFullscreenPlaceholders(),
@@ -57,68 +51,4 @@ enum SurfaceDerivation {
         return masks
     }
 
-    @MainActor
-    static func deriveBorder(world: WorldView) -> DesiredBorderSurface? {
-        deriveBorder(world: world, framePolicy: .complete)
-    }
-
-    @MainActor
-    static func deriveAnimationBorder(
-        world: WorldView,
-        previous: DesiredBorderSurface?
-    ) -> DesiredBorderSurface? {
-        deriveBorder(world: world, framePolicy: .animation(previous: previous))
-    }
-
-    @MainActor
-    private static func deriveBorder(
-        world: WorldView,
-        framePolicy: BorderFramePolicy
-    ) -> DesiredBorderSurface? {
-        let config = world.borderConfig
-        guard config.enabled else { return nil }
-        guard let token = world.borderFocusToken,
-              let entry = world.entry(for: token)
-        else {
-            return nil
-        }
-        guard !world.hasPendingNativeFullscreenTransition(for: token) else { return nil }
-        guard world.systemModalFocusToken != token else { return nil }
-        guard world.suppressedFocusToken != token,
-              !world.hasPendingNativeFullscreenTransition(in: entry.workspaceId),
-              !world.isWindowFullscreenInLayout(token),
-              world.isManagedWindowDisplayable(entry.token),
-              world.isWorkspaceVisible(entry.workspaceId)
-        else {
-            return nil
-        }
-        guard let frame = borderFrame(
-            for: entry,
-            world: world,
-            policy: framePolicy
-        ),
-            frame.width > 0, frame.height > 0
-        else {
-            return nil
-        }
-        return DesiredBorderSurface(token: entry.token, frame: frame, config: config)
-    }
-
-    @MainActor
-    private static func borderFrame(
-        for entry: WindowState,
-        world: WorldView,
-        policy: BorderFramePolicy
-    ) -> CGRect? {
-        switch policy {
-        case .complete:
-            return world.borderFrame(for: entry)
-        case let .animation(previous):
-            if let cached = world.cachedBorderFrame(for: entry) {
-                return cached
-            }
-            guard previous?.token == entry.token else { return nil }
-            return previous?.frame
-        }
-    }
 }

@@ -17,7 +17,7 @@ extension AXEventHandler {
               entry.mode == .floating
         else { return }
 
-        workspaceManager.suppressFocusBorder(for: focusedToken)
+        workspaceManager.suppressManagedFocus(for: focusedToken)
     }
 
     func handleAppHidden(pid: pid_t, source: WMEventSource = .ax) {

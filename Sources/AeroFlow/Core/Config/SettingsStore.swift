@@ -49,7 +49,6 @@ final class SettingsStore {
         }
     }
 
-    let borders = BorderSettings()
 
     var hotkeyBindings = SettingsStore.defaultExport.hotkeyBindings {
         didSet { scheduleSave() }
@@ -196,7 +195,6 @@ final class SettingsStore {
         dwindle.onChange = { [weak self] in self?.scheduleSave() }
         gestures.onChange = { [weak self] in self?.scheduleSave() }
         workspaces.onChange = { [weak self] in self?.scheduleSave() }
-        borders.onChange = { [weak self] in self?.scheduleSave() }
         statusBar.onChange = { [weak self] in self?.scheduleSave() }
         gestures.onAvailabilityChanged = { [weak self] available in
             guard let self, !self.isApplyingExport else { return }
@@ -269,7 +267,6 @@ extension SettingsStore {
             niri: niri.export(),
             workspaceConfigurations: workspaces.configurations,
             defaultLayoutType: workspaces.defaultLayoutType,
-            borders: borders.export(),
             hotkeyBindings: hotkeyBindings,
             systemHyperTrigger: systemHyperTrigger,
             hyperKeyModifiers: hyperKeyModifiersStorage,
@@ -318,7 +315,6 @@ extension SettingsStore {
         workspaces.configurations = WorkspaceSettings.normalizedConfigurations(export.workspaceConfigurations)
         workspaces.defaultLayoutType = export.defaultLayoutType
 
-        borders.apply(export.borders)
 
         hyperKeyModifiersStorage = export.hyperKeyModifiers
         KeySymbolMapper.setHyperKeyModifiers(export.hyperKeyModifiers)

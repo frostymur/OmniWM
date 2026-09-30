@@ -7,7 +7,6 @@ import Observation
 import SwiftUI
 
 enum StatusMenuControlPreview: Equatable {
-    case focusedWindow
     case keepAwake
     case focusMouse
     case focusEdge
@@ -18,7 +17,6 @@ enum StatusMenuControlPreview: Equatable {
 }
 
 enum StatusMenuControl: String, CaseIterable, Identifiable {
-    case bordersEnabled
     case preventSleepEnabled
     case focusFollowsMouse
     case focusCrossesMonitorAtEdge
@@ -33,8 +31,6 @@ enum StatusMenuControl: String, CaseIterable, Identifiable {
 
     var icon: String {
         switch self {
-        case .bordersEnabled:
-            "square.dashed"
         case .preventSleepEnabled:
             "moon.zzz"
         case .focusFollowsMouse:
@@ -54,8 +50,6 @@ enum StatusMenuControl: String, CaseIterable, Identifiable {
 
     var label: String {
         switch self {
-        case .bordersEnabled:
-            String(localized: "Borders")
         case .preventSleepEnabled:
             String(localized: "Keep Awake")
         case .focusFollowsMouse:
@@ -75,8 +69,6 @@ enum StatusMenuControl: String, CaseIterable, Identifiable {
 
     var accessibilityName: String {
         switch self {
-        case .bordersEnabled:
-            String(localized: "Window Borders")
         case .preventSleepEnabled:
             String(localized: "Keep Awake")
         case .focusFollowsMouse:
@@ -100,8 +92,6 @@ enum StatusMenuControl: String, CaseIterable, Identifiable {
 
     private var explanationResource: LocalizedStringResource {
         switch self {
-        case .bordersEnabled:
-            "Shows a colored outline around the currently focused managed window. Customize its appearance in Settings."
         case .preventSleepEnabled:
             "Prevents idle display sleep while your user session is active. Manual sleep and closing the laptop lid still work."
         case .focusFollowsMouse:
@@ -121,8 +111,6 @@ enum StatusMenuControl: String, CaseIterable, Identifiable {
 
     var preview: StatusMenuControlPreview {
         switch self {
-        case .bordersEnabled:
-            .focusedWindow
         case .preventSleepEnabled:
             .keepAwake
         case .focusFollowsMouse:
@@ -228,17 +216,7 @@ final class StatusMenuModel {
     var toggleTiles: [ToggleTileSpec] {
         let settings = settings
         weak var controller = controller
-        var tiles: [ToggleTileSpec] = [
-            ToggleTileSpec(
-                control: .bordersEnabled,
-                isOn: Binding(
-                    get: { settings.borders.enabled },
-                    set: {
-                        settings.borders.enabled = $0
-                        controller?.borderSettingsChanged()
-                    }
-                )
-            ),
+        let tiles: [ToggleTileSpec] = [
             ToggleTileSpec(
                 control: .preventSleepEnabled,
                 isOn: Binding(

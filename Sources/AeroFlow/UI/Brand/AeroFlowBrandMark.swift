@@ -7,7 +7,6 @@ import AppKit
 @MainActor
 enum AeroFlowBrandMark {
     private static let statusTemplateSource = resourceImage(named: "AeroFlowStatusTemplate", isTemplate: true)
-    private static let launchLockup = resourceImage(named: "AeroFlowLaunchLockup", isTemplate: false)
     private static var statusTemplates: [CGFloat: NSImage] = [:]
 
     static func statusItemImage(pointSize: CGFloat) -> NSImage {
@@ -28,17 +27,6 @@ enum AeroFlowBrandMark {
         }
         image.isTemplate = true
         return image
-    }
-
-    static var launchLockupImage: NSImage {
-        guard let image = launchLockup.copy() as? NSImage else {
-            fatalError("Unable to copy bundled brand resource AeroFlowLaunchLockup.pdf")
-        }
-        return image
-    }
-
-    static var launchLockupAspect: CGFloat {
-        launchLockup.size.width / launchLockup.size.height
     }
 
     private static func resourceImage(named name: String, isTemplate: Bool) -> NSImage {

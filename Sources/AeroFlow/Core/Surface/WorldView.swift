@@ -39,10 +39,6 @@ struct WorldView {
         controller.workspaceManager.borderFocusToken
     }
 
-    var suppressedFocusToken: WindowToken? {
-        controller.workspaceManager.suppressedFocusToken
-    }
-
     var systemModalFocusToken: WindowToken? {
         controller.workspaceManager.systemModalFocusToken
     }
@@ -57,10 +53,6 @@ struct WorldView {
 
     var spaceTopology: SpaceTopology {
         controller.workspaceManager.spaceTopology
-    }
-
-    var borderConfig: BorderConfig {
-        BorderConfig.from(settings: controller.settings, isDark: controller.borderUsesDarkAppearance)
     }
 
     func entry(for token: WindowToken) -> WindowState? {
@@ -135,56 +127,4 @@ struct WorldView {
         return true
     }
 
-    /// Resolves the frame the focused-window border ring should hug.
-    /// The ring follows presentation truth: live WindowServer bounds win whenever
-    /// they can be queried (apps apply AX writes late and may constrain themselves,
-    /// so layout-intent frames can overlap the presented window). Pending AX writes
-    /// and layout caches only backfill when live bounds are unavailable.
-    /// - Returns: The frame to draw the border around, or `nil` when the window has
-    ///   no usable geometry from any source.
-    func borderFrame(for entry: WindowState) -> CGRect? {
-        if let observed = observedWindowBounds(windowId: entry.windowId) {
-            return observed
-        }
-        BorderOpMetricsRecorder.shared.noteBoundsQueryFallback()
-        if let pending = controller.axManager.pendingFrameWrite(for: entry.windowId) {
-            return pending
-        }
-        return cachedBorderFrame(for: entry)
-    }
-
-    func cachedBorderFrame(for entry: WindowState) -> CGRect? {
-        if let pending = controller.axManager.pendingFrameWrite(for: entry.windowId) {
-            return pending
-        }
-        if entry.mode == .floating {
-            if let observed = entry.observedState.frame {
-                return observed
-            }
-            if let desired = entry.desiredState.floatingFrame {
-                return desired
-            }
-            if let lastFloatingFrame = entry.floatingState?.lastFrame {
-                return lastFloatingFrame
-            }
-        } else if let applied = controller.axManager.lastAppliedFrame(for: entry.windowId) {
-            return applied
-        }
-        return nil
-    }
-
-    /// Returns the window's live bounds in AppKit screen coordinates, or `nil` when
-    /// the window has no positive-size WindowServer bounds.
-    func observedWindowBounds(windowId: Int) -> CGRect? {
-        if let liveBoundsProvider {
-            return liveBoundsProvider(windowId)
-        }
-        guard windowId > 0,
-              let bounds = SkyLight.shared.getWindowBounds(UInt32(windowId)),
-              bounds.width > 0, bounds.height > 0
-        else {
-            return nil
-        }
-        return ScreenCoordinateSpace.toAppKit(rect: bounds)
-    }
 }

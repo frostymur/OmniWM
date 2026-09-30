@@ -1139,7 +1139,7 @@ class ReleaseManager:
         manifest["state"] = "published"
         self.save_manifest(manifest)
         self.print_status(manifest)
-        print("Homebrew: the official homebrew/cask aeroflow cask is updated by autobump from this GitHub release")
+        print("Homebrew: the official homebrew/cask omniwm cask is updated by autobump from this GitHub release")
 
     def print_status(self, manifest):
         print(f"Release {manifest['version']}: {manifest['state']}")

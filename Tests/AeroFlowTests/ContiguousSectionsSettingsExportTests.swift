@@ -10,8 +10,6 @@ final class ContiguousSectionsSettingsExportTests: XCTestCase {
     func testAllMovedFieldsRemainRequired() throws {
         let source = String(decoding: try SettingsTOMLCodec.encode(.defaults()), as: UTF8.self)
         let sections = [
-            "borders": ["enabled", "width"],
-            "borders.color": ["red", "green", "blue", "alpha"],
             "gestures": [
                 "scrollEnabled", "scrollSensitivity", "scrollModifierKey", "mouseMoveModifierKey",
                 "mouseResizeModifierKey", "fingerCount", "invertDirection", "trackpadScrollStyle",

@@ -6,14 +6,12 @@ import AppKit
 import Foundation
 
 enum SurfaceKind: String, CaseIterable, Hashable, Sendable {
-    case border
     case parkingEdgeMask
     case workspaceSwipe
     case nativeFullscreenPlaceholder
     case tabRail
     case dragGhost
     case utility
-    case launchOverlay
     case secureInputIndicator
     case statusPanel
 }

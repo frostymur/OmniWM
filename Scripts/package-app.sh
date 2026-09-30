@@ -47,7 +47,6 @@ if command -v plutil >/dev/null 2>&1; then
     plutil -replace CFBundleDisplayName -string "$APP_NAME" "$APP_DIR/Contents/Info.plist"
   fi
 fi
-cp "$ROOT_DIR/Resources/AppIcon.icns" "$APP_DIR/Contents/Resources/AppIcon.icns"
 cp -R "$BUILD_DIR/AeroFlow_AeroFlow.bundle" "$APP_DIR/Contents/Resources/"
 python3 "$ROOT_DIR/Scripts/localization.py" package \
   --bundle "$BUILD_DIR/AeroFlow_AeroFlow.bundle" --app "$APP_DIR"

@@ -329,7 +329,6 @@ final class WindowServerSubscriptionTests: XCTestCase {
 
         XCTAssertEqual(controller.workspaceManager.managedReplacementMetadata(for: tracked)?.title, "Original")
         XCTAssertEqual(controller.workspaceManager.worldSeq, worldSeq)
-        XCTAssertNil(controller.surfaceReconciler.pendingReconcileScope)
     }
 
     func testOrderEventRequiresExactLiveManagedIdentityBeforeRestack() throws {
@@ -351,7 +350,6 @@ final class WindowServerSubscriptionTests: XCTestCase {
 
         controller.axEventHandler.handleCGSEvent(.orderChanged(windowId: UInt32(tracked.windowId)))
 
-        XCTAssertNil(controller.surfaceReconciler.pendingReconcileScope)
         XCTAssertFalse(controller.surfaceReconciler.forceOrderingOnNextReconcile)
 
         controller.axEventHandler.windowInfoProvider = { windowId in
@@ -365,7 +363,6 @@ final class WindowServerSubscriptionTests: XCTestCase {
 
         controller.axEventHandler.handleCGSEvent(.orderChanged(windowId: UInt32(tracked.windowId)))
 
-        XCTAssertEqual(controller.surfaceReconciler.pendingReconcileScope, .borderOnly)
         XCTAssertTrue(controller.surfaceReconciler.forceOrderingOnNextReconcile)
     }
 }

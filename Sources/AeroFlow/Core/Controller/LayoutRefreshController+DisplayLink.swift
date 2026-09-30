@@ -398,7 +398,6 @@ extension LayoutRefreshController {
             dwindleEndTime = traceActive ? CACurrentMediaTime() : 0
             tickClosingAnimations(targetTime: displayLink.targetTimestamp, displayId: displayId)
             closingEndTime = traceActive ? CACurrentMediaTime() : 0
-            controller?.surfaceReconciler.reconcileAnimationTick()
         }
         return DisplayAnimationPhaseTiming(
             scrollEndTime: scrollEndTime,

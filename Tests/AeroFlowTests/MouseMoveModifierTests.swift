@@ -166,81 +166,6 @@ final class MouseMoveModifierTests: NiriInteractionTestCase {
     }
 
     @MainActor
-    func testNiriResizeTargetIncludesOnlyTheFocusedExteriorBorder() throws {
-        let fixture = try makeFixture(pid: 1_105)
-        let border = DesiredBorderSurface(
-            token: fixture.token,
-            frame: fixture.windowFrame,
-            config: borderConfig(width: 5)
-        )
-        let surfaceFrame = border.config.resolvedGeometry(for: border.frame, scale: 1).surfaceFrame
-        let exteriorPoints = [
-            CGPoint(x: fixture.windowFrame.maxX, y: fixture.windowFrame.midY),
-            CGPoint(x: fixture.windowFrame.maxX + 4, y: fixture.windowFrame.midY),
-            CGPoint(x: fixture.windowFrame.maxX + 4, y: fixture.windowFrame.maxY + 4)
-        ]
-
-        XCTAssertNil(fixture.engine.hitTestTiled(point: exteriorPoints[1], in: fixture.workspaceId))
-        for point in exteriorPoints {
-            let token = fixture.handler.focusedBorderResizeToken(
-                at: point,
-                in: fixture.workspaceId,
-                scale: 1,
-                appliedBorder: border
-            )
-            XCTAssertEqual(token, fixture.token)
-        }
-
-        XCTAssertNil(
-            fixture.handler.focusedBorderResizeToken(
-                at: CGPoint(x: surfaceFrame.maxX, y: surfaceFrame.midY),
-                in: fixture.workspaceId,
-                scale: 1,
-                appliedBorder: border
-            )
-        )
-        XCTAssertNil(
-            fixture.handler.focusedBorderResizeToken(
-                at: CGPoint(x: fixture.windowFrame.maxX + 1, y: fixture.windowFrame.midY),
-                in: fixture.workspaceId,
-                scale: 1,
-                appliedBorder: DesiredBorderSurface(
-                    token: fixture.token,
-                    frame: fixture.windowFrame,
-                    config: borderConfig(enabled: false, width: 5)
-                )
-            )
-        )
-        XCTAssertTrue(fixture.controller.workspaceManager.recordExternalFocus(pid: 1_108, windowId: 3))
-        XCTAssertNil(
-            fixture.handler.focusedBorderResizeToken(
-                at: exteriorPoints[1],
-                in: fixture.workspaceId,
-                scale: 1,
-                appliedBorder: border
-            )
-        )
-    }
-
-    @MainActor
-    func testGlowDoesNotExpandFocusedExteriorBorderResizeZone() throws {
-        let fixture = try makeFixture(pid: 1_109)
-        var config = borderConfig(width: 5)
-        config.glow = BorderGlow(enabled: true, radius: 8, opacity: 0.6)
-        let border = DesiredBorderSurface(token: fixture.token, frame: fixture.windowFrame, config: config)
-        let haloPoint = CGPoint(x: fixture.windowFrame.maxX + 6, y: fixture.windowFrame.midY)
-        XCTAssertTrue(config.resolvedGeometry(for: border.frame, scale: 1).surfaceFrame.contains(haloPoint))
-        XCTAssertNil(fixture.engine.hitTestTiled(point: haloPoint, in: fixture.workspaceId))
-        XCTAssertNil(fixture.handler.focusedBorderResizeToken(
-            at: haloPoint, in: fixture.workspaceId, scale: 1, appliedBorder: border
-        ))
-        XCTAssertEqual(fixture.handler.focusedBorderResizeToken(
-            at: CGPoint(x: fixture.windowFrame.maxX + 4, y: fixture.windowFrame.midY),
-            in: fixture.workspaceId, scale: 1, appliedBorder: border
-        ), fixture.token)
-    }
-
-    @MainActor
     func testDwindleLeftDragWithMoveModifierSwapsTilesOnRelease() throws {
         let fixture = try makeDwindleFixture(pid: 1_201)
         let manager = fixture.controller.workspaceManager
@@ -448,14 +373,6 @@ final class MouseMoveModifierTests: NiriInteractionTestCase {
             workspaceId: workspaceId,
             token: window.token,
             windowFrame: try XCTUnwrap(frames[window.token])
-        )
-    }
-
-    private func borderConfig(enabled: Bool = true, width: CGFloat) -> BorderConfig {
-        BorderConfig(
-            enabled: enabled,
-            width: width,
-            color: SettingsColor(red: 1, green: 0, blue: 0, alpha: 1)
         )
     }
 

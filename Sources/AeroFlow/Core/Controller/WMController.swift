@@ -8,15 +8,6 @@ import AeroFlowIPC
 
 @MainActor @Observable
 final class WMController {
-    private struct BorderLayoutConfig: Equatable {
-        let enabled: Bool
-        let width: CGFloat
-
-        func clearance(scale: CGFloat) -> CGFloat {
-            BorderConfig.layoutClearance(enabled: enabled, width: width, scale: scale)
-        }
-    }
-
     var isEnabled: Bool = true
     var hotkeysEnabled: Bool = true
     private(set) var desiredEnabled: Bool = true
@@ -30,8 +21,6 @@ final class WMController {
     var diagnosticsIssues: [DiagnosticsIssue] = []
 
     let settings: SettingsStore
-    @ObservationIgnored
-    private var appliedBorderLayoutConfig: BorderLayoutConfig
     let workspaceManager: WorkspaceManager
     let hotkeys = HotkeyCenter()
     private(set) var hotkeyRegistrationFailures: [HotkeyCommand: HotkeyRegistrationFailureReason] = [:]
@@ -151,10 +140,6 @@ final class WMController {
     let diagnosticsDirectory: URL
     let windowFocusOperations: WindowFocusOperations
     weak var statusBarController: StatusBarController?
-    @ObservationIgnored
-    var effectiveAppearanceObserver: NSKeyValueObservation?
-    @ObservationIgnored
-    var borderUsesDarkAppearance = false
 
     init(
         settings: SettingsStore,
@@ -163,10 +148,6 @@ final class WMController {
         ownedWindowRegistry: OwnedWindowRegistry = .shared
     ) {
         self.settings = settings
-        appliedBorderLayoutConfig = BorderLayoutConfig(
-            enabled: settings.borders.enabled,
-            width: CGFloat(settings.borders.width)
-        )
         motionPolicy = MotionPolicy(animationsEnabled: settings.animationsEnabled)
         self.diagnosticsDirectory = diagnosticsDirectory
         traceCaptureCoordinator = RuntimeTraceCaptureCoordinator(diagnosticsDirectory: diagnosticsDirectory)
@@ -178,7 +159,6 @@ final class WMController {
         configureSurfaceCallbacks()
         configureWorldCallbacks()
         configureFocusAndMenuCallbacks()
-        installEffectiveAppearanceObserver()
     }
 }
 
@@ -229,26 +209,6 @@ extension WMController {
         refreshHotkeyFailureSnapshots()
     }
 
-    func borderSettingsChanged() {
-        let current = BorderLayoutConfig(
-            enabled: settings.borders.enabled,
-            width: CGFloat(settings.borders.width)
-        )
-        let previous = appliedBorderLayoutConfig
-        appliedBorderLayoutConfig = current
-        let clearanceChanged = workspaceManager.monitors.contains { monitor in
-            let scale = backingScaleFactor(for: monitor)
-            return previous.clearance(scale: scale) != current.clearance(scale: scale)
-        }
-        if clearanceChanged {
-            workspaceManager.invalidateAllLayouts()
-            layoutRefreshController.requestRelayout(reason: .layoutConfigChanged)
-            surfaceReconciler.noteWorldChanged()
-        } else {
-            surfaceReconciler.noteBorderChanged()
-        }
-    }
-
     func setFocusFollowsMouse(_ enabled: Bool) {
         focusFollowsMouseEnabled = enabled
         guard !enabled,
@@ -279,11 +239,8 @@ extension WMController {
         surfaceScope: SessionSurfaceInvalidationScope
     ) {
         layoutRefreshController.workspaceSwipe.handleInvalidation(workspaceId: workspaceId, domains: domains)
-        switch surfaceScope {
-        case .full:
+        if surfaceScope == .full {
             surfaceReconciler.noteWorldChanged()
-        case .border:
-            surfaceReconciler.noteBorderChanged()
         }
         guard domains.contains(.workspace) || domains.contains(.fullscreen) else { return }
         guard runtimeFrameJobCancellationSuppressionDepth == 0 else { return }

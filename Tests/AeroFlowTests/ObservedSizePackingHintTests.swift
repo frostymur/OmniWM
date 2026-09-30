@@ -260,8 +260,6 @@ final class ObservedSizePackingHintTests: XCTestCase {
         controller.settings.gaps.outerGapRight = 0
         controller.settings.gaps.outerGapTop = 0
         controller.settings.gaps.outerGapBottom = 0
-        controller.settings.borders.enabled = true
-        controller.settings.borders.width = 3
         controller.settings.niri.infiniteLoop = false
         controller.settings.workspaces.configurations = [
             WorkspaceConfiguration(name: "1", monitorAssignment: .main, layoutType: .niri),
@@ -284,7 +282,7 @@ final class ObservedSizePackingHintTests: XCTestCase {
         controller.settings.monitors.ranking = [primary, secondary].map(OutputId.init(from:))
         manager.applyMonitorConfigurationChange([primary, secondary])
         manager.applySettings()
-        manager.setGaps(to: 2)
+        manager.setGaps(to: 3)
         let workspaceId = try XCTUnwrap(manager.workspaceId(for: "6", createIfMissing: true))
         manager.assignWorkspaceToMonitor(workspaceId, monitorId: secondary.id)
         XCTAssertTrue(manager.setActiveWorkspace(workspaceId, on: secondary.id))

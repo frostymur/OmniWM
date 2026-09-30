@@ -9,13 +9,11 @@ import AeroFlowIPC
 struct MonitorSetupPresentationPolicy {
     static func shouldAutomaticallyPresent(
         status: MonitorSetupStatus,
-        monitors: [Monitor],
-        launchOverlayFinished: Bool
+        monitors: [Monitor]
     ) -> Bool {
         status == .notPresented
             && monitors.count >= 2
             && monitors.allSatisfy { $0.frame.width > 1 && $0.frame.height > 1 }
-            && launchOverlayFinished
     }
 }
 
@@ -67,10 +65,8 @@ public final class AppDelegate: NSObject, NSApplicationDelegate {
     private var cliManager: AppCLIManager?
     private var updateCoordinator: (any AppUpdateCoordinating)?
     private var runtimeStateStore: RuntimeStateStore?
-    private var launchOverlayController: LaunchOverlayController?
     private var monitorSetupScreenObserver: NSObjectProtocol?
     private var monitorSetupEvaluationTask: Task<Void, Never>?
-    private var launchOverlayFinished = false
     private var launchPermissionsWindowController: LaunchPermissionsWindowController?
     private var didFinishBootstrap = false
     private var terminationPending = false
@@ -183,7 +179,7 @@ public final class AppDelegate: NSObject, NSApplicationDelegate {
         updateCoordinator.startAutomaticChecks()
 
         startMonitorSetupPresentationObservation()
-        playLaunchOverlay()
+        scheduleMonitorSetupEvaluation()
     }
 
     private func observeSettings(_ settings: SettingsStore, controller: WMController) {
@@ -207,17 +203,6 @@ public final class AppDelegate: NSObject, NSApplicationDelegate {
         }
         settings.onConfigNoticeChanged = { [weak controller] in
             controller?.refreshDiagnosticsIssues()
-        }
-    }
-
-    private func playLaunchOverlay() {
-        let overlay = LaunchOverlayController()
-        launchOverlayController = overlay
-        overlay.play { [weak self] in
-            guard let self else { return }
-            launchOverlayController = nil
-            launchOverlayFinished = true
-            scheduleMonitorSetupEvaluation()
         }
     }
 
@@ -268,7 +253,6 @@ public final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func scheduleMonitorSetupEvaluation() {
-        guard launchOverlayFinished else { return }
         monitorSetupEvaluationTask?.cancel()
         monitorSetupEvaluationTask = Task { @MainActor [weak self] in
             try? await Task.sleep(for: .milliseconds(500))
@@ -284,8 +268,7 @@ public final class AppDelegate: NSObject, NSApplicationDelegate {
         else { return }
         let shouldPresent = MonitorSetupPresentationPolicy.shouldAutomaticallyPresent(
             status: settings.monitorSetupStatus,
-            monitors: Monitor.current(),
-            launchOverlayFinished: launchOverlayFinished
+            monitors: Monitor.current()
         )
         guard shouldPresent else {
             if settings.monitorSetupStatus != .notPresented {

@@ -165,7 +165,7 @@ extension WorkspaceManager {
             )
         )
         if changed {
-            notifySessionStateChanged(surfaceScope: .border)
+            notifySessionStateChanged(surfaceScope: .full)
         }
         return changed
     }

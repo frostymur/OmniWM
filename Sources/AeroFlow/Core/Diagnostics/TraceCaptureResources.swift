@@ -20,7 +20,6 @@ struct TraceCaptureResources {
         ParkVisibilityAudit.shared,
         ScrollTickTrace.shared,
         AXWriteLatencyTrace.shared,
-        BorderOpMetricsRecorder.shared,
         MouseTrace.shared,
         TrackpadScrollTrace.shared,
         InputTrace.shared

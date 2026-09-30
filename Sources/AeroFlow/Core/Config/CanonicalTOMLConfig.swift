@@ -14,7 +14,6 @@ struct CanonicalTOMLConfig: Codable, Equatable {
     var gaps: SettingsExport.Gaps
     var niri: SettingsExport.Niri
     var dwindle: SettingsExport.Dwindle
-    var borders: SettingsExport.Borders
     var gestures: SettingsExport.Gestures
     var statusBar: SettingsExport.StatusBar
     var appearance: Appearance
@@ -85,7 +84,6 @@ extension CanonicalTOMLConfig {
         gaps = try container.decode(SettingsExport.Gaps.self, forKey: .gaps)
         niri = try container.decode(SettingsExport.Niri.self, forKey: .niri)
         dwindle = try container.decode(SettingsExport.Dwindle.self, forKey: .dwindle)
-        borders = try container.decode(SettingsExport.Borders.self, forKey: .borders)
         gestures = try container.decode(SettingsExport.Gestures.self, forKey: .gestures)
         statusBar = try container.decode(SettingsExport.StatusBar.self, forKey: .statusBar)
         appearance = try container.decode(Appearance.self, forKey: .appearance)
@@ -124,7 +122,6 @@ extension CanonicalTOMLConfig {
         gaps = export.gaps
         niri = export.niri
         dwindle = export.dwindle
-        borders = export.borders
         gestures = export.gestures
         statusBar = export.statusBar
         appearance = Appearance(mode: export.appearanceMode, tabRailAppIcons: export.tabRailAppIcons)
@@ -154,7 +151,6 @@ extension CanonicalTOMLConfig {
             niri: niri,
             workspaceConfigurations: workspaces,
             defaultLayoutType: general.defaultLayoutType,
-            borders: borders,
             hotkeyBindings: hotkeys,
             systemHyperTrigger: general.systemHyperTrigger,
             hyperKeyModifiers: general.hyperKeyModifiers,

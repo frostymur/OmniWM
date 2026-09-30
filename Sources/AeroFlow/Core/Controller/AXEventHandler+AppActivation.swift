@@ -298,16 +298,8 @@ extension AXEventHandler {
             requestId: request.requestId
         )
 
-        if let token = controller.workspaceManager.renderableFocusToken {
+        if controller.workspaceManager.renderableFocusToken != nil {
             controller.surfaceReconciler.noteRestackOccurred()
-            recordNiriCreateFocusTrace(
-                .init(
-                    kind: .borderReapplied(
-                        token: token,
-                        phase: .retryExhaustedFallback
-                    )
-                )
-            )
         } else {
             recordNiriCreateFocusTrace(
                 .init(

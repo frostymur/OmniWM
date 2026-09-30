@@ -268,7 +268,7 @@ enum PrivateAPIHealthDiagnostics {
         let flushOk = sky.flushWindow(wid)
         let resolutionDetail = configure.resolution
             ? "applied=true"
-            : "non-success on macOS 27; return historically ignored, borders functional"
+            : "non-success on macOS 27; return historically ignored"
         return [
             PrivateAPISelfTest("SLSSetWindowShape", shapeOk ? .works : .failed, "applied=\(shapeOk)"),
             PrivateAPISelfTest(
@@ -391,7 +391,7 @@ extension PrivateAPIHealthDiagnostics {
             return PrivateAPISelfTest(
                 api,
                 .failed,
-                "applied=false — border stays selectable by the screenshot window picker"
+                "applied=false — surface stays selectable by the screenshot window picker"
             )
         }
         let readback = sky.isExcludedFromScreencaptureWindowSelection(wid)

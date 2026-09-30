@@ -137,26 +137,17 @@ final class MonitorSetupPresentationTests: XCTestCase {
         XCTAssertFalse(navigation.consumeMonitorSetupPresentationRequest())
     }
 
-    func testPresentationPolicyRequiresTwoDisplaysAfterOverlay() {
+    func testPresentationPolicyRequiresTwoValidDisplays() {
         XCTAssertFalse(
             MonitorSetupPresentationPolicy.shouldAutomaticallyPresent(
                 status: .notPresented,
-                monitors: monitors(count: 2),
-                launchOverlayFinished: false
-            )
-        )
-        XCTAssertFalse(
-            MonitorSetupPresentationPolicy.shouldAutomaticallyPresent(
-                status: .notPresented,
-                monitors: monitors(count: 1),
-                launchOverlayFinished: true
+                monitors: monitors(count: 1)
             )
         )
         XCTAssertTrue(
             MonitorSetupPresentationPolicy.shouldAutomaticallyPresent(
                 status: .notPresented,
-                monitors: monitors(count: 2),
-                launchOverlayFinished: true
+                monitors: monitors(count: 2)
             )
         )
     }
@@ -175,8 +166,7 @@ final class MonitorSetupPresentationTests: XCTestCase {
         XCTAssertFalse(
             MonitorSetupPresentationPolicy.shouldAutomaticallyPresent(
                 status: .notPresented,
-                monitors: displays,
-                launchOverlayFinished: true
+                monitors: displays
             )
         )
     }
@@ -186,8 +176,7 @@ final class MonitorSetupPresentationTests: XCTestCase {
             XCTAssertFalse(
                 MonitorSetupPresentationPolicy.shouldAutomaticallyPresent(
                     status: status,
-                    monitors: monitors(count: 3),
-                    launchOverlayFinished: true
+                    monitors: monitors(count: 3)
                 )
             )
         }

@@ -5,16 +5,6 @@
 import CoreGraphics
 import Foundation
 
-struct DesiredBorderSurface: Equatable {
-    var token: WindowToken
-    var frame: CGRect
-    var config: BorderConfig
-
-    var windowId: Int {
-        token.windowId
-    }
-}
-
 struct ParkingEdgeMaskKey: Hashable {
     enum Side: String, Hashable {
         case left
@@ -31,7 +21,6 @@ struct DesiredParkingEdgeMask: Equatable {
 }
 
 struct DesiredSurfaceScene: Equatable {
-    var border: DesiredBorderSurface?
     var tabRails: [TabRailInfo] = []
     var tabRailStyle: TabRailStyle = .compact
     var placeholders: [NativeFullscreenPlaceholderUpdate] = []

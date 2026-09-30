@@ -27,7 +27,7 @@ enum IssueCategory: String, CaseIterable, Identifiable {
         case .placement: "Window placement or sizing"
         case .crash: "Crash"
         case .performance: "Performance / animation"
-        case .visual: "Visual (borders and surfaces)"
+        case .visual: "Visual (surfaces)"
         }
     }
 
@@ -40,7 +40,7 @@ enum IssueCategory: String, CaseIterable, Identifiable {
         case .placement: String(localized: "Window placement or sizing")
         case .crash: String(localized: "Crash")
         case .performance: String(localized: "Performance / animation")
-        case .visual: String(localized: "Visual (borders and surfaces)")
+        case .visual: String(localized: "Visual (surfaces)")
         }
     }
 }

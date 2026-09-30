@@ -255,7 +255,6 @@ extension WMController {
             "windowMoveEnabled=\(settings.gestures.windowMoveEnabled)",
             "windowResizeEnabled=\(settings.gestures.windowResizeEnabled)",
             "mouseWarpEnabled=\(settings.pointer.enabled)",
-            "bordersEnabled=\(settings.borders.enabled)",
             "preventSleepEnabled=\(settings.preventSleepEnabled)",
             "worldSeq=\(workspaceManager.worldSeq)",
             "monitors=\(workspaceManager.monitors.count)",

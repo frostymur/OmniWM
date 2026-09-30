@@ -166,7 +166,6 @@ final class ParkingEdgeMaskTests: XCTestCase {
             makeTopology(first: first, second: second, firstIsFullscreen: true)
         )
         controller.workspaceManager.recordReconcileEvent(.activeSpaceChanged(source: .service))
-        XCTAssertEqual(reconciler.pendingReconcileScope, .fullScene)
         reconciler.reconcileNow()
 
         XCTAssertEqual(reconciler.appliedScene.parkingEdgeMasks, desktopMasks.filter { $0.key.monitorId == second.id })

@@ -90,9 +90,9 @@ final class SurfaceSceneLifecycleTests: XCTestCase {
     func testNumberBackedSurfacesAreNotReportedAsLiveWindows() {
         let scene = SurfaceScene()
         scene.registerWindowNumber(node: SurfaceScene.SurfaceNode(
-            id: "border-1",
+            id: "tabrail-1",
             policy: SurfacePolicy(
-                kind: .border,
+                kind: .tabRail,
                 hitTestPolicy: .passthrough,
                 capturePolicy: .excluded,
                 suppressesManagedFocusRecovery: false
@@ -109,9 +109,9 @@ final class SurfaceSceneLifecycleTests: XCTestCase {
         XCTAssertEqual(snapshot.live, 0)
         XCTAssertEqual(snapshot.dead, 0)
         XCTAssertEqual(snapshot.numberBacked, 1)
-        XCTAssertEqual(snapshot.byKind[.border], 1)
+        XCTAssertEqual(snapshot.byKind[.tabRail], 1)
 
-        scene.unregister(id: "border-1")
+        scene.unregister(id: "tabrail-1")
         XCTAssertEqual(scene.runtimeSnapshot().total, 0)
     }
 
@@ -120,9 +120,9 @@ final class SurfaceSceneLifecycleTests: XCTestCase {
         var visibilityCalls = 0
         var frameCalls = 0
         scene.registerWindowNumber(node: SurfaceScene.SurfaceNode(
-            id: "border-segment",
+            id: "tabrail-segment",
             policy: SurfacePolicy(
-                kind: .border,
+                kind: .tabRail,
                 hitTestPolicy: .passthrough,
                 capturePolicy: .excluded,
                 suppressesManagedFocusRecovery: false

@@ -33,8 +33,7 @@ struct StatusMenuControlPreviewView: View {
              .moveEdge,
              .mouseWarp:
             true
-        case .focusedWindow,
-             .keepAwake:
+        case .keepAwake:
             false
         }
     }
@@ -58,8 +57,6 @@ private struct StatusMenuControlPreviewCanvas: View {
         Canvas { context, size in
             context.scaleBy(x: size.width / 72, y: size.height / 72)
             switch preview {
-            case .focusedWindow:
-                drawFocusedWindow(in: &context)
             case .keepAwake:
                 drawKeepAwake(in: &context)
             case .focusMouse:
@@ -80,12 +77,6 @@ private struct StatusMenuControlPreviewCanvas: View {
 }
 
 extension StatusMenuControlPreviewCanvas {
-    private func drawFocusedWindow(in context: inout GraphicsContext) {
-        let rect = CGRect(x: 8, y: 11, width: 56, height: 47)
-        drawWindow(rect, focused: true, in: &context)
-        drawContent(in: rect.insetBy(dx: 8, dy: 13), in: &context)
-    }
-
     private func drawKeepAwake(in context: inout GraphicsContext) {
         let display = CGRect(x: 7, y: 14, width: 50, height: 37)
         drawDisplay(display, active: true, in: &context)
@@ -274,21 +265,6 @@ extension StatusMenuControlPreviewCanvas {
             with: .color(active ? accent : tertiary.opacity(0.6)),
             lineWidth: active ? 2.2 : 1
         )
-    }
-
-    private func drawContent(in rect: CGRect, in context: inout GraphicsContext) {
-        for index in 0 ..< 3 {
-            let line = CGRect(
-                x: rect.minX,
-                y: rect.minY + CGFloat(index) * 7,
-                width: rect.width * (index == 2 ? 0.58 : 1),
-                height: 3
-            )
-            context.fill(
-                Path(roundedRect: line, cornerRadius: 1.5),
-                with: .color(secondary.opacity(0.3))
-            )
-        }
     }
 
     private func drawCursor(at point: CGPoint, in context: inout GraphicsContext) {

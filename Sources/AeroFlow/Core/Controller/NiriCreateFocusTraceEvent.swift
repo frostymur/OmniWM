@@ -5,12 +5,6 @@
 import AppKit
 import Foundation
 
-enum ManagedBorderReapplyPhase: String, Equatable {
-    case postLayout
-    case animationSettled
-    case retryExhaustedFallback
-}
-
 struct NiriCreateFocusTraceEvent: Equatable {
     enum Kind: Equatable {
         case createSeen(windowId: UInt32)
@@ -47,7 +41,6 @@ struct NiriCreateFocusTraceEvent: Equatable {
             attempt: Int
         )
         case focusConfirmed(token: WindowToken, workspaceId: WorkspaceDescriptor.ID, source: ActivationEventSource)
-        case borderReapplied(token: WindowToken, phase: ManagedBorderReapplyPhase)
         case provisionalExternalFocusEntered(pid: pid_t, source: ActivationEventSource)
         case externalFocusFallbackEntered(pid: pid_t, source: ActivationEventSource)
     }
@@ -100,8 +93,6 @@ extension NiriCreateFocusTraceEvent: CustomStringConvertible {
             "activation_deferred request=\(requestId) token=\(token) source=\(source.rawValue) reason=\(reason.rawValue) attempt=\(attempt)"
         case let .focusConfirmed(token, workspaceId, source):
             "focus_confirmed token=\(token) workspace=\(workspaceId.uuidString) source=\(source.rawValue)"
-        case let .borderReapplied(token, phase):
-            "border_reapplied token=\(token) phase=\(phase.rawValue)"
         case let .provisionalExternalFocusEntered(pid, source):
             "provisional_external_focus_entered pid=\(pid) source=\(source.rawValue)"
         case let .externalFocusFallbackEntered(pid, source):

@@ -27,7 +27,6 @@ extension WMController {
         updateMonitorGapSettings()
         updateAppRules()
 
-        borderSettingsChanged()
 
         setFocusFollowsMouse(settings.focus.followsMouse)
         setMoveMouseToFocusedWindow(settings.focus.moveMouseToFocusedWindow)
@@ -83,32 +82,7 @@ extension WMController {
 
     func applyCurrentAppearanceMode() {
         settings.appearanceMode.apply()
-        borderUsesDarkAppearance = Self.effectiveAppearanceUsesDarkAqua
         surfaceReconciler.noteWorldChanged()
-    }
-
-    private static var effectiveAppearanceUsesDarkAqua: Bool {
-        NSApplication.shared.effectiveAppearance.bestMatch(from: [.darkAqua, .aqua]) == .darkAqua
-    }
-
-    func installEffectiveAppearanceObserver() {
-        guard effectiveAppearanceObserver == nil else { return }
-        borderUsesDarkAppearance = Self.effectiveAppearanceUsesDarkAqua
-        effectiveAppearanceObserver = NSApplication.shared.observe(
-            \.effectiveAppearance,
-            options: [.new]
-        ) { [weak self] _, _ in
-            Task { @MainActor [weak self] in
-                self?.refreshBorderAppearance()
-            }
-        }
-    }
-
-    func refreshBorderAppearance() {
-        let isDark = Self.effectiveAppearanceUsesDarkAqua
-        guard borderUsesDarkAppearance != isDark else { return }
-        borderUsesDarkAppearance = isDark
-        surfaceReconciler.noteBorderChanged()
     }
 
     func setGapSize(_ size: Double, publishChange: Bool = true) {

@@ -38,7 +38,7 @@ extension WorkspaceManager {
             noteFocusInvalidation(
                 previousWorkspaceId: workspaceId,
                 currentWorkspaceId: workspaceId,
-                surfaceScope: .border
+                surfaceScope: .full
             )
         case .nativeFullscreenPlaceholderSelected,
              .workspaceFocusCleared:
