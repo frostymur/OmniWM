@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://omniwm.app/sitemap-index.xml

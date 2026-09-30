@@ -8,39 +8,39 @@ import unittest
 
 class DevInstallTests(unittest.TestCase):
     def setUp(self):
-        self.temporary = tempfile.TemporaryDirectory(prefix="omniwm-dev-tests-")
+        self.temporary = tempfile.TemporaryDirectory(prefix="aeroflow-dev-tests-")
         self.addCleanup(self.temporary.cleanup)
         self.root = Path(self.temporary.name)
         scripts = self.root / "Scripts"
         scripts.mkdir()
-        source = Path(__file__).resolve().parents[2] / "Scripts" / "omniwm-dev.sh"
+        source = Path(__file__).resolve().parents[2] / "Scripts" / "aeroflow-dev.sh"
         self.script = scripts / source.name
         shutil.copy2(source, self.script)
         self.write_command(
             scripts / "package-app.sh",
-            'mkdir -p "$OMNIWM_TEST_ROOT/dist/$OMNIWM_APP_NAME.app"\n'
-            'printf built > "$OMNIWM_TEST_ROOT/dist/$OMNIWM_APP_NAME.app/new-build"\n',
+            'mkdir -p "$AEROFLOW_TEST_ROOT/dist/$AEROFLOW_APP_NAME.app"\n'
+            'printf built > "$AEROFLOW_TEST_ROOT/dist/$AEROFLOW_APP_NAME.app/new-build"\n',
         )
         tools = self.root / "tools"
         tools.mkdir()
         self.write_command(tools / "osascript", "printf '0\\n'\n")
         self.write_command(tools / "pgrep", "exit 1\n")
         self.write_command(tools / "sleep", "exit 0\n")
-        self.write_command(tools / "open", 'touch "$OMNIWM_TEST_ROOT/opened"\n')
+        self.write_command(tools / "open", 'touch "$AEROFLOW_TEST_ROOT/opened"\n')
         self.config = self.root / "config"
-        self.release_config = self.config / "omniwm"
+        self.release_config = self.config / "aeroflow"
         self.release_config.mkdir(parents=True)
-        self.dev_config = self.config / "omniwm-dev"
-        self.dev_app = self.root / "Applications" / "OmniWM Dev.app"
+        self.dev_config = self.config / "aeroflow-dev"
+        self.dev_app = self.root / "Applications" / "AeroFlow Dev.app"
         self.environment = {
             **os.environ,
             "PATH": f"{tools}:{os.environ['PATH']}",
-            "OMNIWM_TEST_ROOT": str(self.root),
-            "OMNIWM_DEV_INSTALL_DIR": str(self.dev_app.parent),
-            "OMNIWM_RELEASE_APP": str(self.root / "Release.app"),
+            "AEROFLOW_TEST_ROOT": str(self.root),
+            "AEROFLOW_DEV_INSTALL_DIR": str(self.dev_app.parent),
+            "AEROFLOW_RELEASE_APP": str(self.root / "Release.app"),
             "XDG_CONFIG_HOME": str(self.config),
         }
-        self.environment.pop("OMNIWM_DEV_APP_NAME", None)
+        self.environment.pop("AEROFLOW_DEV_APP_NAME", None)
 
     @staticmethod
     def write_command(path, body):
@@ -100,7 +100,7 @@ class DevInstallTests(unittest.TestCase):
         result = self.install()
 
         self.assertNotEqual(result.returncode, 0)
-        self.assertNotIn("omniwm-dev: installed", result.stdout)
+        self.assertNotIn("aeroflow-dev: installed", result.stdout)
         self.assertFalse((self.root / "opened").exists())
         self.assertEqual(
             (self.root / "dist" / self.dev_app.name / "new-build").read_text(), "built"

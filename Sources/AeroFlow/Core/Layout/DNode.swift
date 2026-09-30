@@ -1,0 +1,39 @@
+// SPDX-License-Identifier: GPL-2.0-only
+// Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
+// Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
+
+import CoreGraphics
+import Foundation
+
+struct WindowToken: Hashable, Sendable {
+    let pid: pid_t
+    let windowId: Int
+}
+
+final class WindowHandle: Hashable {
+    var id: WindowToken
+
+    var token: WindowToken {
+        id
+    }
+
+    var pid: pid_t {
+        id.pid
+    }
+
+    var windowId: Int {
+        id.windowId
+    }
+
+    init(id: WindowToken) {
+        self.id = id
+    }
+
+    static func == (lhs: WindowHandle, rhs: WindowHandle) -> Bool {
+        lhs === rhs
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(ObjectIdentifier(self))
+    }
+}

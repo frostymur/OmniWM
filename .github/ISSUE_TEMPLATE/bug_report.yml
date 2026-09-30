@@ -1,15 +1,15 @@
 name: Bug Report
-description: Report a bug in OmniWM
+description: Report a bug in AeroFlow
 title: "[Bug]: "
 labels: ["bug"]
 body:
   - type: markdown
     attributes:
       value: |
-        **Tip:** the easiest way to file a great report is from inside OmniWM — open the status-bar menu and choose **Report a Bug…**. It creates and reveals a diagnostics bundle for you to attach, and walks you through recording a trace first.
+        **Tip:** the easiest way to file a great report is from inside AeroFlow — open the status-bar menu and choose **Report a Bug…**. It creates and reveals a diagnostics bundle for you to attach, and walks you through recording a trace first.
         <!-- video guide placeholder: add link once recorded -->
 
-        Prefer the web form? Continue below. Please first search the existing [open and closed issues](https://github.com/OmniNull/OmniWM/issues?q=is%3Aissue) to avoid duplicates, and make sure you're on the latest OmniWM version.
+        Prefer the web form? Continue below. Please first search the existing [open and closed issues](https://github.com/OmniNull/OmniWM/issues?q=is%3Aissue) to avoid duplicates, and make sure you're on the latest AeroFlow version.
   - type: dropdown
     id: issue-type
     attributes:
@@ -30,7 +30,7 @@ body:
     id: actual
     attributes:
       label: What happened? (actual behavior)
-      description: Describe the bug — what OmniWM actually did.
+      description: Describe the bug — what AeroFlow actually did.
       placeholder: |
         When I move a window to the second display, it snaps back to the first one after about a second.
     validations:
@@ -39,7 +39,7 @@ body:
     id: expected
     attributes:
       label: What did you expect?
-      description: Describe what you expected OmniWM to do instead.
+      description: Describe what you expected AeroFlow to do instead.
       placeholder: |
         The window stays on the second display where I moved it.
     validations:
@@ -65,9 +65,9 @@ body:
     validations:
       required: false
   - type: input
-    id: omniwm-version
+    id: aeroflow-version
     attributes:
-      label: OmniWM version
+      label: AeroFlow version
       description: Shown in the status-bar menu (e.g. v0.5.1).
     validations:
       required: true
@@ -100,7 +100,7 @@ body:
     attributes:
       label: Diagnostics log (strongly recommended)
       description: |
-        The single most useful thing you can attach. In OmniWM: open **Settings → Troubleshooting** and click **Start Recording**, reproduce the bug, then click **Stop & Save Recording**. Drag the resulting `omniwm-trace-*.log` file into this box to upload it.
+        The single most useful thing you can attach. In AeroFlow: open **Settings → Troubleshooting** and click **Start Recording**, reproduce the bug, then click **Stop & Save Recording**. Drag the resulting `aeroflow-trace-*.log` file into this box to upload it.
     validations:
       required: false
   - type: textarea
@@ -117,10 +117,10 @@ body:
       options:
         - label: I searched existing open and closed issues and confirmed this isn't a duplicate.
           required: true
-        - label: I'm on a recent OmniWM version and the issue still occurs.
+        - label: I'm on a recent AeroFlow version and the issue still occurs.
           required: true
   - type: markdown
     attributes:
       value: |
         ---
-        OmniWM is free and open source. If you find it useful, starring the repo helps others discover it — entirely optional and unrelated to how your issue is handled.
+        AeroFlow is free and open source. If you find it useful, starring the repo helps others discover it — entirely optional and unrelated to how your issue is handled.

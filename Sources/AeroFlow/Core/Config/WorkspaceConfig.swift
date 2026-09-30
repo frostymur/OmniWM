@@ -1,0 +1,123 @@
+// SPDX-License-Identifier: GPL-2.0-only
+// Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
+// Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
+
+import Foundation
+import AeroFlowIPC
+
+enum LayoutType: String, Codable, CaseIterable, Identifiable {
+    case defaultLayout = "default"
+    case niri
+    case dwindle
+
+    var id: String {
+        rawValue
+    }
+
+    var displayName: String {
+        switch self {
+        case .defaultLayout: "Default"
+        case .niri: "Niri (Scrolling)"
+        case .dwindle: "Dwindle (BSP)"
+        }
+    }
+}
+
+enum MonitorAssignment: Equatable, Hashable {
+    case main
+    case secondary
+    case tertiary
+    case specificDisplay(OutputId)
+
+    var displayName: String {
+        switch self {
+        case .main: "Main"
+        case .secondary: "Secondary"
+        case .tertiary: "Tertiary"
+        case let .specificDisplay(output): output.name
+        }
+    }
+
+    func toMonitorDescription() -> MonitorDescription {
+        switch self {
+        case .main: return .main
+        case .secondary: return .secondary
+        case .tertiary: return .tertiary
+        case let .specificDisplay(output): return .output(output)
+        }
+    }
+}
+
+extension MonitorAssignment: Codable {
+    private enum CodingKeys: String, CodingKey {
+        case type, output
+    }
+
+    private enum AssignmentType: String, Codable {
+        case main, secondary, tertiary, specificDisplay
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let type = try container.decode(AssignmentType.self, forKey: .type)
+        switch type {
+        case .main: self = .main
+        case .secondary: self = .secondary
+        case .tertiary: self = .tertiary
+        case .specificDisplay:
+            let output = try container.decode(OutputId.self, forKey: .output)
+            self = .specificDisplay(output)
+        }
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+        case .main:
+            try container.encode(AssignmentType.main, forKey: .type)
+        case .secondary:
+            try container.encode(AssignmentType.secondary, forKey: .type)
+        case .tertiary:
+            try container.encode(AssignmentType.tertiary, forKey: .type)
+        case let .specificDisplay(output):
+            try container.encode(AssignmentType.specificDisplay, forKey: .type)
+            try container.encode(output, forKey: .output)
+        }
+    }
+}
+
+struct WorkspaceConfiguration: Codable, Identifiable, Equatable {
+    let id: UUID
+    var name: String
+    var displayName: String?
+    var monitorAssignment: MonitorAssignment
+    var layoutType: LayoutType
+
+    var effectiveDisplayName: String {
+        displayName.flatMap { $0.isEmpty ? nil : $0 } ?? name
+    }
+
+    init(
+        id: UUID = UUID(),
+        name: String,
+        displayName: String? = nil,
+        monitorAssignment: MonitorAssignment = .main,
+        layoutType: LayoutType = .defaultLayout
+    ) {
+        self.id = id
+        self.name = name
+        self.displayName = displayName
+        self.monitorAssignment = monitorAssignment
+        self.layoutType = layoutType
+    }
+
+    func with(layoutType: LayoutType) -> WorkspaceConfiguration {
+        var copy = self
+        copy.layoutType = layoutType
+        return copy
+    }
+
+    var sortOrder: Int {
+        WorkspaceIDPolicy.workspaceNumber(from: name) ?? .max
+    }
+}

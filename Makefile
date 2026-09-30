@@ -46,13 +46,13 @@ localization-sync: build
 run: dev-install
 
 dev-install:
-	./Scripts/omniwm-dev.sh install
+	./Scripts/aeroflow-dev.sh install
 
 use-dev:
-	./Scripts/omniwm-dev.sh use dev
+	./Scripts/aeroflow-dev.sh use dev
 
 use-release:
-	./Scripts/omniwm-dev.sh use release
+	./Scripts/aeroflow-dev.sh use release
 
 test-dev-tools:
 	python3 -m unittest discover -s Tests/DevToolingTests
@@ -61,7 +61,7 @@ energy-profile:
 	./Scripts/energy-profile.sh
 
 test-skylight-live:
-	OMNIWM_RUN_SKYLIGHT_LIVE_TESTS=1 swift test --filter SkyLightNativeSpaceInventoryLiveTests/testLiveTransactionMoveIsObservedThroughWindowServerBounds
+	AEROFLOW_RUN_SKYLIGHT_LIVE_TESTS=1 swift test --filter SkyLightNativeSpaceInventoryLiveTests/testLiveTransactionMoveIsObservedThroughWindowServerBounds
 
 release-check: localization-check
 

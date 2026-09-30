@@ -1,4 +1,4 @@
-name: OmniWM CI
+name: AeroFlow CI
 
 on:
   pull_request:

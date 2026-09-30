@@ -94,7 +94,7 @@ check_tool() {
 
 
 check_signing() {
-  local identity="${OMNIWM_SIGNING_IDENTITY:-OmniWM Dev}"
+  local identity="${AEROFLOW_SIGNING_IDENTITY:-AeroFlow Dev}"
   if security find-identity -v -p codesigning 2>/dev/null | awk -v identity="$identity" '$2 == identity || index($0, "\"" identity "\"") { found = 1 } END { exit !found }'; then
     echo "Development signing identity: $identity"
   else
@@ -105,14 +105,14 @@ check_signing() {
 print_paths() {
   local config_base="${XDG_CONFIG_HOME:-$HOME/.config}"
   local state_base="${XDG_STATE_HOME:-$HOME/.local/state}"
-  local dev_app="${OMNIWM_DEV_INSTALL_DIR:-$HOME/Applications}/${OMNIWM_DEV_APP_NAME:-OmniWM Dev}.app"
-  local release_app="${OMNIWM_RELEASE_APP:-/Applications/OmniWM.app}" app
+  local dev_app="${AEROFLOW_DEV_INSTALL_DIR:-$HOME/Applications}/${AEROFLOW_DEV_APP_NAME:-AeroFlow Dev}.app"
+  local release_app="${AEROFLOW_RELEASE_APP:-/Applications/AeroFlow.app}" app
   case "$config_base" in /*) ;; *) config_base="$HOME/.config" ;; esac
   case "$state_base" in /*) ;; *) state_base="$HOME/.local/state" ;; esac
   echo "Development tools: $BIN_DIR"
-  echo "Release settings: $config_base/omniwm/settings.toml"
-  echo "Dev settings: $config_base/omniwm-dev/settings.toml"
-  echo "Dev state: $state_base/omniwm-dev"
+  echo "Release settings: $config_base/aeroflow/settings.toml"
+  echo "Dev settings: $config_base/aeroflow-dev/settings.toml"
+  echo "Dev state: $state_base/aeroflow-dev"
   for app in "$dev_app" "$release_app"; do
     if [ -d "$app" ]; then
       echo "Installed app: $app"
@@ -161,8 +161,8 @@ case "${1:-doctor}" in
     mkdir -p "$BIN_DIR" "$DOWNLOAD_DIR"
     WORK_DIR="$(mktemp -d "$TOOLS_DIR/setup.XXXXXX")"
     trap cleanup EXIT
-    install_tool swiftformat "$SWIFTFORMAT_VERSION" "https://github.com/nicklockwood/SwiftFormat/releases/download/$SWIFTFORMAT_VERSION/swiftformat.zip" "$OMNIWM_SWIFTFORMAT_ZIP_SHA256"
-    install_tool swiftlint "$SWIFTLINT_VERSION" "https://github.com/realm/SwiftLint/releases/download/$SWIFTLINT_VERSION/portable_swiftlint.zip" "$OMNIWM_SWIFTLINT_ZIP_SHA256"
+    install_tool swiftformat "$SWIFTFORMAT_VERSION" "https://github.com/nicklockwood/SwiftFormat/releases/download/$SWIFTFORMAT_VERSION/swiftformat.zip" "$AEROFLOW_SWIFTFORMAT_ZIP_SHA256"
+    install_tool swiftlint "$SWIFTLINT_VERSION" "https://github.com/realm/SwiftLint/releases/download/$SWIFTLINT_VERSION/portable_swiftlint.zip" "$AEROFLOW_SWIFTLINT_ZIP_SHA256"
     check_tool swiftformat "$SWIFTFORMAT_VERSION"
     check_tool swiftlint "$SWIFTLINT_VERSION"
     check_signing

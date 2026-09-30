@@ -216,12 +216,12 @@ class LocalizationTests(unittest.TestCase):
     def test_packaging_places_locales_in_main_app_bundle(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
-            bundle = root / "OmniWM_OmniWM.bundle"
+            bundle = root / "AeroFlow_AeroFlow.bundle"
             source = bundle / "Contents/Resources/fr.lproj"
             source.mkdir(parents=True)
             (source / "Localizable.strings").write_text('"Open" = "Ouvrir";')
             (source / "InfoPlist.strings").write_text('"NSMicrophoneUsageDescription" = "Microphone";')
-            app = root / "OmniWM.app"
+            app = root / "AeroFlow.app"
             (app / "Contents/Resources").mkdir(parents=True)
             localization.package(bundle, app)
             copied = app / "Contents/Resources/fr.lproj/Localizable.strings"

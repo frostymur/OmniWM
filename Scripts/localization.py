@@ -11,13 +11,13 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-CATALOGS = ROOT / "Sources/OmniWM/Resources"
+CATALOGS = ROOT / "Sources/AeroFlow/Resources"
 FORMAT = re.compile(
     r"%(?:(\d+)\$)?[-+#0 ']*(?:\d+|\*)?(?:\.(?:\d+|\*))?"
     r"(hh|ll|h|l|q|z|t|j|L)?([@diuoxXfFeEgGaAcCsSp])"
 )
 SUBSTITUTION = re.compile(r"%(?:(\d+)\$)?#@([A-Za-z_][A-Za-z_0-9]*)@")
-INFO_KEYS = ("NSMicrophoneUsageDescription", "NSScreenCaptureUsageDescription")
+INFO_KEYS = ("NSScreenCaptureUsageDescription",)
 PLURAL_CATEGORIES = {
     "ar": {"zero", "one", "two", "few", "many", "other"},
     "da": {"one", "other"},
@@ -259,7 +259,7 @@ def compiler_stringsdata():
     )
     bin_path = Path(result.stdout.strip())
     intermediates = bin_path.parent.parent / "Intermediates.noindex"
-    sources = (ROOT / "Sources/OmniWM", ROOT / "Sources/OmniWMApp")
+    sources = (ROOT / "Sources/AeroFlow", ROOT / "Sources/AeroFlowApp")
     found = {}
     for path in intermediates.rglob("*.stringsdata"):
         if bin_path.name not in path.parts or "Objects-normal" not in path.parts or "arm64" not in path.parts:
@@ -275,7 +275,7 @@ def compiler_stringsdata():
             raise ValueError(f"conflicting compiler strings metadata for {source}")
         found[source] = (path, data)
     if not found:
-        raise ValueError("no OmniWM compiler .stringsdata found; run make build first")
+        raise ValueError("no AeroFlow compiler .stringsdata found; run make build first")
     return [entry[0] for entry in found.values()]
 
 
@@ -310,7 +310,7 @@ def check():
     validate_catalogs()
     stringsdata = compiler_stringsdata()
     validate_command_defaults(stringsdata)
-    with tempfile.TemporaryDirectory(prefix="omniwm-localization-") as temporary:
+    with tempfile.TemporaryDirectory(prefix="aeroflow-localization-") as temporary:
         directory = Path(temporary)
         for name in ("Localizable", "Commands"):
             shutil.copy2(CATALOGS / f"{name}.xcstrings", directory)

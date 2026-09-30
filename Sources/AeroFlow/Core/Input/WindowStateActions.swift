@@ -1,0 +1,47 @@
+// SPDX-License-Identifier: GPL-2.0-only
+// Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
+// Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
+
+import Carbon
+import Foundation
+import AeroFlowIPC
+
+extension IPCWindowStateCommand {
+    func actionDisplayName() -> LocalizedStringResource {
+        switch self {
+        case .toggleFloating: LocalizedStringResource(
+                "command.windowState.toggleFloating", defaultValue: "Toggle Focused Window Floating", table: "Commands",
+                bundle: .aeroFlow
+            )
+        case .close: LocalizedStringResource(
+                "command.windowState.close", defaultValue: "Close Focused Window", table: "Commands", bundle: .aeroFlow
+            )
+        }
+    }
+
+    func actionSpec() -> ActionSpec {
+        let id: String
+        let binding: KeyBinding
+        let keywords: [String]
+        let category: HotkeyCategory
+        switch self {
+        case .toggleFloating:
+            id = "toggleFocusedWindowFloating"
+            binding = .unassigned
+            keywords = ["float", "floating"]
+            category = .layout
+        case .close:
+            id = "closeFocusedWindow"
+            binding = .unassigned
+            keywords = ["close", "quit", "window"]
+            category = .focus
+        }
+        return ActionCatalog.action(
+            id: id,
+            command: .windowState(self),
+            category: category,
+            binding: binding,
+            keywords: keywords
+        )
+    }
+}

@@ -14,16 +14,16 @@ jobs:
       - uses: actions/first-interaction@v3
         with:
           issue_message: |
-            Thanks for opening your first OmniWM issue, and welcome.
+            Thanks for opening your first AeroFlow issue, and welcome.
 
-            Clear reproduction steps, OmniWM version, macOS version, and logs make reports much easier to investigate.
+            Clear reproduction steps, AeroFlow version, macOS version, and logs make reports much easier to investigate.
 
-            If this is a question rather than a bug, the OmniWM Discord (https://discord.gg/NzMFZ4peWY) is the quickest place to get help.
+            If this is a question rather than a bug, the upstream OmniWM community Discord (https://discord.gg/NzMFZ4peWY) is the quickest place to get help.
 
-            OmniWM is free and open source. If you find it useful, starring the repo helps more people discover it. Totally optional; thanks either way.
+            AeroFlow is free and open source. If you find it useful, starring the repo helps more people discover it. Totally optional; thanks either way.
           pr_message: |
-            Thanks for opening your first OmniWM pull request, and welcome.
+            Thanks for opening your first AeroFlow pull request, and welcome.
 
             A short description of the problem, the resulting behavior, and how you verified the change makes review much easier.
 
-            OmniWM is free and open source. If you find it useful, starring the repo helps more people discover it. Totally optional; thanks either way.
+            AeroFlow is free and open source. If you find it useful, starring the repo helps more people discover it. Totally optional; thanks either way.

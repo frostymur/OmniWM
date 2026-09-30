@@ -1,3 +1,20 @@
+AeroFlow
+=========
+
+AeroFlow is a fork of OmniWM (https://github.com/OmniNull/OmniWM) with
+refactored architecture, Niri-style scrolling engine, and 120Hz animation
+support.
+
+Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
+Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
+
+This program is distributed under the GNU General Public License,
+version 2 only. All original copyright notices of OmniWM and its
+contributors are retained in the source files. Modifications introduced
+in this fork are tracked in the git history of this repository.
+
+=========================================================================
+
                     GNU GENERAL PUBLIC LICENSE
                        Version 2, June 1991
 

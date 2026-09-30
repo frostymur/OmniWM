@@ -1,6 +1,6 @@
-# OmniWM brand assets
+# AeroFlow brand assets
 
-The canonical geometry is the reference-faithful eight-ray mark in `source/omniwm-mark-color.svg`. Normal-size app, launch, and web assets use that geometry unchanged. The status and favicon silhouettes use the optical microcut in `source/omniwm-status-template.svg` so the center dot and all eight rays remain separate at 14 px.
+The canonical geometry is the reference-faithful eight-ray mark in `source/aeroflow-mark-color.svg`. Normal-size app, launch, and web assets use that geometry unchanged. The status and favicon silhouettes use the optical microcut in `source/aeroflow-status-template.svg` so the center dot and all eight rays remain separate at 14 px.
 
 ## Palette
 

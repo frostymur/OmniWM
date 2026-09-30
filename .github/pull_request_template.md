@@ -4,7 +4,7 @@ What problem does this solve? Link the related issue, if any.
 
 ## Result
 
-What changes for someone using OmniWM? Mention configuration, CLI, or workflow changes when relevant.
+What changes for someone using AeroFlow? Mention configuration, CLI, or workflow changes when relevant.
 
 ## Verification
 

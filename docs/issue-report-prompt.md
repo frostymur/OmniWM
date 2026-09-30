@@ -1,6 +1,6 @@
 # Improving the AI issue-report prompt
 
-OmniWM's **Report an Issue** flow (Settings → Report an Issue) can rewrite a user's rough bug
+AeroFlow's **Report an Issue** flow (Settings → Report an Issue) can rewrite a user's rough bug
 report into a clean, structured GitHub issue. The rewrite runs on-device through Apple
 Intelligence when available. Without it, the manual submission path remains available and
 formats the report deterministically.
@@ -10,9 +10,9 @@ improve them without touching Swift.
 
 ## Files you edit
 
-- `Sources/OmniWM/Core/IssueReporter/Prompts/issue-rewrite-prompt.md` — the main
+- `Sources/AeroFlow/Core/IssueReporter/Prompts/issue-rewrite-prompt.md` — the main
   instructions that turn the rough report into the structured issue.
-- `Sources/OmniWM/Core/IssueReporter/Prompts/issue-hotkey-context-preamble.md` — extra
+- `Sources/AeroFlow/Core/IssueReporter/Prompts/issue-hotkey-context-preamble.md` — extra
   instructions used **only** when the report contains a parseable plus-separated keyboard
   chord such as `Option+Return`.
 
@@ -31,7 +31,7 @@ sent to the model. Put notes in this guide instead.
 - **Don't rename the five sections.** The model returns structured `GeneratedIssue` fields,
   and `IssueTemplate.assemble` places them under **Summary**, **Steps to Reproduce**,
   **Expected Behavior**, **Actual Behavior**, and **Additional Context**. These field
-  meanings and headings are tied to code in `Sources/OmniWM/Core/IssueReporter/`; changing
+  meanings and headings are tied to code in `Sources/AeroFlow/Core/IssueReporter/`; changing
   them requires a matching Swift change.
 - **The hotkey preamble is conditional.** The live `KNOWN SHORTCUTS` list is built from
   the user's current config and appended by the app at runtime — don't hardcode specific
@@ -40,7 +40,7 @@ sent to the model. Put notes in this guide instead.
 ## Model limits to keep in mind
 
 The rewrite runs on Apple's small on-device foundation model
-(`LanguageModelSession` in `Sources/OmniWM/Core/IssueReporter/FoundationModelsIssueEngine.swift`),
+(`LanguageModelSession` in `Sources/AeroFlow/Core/IssueReporter/FoundationModelsIssueEngine.swift`),
 which exposes a finite context budget through `SystemLanguageModel.default.contextSize`.
 That budget is shared across *everything* in one request: your prompt instructions, the
 conditional hotkey preamble plus the runtime-resolved `KNOWN SHORTCUTS` list, the user's

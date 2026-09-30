@@ -5,19 +5,19 @@ import PackageDescription
 let packageDirectory = URL(fileURLWithPath: #filePath).deletingLastPathComponent().path
 
 let package = Package(
-    name: "OmniWM",
+    name: "AeroFlow",
     defaultLocalization: "en",
     platforms: [
         .macOS(.v15)
     ],
     products: [
         .executable(
-            name: "OmniWM",
-            targets: ["OmniWMApp"]
+            name: "AeroFlow",
+            targets: ["AeroFlowApp"]
         ),
         .executable(
-            name: "omniwmctl",
-            targets: ["OmniWMCtl"]
+            name: "aeroflowctl",
+            targets: ["AeroFlowCtl"]
         )
     ],
     dependencies: [
@@ -25,34 +25,34 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "OmniWMIPC",
-            path: "Sources/OmniWMIPC",
+            name: "AeroFlowIPC",
+            path: "Sources/AeroFlowIPC",
             swiftSettings: [
                 .swiftLanguageMode(.v6)
             ]
         ),
 
         .target(
-            name: "OmniWMLayerCorners",
-            path: "Sources/OmniWMLayerCorners",
+            name: "AeroFlowLayerCorners",
+            path: "Sources/AeroFlowLayerCorners",
             cSettings: [
             ]
         ),
         .target(
-            name: "OmniWMLauncherSPI",
-            path: "Sources/OmniWMLauncherSPI",
+            name: "AeroFlowLauncherSPI",
+            path: "Sources/AeroFlowLauncherSPI",
             cSettings: [
             ]
         ),
         .target(
-            name: "OmniWM",
+            name: "AeroFlow",
             dependencies: [
-                "OmniWMIPC",
-                "OmniWMLayerCorners",
-                "OmniWMLauncherSPI",
+                "AeroFlowIPC",
+                "AeroFlowLayerCorners",
+                "AeroFlowLauncherSPI",
                 .product(name: "TOML", package: "swift-toml")
             ],
-            path: "Sources/OmniWM",
+            path: "Sources/AeroFlow",
             resources: [
                 .process("Resources"),
                 .copy("Core/IssueReporter/Prompts")
@@ -75,17 +75,17 @@ let package = Package(
             ]
         ),
         .executableTarget(
-            name: "OmniWMApp",
-            dependencies: ["OmniWM"],
-            path: "Sources/OmniWMApp",
+            name: "AeroFlowApp",
+            dependencies: ["AeroFlow"],
+            path: "Sources/AeroFlowApp",
             swiftSettings: [
                 .swiftLanguageMode(.v6)
             ]
         ),
         .executableTarget(
-            name: "OmniWMCtl",
-            dependencies: ["OmniWMIPC"],
-            path: "Sources/OmniWMCtl",
+            name: "AeroFlowCtl",
+            dependencies: ["AeroFlowIPC"],
+            path: "Sources/AeroFlowCtl",
             resources: [
                 .embedInCode("Completions/completion.zsh"),
                 .embedInCode("Completions/completion.bash"),
@@ -97,9 +97,9 @@ let package = Package(
             ]
         ),
         .testTarget(
-            name: "OmniWMTests",
-            dependencies: ["OmniWM", "OmniWMCtl", "OmniWMLayerCorners"],
-            path: "Tests/OmniWMTests",
+            name: "AeroFlowTests",
+            dependencies: ["AeroFlow", "AeroFlowCtl", "AeroFlowLayerCorners"],
+            path: "Tests/AeroFlowTests",
             resources: [
                 .copy("Fixtures")
             ],

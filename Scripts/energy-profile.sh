@@ -17,7 +17,7 @@ case "$PROFILER" in
     fi
     SAMPLE_RATE_MS="${SAMPLE_RATE_MS:-5000}"
     SAMPLE_COUNT="${SAMPLE_COUNT:-60}"
-    OUTPUT="$OUTPUT_DIR/omniwm-powermetrics-$TIMESTAMP.txt"
+    OUTPUT="$OUTPUT_DIR/aeroflow-powermetrics-$TIMESTAMP.txt"
     echo "Recording $SAMPLE_COUNT powermetrics samples every ${SAMPLE_RATE_MS}ms"
     echo "Output: $OUTPUT"
     exec /usr/bin/powermetrics \

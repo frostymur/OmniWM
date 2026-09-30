@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDisplayName</key>
-	<string>OmniWM</string>
+	<string>AeroFlow</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
-	<string>OmniWM</string>
+	<string>AeroFlow</string>
 	<key>CFBundleIconFile</key>
 	<string>AppIcon</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.barut.OmniWM</string>
+	<string>com.frostymur.AeroFlow</string>
 	<key>CFBundleName</key>
-	<string>OmniWM</string>
+	<string>AeroFlow</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -29,6 +29,6 @@
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>NSScreenCaptureUsageDescription</key>
-	<string>OmniWM uses screen capture for desktop wallpaper and window drag previews.</string>
+	<string>AeroFlow uses screen capture for desktop wallpaper and window drag previews.</string>
 </dict>
 </plist>

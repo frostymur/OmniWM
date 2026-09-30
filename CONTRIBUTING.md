@@ -1,14 +1,14 @@
 # Contributing
 
-Bug fixes, documentation improvements, performance work, focused features, and thoughtful ideas are welcome. This is the canonical guide for building OmniWM and submitting a change, also available [on the website](https://omniwm.app/developers/contributing/). For larger changes, open an issue or discussion first so we can agree on direction.
+Bug fixes, documentation improvements, performance work, focused features, and thoughtful ideas are welcome. This is the canonical guide for building AeroFlow and submitting a change. For larger changes, open an issue or discussion first so we can agree on direction.
 
-Documentation-only contributions do not require building the app. For website changes, follow the [website development guide](website/README.md).
+Documentation-only contributions do not require building the app.
 
 ## Quick Start
 
 ### 1. Install Xcode
 
-Building OmniWM requires an **Apple Silicon Mac and Xcode 27 with Swift 6.4**. Xcode 26.6 includes Swift 6.3 and cannot build this checkout. Xcode 27 requires **macOS 26.6 or later**, even though the released OmniWM app supports macOS 26.0 or later. Check [Apple's Xcode requirements](https://developer.apple.com/xcode/system-requirements) before downloading Xcode.
+Building AeroFlow requires an **Apple Silicon Mac and Xcode 27 with Swift 6.4**. Xcode 26.6 includes Swift 6.3 and cannot build this checkout. Xcode 27 requires **macOS 26.6 or later**, even though the released AeroFlow app supports macOS 26.0 or later. Check [Apple's Xcode requirements](https://developer.apple.com/xcode/system-requirements) before downloading Xcode.
 
 Install Xcode from [Apple Developer Downloads](https://developer.apple.com/download/all/), open it, and finish its first-launch setup. In **Xcode → Settings → Locations → Command Line Tools**, select Xcode 27. Confirm the compiler in Terminal:
 
@@ -20,11 +20,11 @@ The result must report Swift 6.4. The standalone Command Line Tools package is n
 
 ### 2. Fork, Clone, and Create a Branch
 
-Click **Fork** on [the OmniWM repository](https://github.com/OmniNull/OmniWM), then clone your fork. Replace `YOUR-USERNAME` with your GitHub username:
+Click **Fork** on [the AeroFlow repository](https://github.com/OmniNull/OmniWM), then clone your fork. Replace `YOUR-USERNAME` with your GitHub username:
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/OmniWM.git
-cd OmniWM
+git clone https://github.com/YOUR-USERNAME/AeroFlow.git
+cd AeroFlow
 git remote add upstream https://github.com/OmniNull/OmniWM.git
 git fetch upstream
 git switch -c my-change upstream/main
@@ -40,7 +40,7 @@ make setup
 
 This downloads the pinned, prebuilt GhosttyKit into `Frameworks/GhosttyKit.xcframework` and checks its checksum. **You do not need to compile GhosttyKit.** It also installs the pinned SwiftFormat and SwiftLint tools into the repository's ignored local tool cache; no manual Homebrew installation is required. Valid existing dependencies are reused.
 
-Tool versions and download checksums are recorded in [Scripts/dev-tools.env](Scripts/dev-tools.env); Ghostty's internal archive pin remains in [Scripts/build-metadata.env](Scripts/build-metadata.env). Setup preserves an existing framework that does not match the pin and explains the mismatch instead of overwriting it. Setup does not launch OmniWM or change privacy permissions, login items, or CLI links.
+Tool versions and download checksums are recorded in [Scripts/dev-tools.env](Scripts/dev-tools.env); Ghostty's internal archive pin remains in [Scripts/build-metadata.env](Scripts/build-metadata.env). Setup preserves an existing framework that does not match the pin and explains the mismatch instead of overwriting it. Setup does not launch AeroFlow or change privacy permissions, login items, or CLI links.
 
 ### 4. Optionally Create a Signing Certificate
 
@@ -54,9 +54,9 @@ You can skip this and run Dev immediately. Without the certificate, the build us
 make run
 ```
 
-This builds your checked-out code, packages and signs **OmniWM Dev.app**, installs it at `~/Applications/OmniWM Dev.app`, and opens it. It builds before quitting the running OmniWM copy; if that copy cannot quit, installation stops with an error. Your normal OmniWM app remains installed. Only one copy runs at a time.
+This builds your checked-out code, packages and signs **AeroFlow Dev.app**, installs it at `~/Applications/AeroFlow Dev.app`, and opens it. It builds before quitting the running AeroFlow copy; if that copy cannot quit, installation stops with an error. Your normal AeroFlow app remains installed. Only one copy runs at a time.
 
-On first launch, grant **Accessibility** and **Input Monitoring** to **OmniWM Dev** in the permissions window. **Screen Recording** is optional for capture-derived visuals such as Overview thumbnails. Dev has its own permissions, separate from your normal app. Follow any restart prompt after granting permissions, then return to the permissions window and click **Start OmniWM** or **Continue Without Screen Recording**.
+On first launch, grant **Accessibility** and **Input Monitoring** to **AeroFlow Dev** in the permissions window. **Screen Recording** is optional for capture-derived visuals such as Overview thumbnails. Dev has its own permissions, separate from your normal app. Follow any restart prompt after granting permissions, then return to the permissions window and click **Start AeroFlow** or **Continue Without Screen Recording**.
 
 Edit code in your preferred editor, then run `make run` again to rebuild. You can also launch the installed Dev app from Finder.
 
@@ -82,40 +82,40 @@ Commit your change, push your branch to your fork, and open a pull request targe
 | `make build` | Build the app without installing or launching it. |
 | `make run` | Build, sign, install, and switch to Dev; alias for `make dev-install`. |
 | `make use-dev` | Switch to the installed Dev app without rebuilding. |
-| `make use-release` | Switch back to the normal app at `/Applications/OmniWM.app`. |
+| `make use-release` | Switch back to the normal app at `/Applications/AeroFlow.app`. |
 
 If your normal app is elsewhere, set its path when switching:
 
 ```bash
-OMNIWM_RELEASE_APP="$HOME/Applications/OmniWM.app" make use-release
+AEROFLOW_RELEASE_APP="$HOME/Applications/AeroFlow.app" make use-release
 ```
 
-The development commands do not install the normal release. If you need it, follow the [installation guide](https://omniwm.app/guides/install/).
+The development commands do not install the normal release. If you need it, follow the [upstream OmniWM installation guide](https://omniwm.app/guides/install/).
 
 ## Separate Settings and State
 
-The installed Dev app has the fixed identity `com.barut.OmniWM.dev`, which selects its own storage directories even when launched from Finder:
+The installed Dev app has the fixed identity `com.frostymur.AeroFlow.dev`, which selects its own storage directories even when launched from Finder:
 
 | Data | Normal app | Dev app |
 | --- | --- | --- |
-| Settings | `~/.config/omniwm/settings.toml` | `~/.config/omniwm-dev/settings.toml` |
-| Saved state | `~/.local/state/omniwm/` | `~/.local/state/omniwm-dev/` |
-| OmniWM diagnostics | `~/.local/state/omniwm/diagnostics/` | `~/.local/state/omniwm-dev/diagnostics/` |
+| Settings | `~/.config/aeroflow/settings.toml` | `~/.config/aeroflow-dev/settings.toml` |
+| Saved state | `~/.local/state/aeroflow/` | `~/.local/state/aeroflow-dev/` |
+| AeroFlow diagnostics | `~/.local/state/aeroflow/diagnostics/` | `~/.local/state/aeroflow-dev/diagnostics/` |
 
 On first installation, the helper copies your normal `settings.toml` into an independent Dev file. Existing Dev settings are preserved, and later edits are never synchronized. If no normal settings file exists, Dev uses its defaults. Saved state and clipboard history start fresh; they are not copied.
 
-Absolute `XDG_CONFIG_HOME` and `XDG_STATE_HOME` values replace the corresponding base directories, with `omniwm` or `omniwm-dev` appended. Relative values are ignored. These variables must be available to the app process: a variable set only in a Terminal session is not automatically available to a Finder launch.
+Absolute `XDG_CONFIG_HOME` and `XDG_STATE_HOME` values replace the corresponding base directories, with `aeroflow` or `aeroflow-dev` appended. Relative values are ignored. These variables must be available to the app process: a variable set only in a Terminal session is not automatically available to a Finder launch.
 
 Keep **Start at Login** disabled in Dev. The helper does not change login registration. Dev can still display normal release-update notifications; installing a stable update does not rebuild your development code. Use `make run` to rebuild Dev.
 
 ### Testing the CLI
 
-Both copies use the same IPC socket, so an existing `omniwmctl` command talks to whichever copy is running. Enable IPC in that copy's settings when testing CLI commands.
+Both copies use the same IPC socket, so an existing `aeroflowctl` command talks to whichever copy is running. Enable IPC in that copy's settings when testing CLI commands.
 
 To test the CLI built from your changes, invoke it directly:
 
 ```bash
-"$HOME/Applications/OmniWM Dev.app/Contents/MacOS/omniwmctl" --help
+"$HOME/Applications/AeroFlow Dev.app/Contents/MacOS/aeroflowctl" --help
 ```
 
 Setup and switching do not change CLI links. Dev's **Install CLI** setting can create a link to its bundled CLI when no conflicting link exists; use the embedded path above to leave your normal CLI setup alone.
@@ -126,7 +126,7 @@ Create one certificate and reuse it for future builds:
 
 1. Open **Keychain Access** using Spotlight and select the **login** keychain.
 2. Choose **Keychain Access → Certificate Assistant → Create a Certificate**.
-3. Set **Name** to `OmniWM Dev`, **Identity Type** to **Self Signed Root**, and **Certificate Type** to **Code Signing**.
+3. Set **Name** to `AeroFlow Dev`, **Identity Type** to **Self Signed Root**, and **Certificate Type** to **Code Signing**.
 4. Click **Create**, accept the self-signed certificate prompt, and click **Done**. Keep the certificate and its private key in your login keychain.
 5. Double-click the certificate, expand **Trust**, and set **Code Signing** to **Always Trust**. Close the window and confirm the change if prompted.
 6. Run `make doctor`, then rebuild with `make run`.
@@ -136,7 +136,7 @@ See Apple's [certificate creation guide](https://support.apple.com/guide/keychai
 To use an existing local code-signing identity with another name:
 
 ```bash
-OMNIWM_SIGNING_IDENTITY="Your Certificate Name" make run
+AEROFLOW_SIGNING_IDENTITY="Your Certificate Name" make run
 ```
 
 ## Verification
@@ -151,7 +151,7 @@ For changes to setup, packaging, development installation, or related tooling, a
 
 ### Translating the App
 
-Translations live in the [string catalogs](Sources/OmniWM/Resources). `Localizable.xcstrings` contains interface text, `Commands.xcstrings` contains command names, categories, and scopes, and `InfoPlist.xcstrings` contains the macOS permission descriptions. Add or edit your language's `localizations` entries in those files. Keep the English keys and source values intact, and translate the meaning in context. English is the fallback for strings without a translation.
+Translations live in the [string catalogs](Sources/AeroFlow/Resources). `Localizable.xcstrings` contains interface text, `Commands.xcstrings` contains command names, categories, and scopes, and `InfoPlist.xcstrings` contains the macOS permission descriptions. Add or edit your language's `localizations` entries in those files. Keep the English keys and source values intact, and translate the meaning in context. English is the fallback for strings without a translation.
 
 Preserve each format argument's type when translating. You may reorder arguments with positional forms such as `%2$@` and `%1$lld`; a `%lld` count cannot become `%@`. Plural branches may omit a count when the wording does not need it. `make verify` checks format arguments, including plural forms, before a translation is accepted. To preview length and direction issues, use Xcode's localization pseudolanguages or change the app language in macOS settings.
 
@@ -159,9 +159,9 @@ If you change localized Swift source text, run `make localization-sync` after bu
 
 Before adding the first translation for a new language, translate every desktop string in all three catalogs and have a fluent speaker review the result in the packaged app. Add its cardinal plural categories to `PLURAL_CATEGORIES` in `Scripts/localization.py`, then run `python3 Scripts/localization.py completeness --locales fr de` with the locale codes you are adding; this optional audit requires a nonblank string marked `translated` for every nonempty key and each required plural branch. A partial catalog activates that language for macOS users as soon as it ships. After a language is established, newly added strings may temporarily fall back to English while translations catch up.
 
-Website changes use the checks in [website/README.md](website/README.md): `npm run check` and `npm run build` from `website/`. Small documentation-only changes do not need app builds or Swift tests.
+Small documentation-only changes do not need app builds or Swift tests.
 
-GitHub's **OmniWM CI** workflow reports **Verify** (`make verify`) and **Tests** (the serial Swift suite) separately. Tests are initially advisory while the hosted environment is established; a failing test still needs an explanation. On a first contribution, a maintainer may need to [approve the workflow run](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/approve-runs-from-forks) before checks start. A pending approval does not mean you did something wrong.
+GitHub's **AeroFlow CI** workflow reports **Verify** (`make verify`) and **Tests** (the serial Swift suite) separately. Tests are initially advisory while the hosted environment is established; a failing test still needs an explanation. On a first contribution, a maintainer may need to [approve the workflow run](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/approve-runs-from-forks) before checks start. A pending approval does not mean you did something wrong.
 
 ## Troubleshooting
 
@@ -170,8 +170,8 @@ Start with `make doctor` and the first error reported by the failing command.
 - **Wrong Swift version:** select Xcode 27 in its Locations settings, complete its first-launch setup, and check `xcrun swift --version` again.
 - **Missing dependencies:** run `make setup`. If an existing GhosttyKit fails its checksum, move your custom framework aside before running setup again; the helper will not replace it for you.
 - **Permissions requested again:** check the signing identity with `make doctor`, rebuild with the same valid certificate, and grant Dev's permissions again when prompted. Stable and Dev permissions are separate.
-- **Switching stops because OmniWM is still running:** quit that copy from its menu, then retry. The helper does not force-kill it or install over a running copy.
-- **Normal app not found:** install the release or supply `OMNIWM_RELEASE_APP` as shown above.
+- **Switching stops because AeroFlow is still running:** quit that copy from its menu, then retry. The helper does not force-kill it or install over a running copy.
+- **Normal app not found:** install the release or supply `AEROFLOW_RELEASE_APP` as shown above.
 
 ## Pull Request Expectations
 
@@ -189,15 +189,15 @@ The **Main branch protection** ruleset blocks branch deletion and force-pushes, 
 
 After publishing the CI workflow, confirm that **Verify** passes on GitHub, then add **Verify** from GitHub Actions as a required status check in that existing ruleset. Keep the admin bypass and leave **Tests** non-required until several hosted runs establish that the serial suite works reliably there.
 
-For an existing PR, use **Actions → OmniWM CI → Run workflow** and enter its PR number to test its merge with the base branch. A manual run provides logs; it does not replace the PR's required check. Updating the PR branch triggers its normal PR checks. Approve first-time fork runs when needed.
+For an existing PR, use **Actions → AeroFlow CI → Run workflow** and enter its PR number to test its merge with the base branch. A manual run provides logs; it does not replace the PR's required check. Updating the PR branch triggers its normal PR checks. Approve first-time fork runs when needed.
 
 ## Trace Files
 
 Include a trace file when useful, especially for bug reports. Open **Settings → Troubleshooting**, click **Start Recording**, reproduce the bug, then click **Stop & Save Recording** and attach the saved `.log` file.
 
-**Report a Bug…** in the status-bar menu opens the in-app report form. Recording or selecting trace and crash evidence is optional; on submit OmniWM prepares a fresh diagnostic `.log` with whatever you selected, reveals it for attaching, and opens a pre-filled GitHub issue.
+**Report a Bug…** in the status-bar menu opens the in-app report form. Recording or selecting trace and crash evidence is optional; on submit AeroFlow prepares a fresh diagnostic `.log` with whatever you selected, reveals it for attaching, and opens a pre-filled GitHub issue.
 
-Before attaching a diagnostic, review it: the file can contain OmniWM settings, application and window titles, and title-based App Rule matchers.
+Before attaching a diagnostic, review it: the file can contain AeroFlow settings, application and window titles, and title-based App Rule matchers.
 
 With IPC enabled, captures can also be scripted using the CLI: `capture start trace`, `capture stop`, and `capture status`.
 

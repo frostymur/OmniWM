@@ -9,7 +9,7 @@ import unittest
 class MakeToolTests(unittest.TestCase):
     def test_format_and_lint_use_pinned_tools_independently_of_inherited_path(self):
         source = Path(__file__).resolve().parents[2]
-        with tempfile.TemporaryDirectory(prefix="omniwm make tools ") as temporary:
+        with tempfile.TemporaryDirectory(prefix="aeroflow make tools ") as temporary:
             root = Path(temporary)
             shutil.copy2(source / "Makefile", root / "Makefile")
             (root / "Scripts").mkdir()

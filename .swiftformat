@@ -1,4 +1,4 @@
-# SwiftFormat configuration for OmniWM
+# SwiftFormat configuration for AeroFlow
 # Visual formatting only. SwiftLint owns diagnostics and semantic style.
 
 --swiftversion 6.4
@@ -12,7 +12,7 @@
 --commas inline
 --trimwhitespace always
 --semicolons never
---header "// SPDX-License-Identifier: GPL-2.0-only\n// Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM"
+--header "// SPDX-License-Identifier: GPL-2.0-only\n// Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM\n// Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur"
 
 --disable all
 --enable blankLineAfterImports,blankLinesAroundMark,blankLinesAtEndOfScope,blankLinesAtStartOfScope

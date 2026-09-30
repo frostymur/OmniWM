@@ -1,0 +1,114 @@
+// SPDX-License-Identifier: GPL-2.0-only
+// Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
+// Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
+
+import CoreGraphics
+
+struct MouseContainment {
+    let layout: [MonitorRoutingSettings]
+    let monitors: [Monitor]
+
+    enum Verdict: Equatable {
+        case allow
+        case wall(clamped: CGPoint)
+    }
+
+    func evaluate(
+        location: CGPoint,
+        source: Monitor,
+        destination: Monitor,
+        margin: CGFloat
+    ) -> Verdict {
+        guard source.id != destination.id else { return .allow }
+        guard MonitorRouting.completeLayout(layout, for: monitors) != nil else { return .allow }
+        guard let direction = Self.physicalDirection(from: source, to: destination) else { return .allow }
+
+        switch MonitorRouting.gridAdjacent(
+            from: source,
+            direction: direction,
+            layout: layout,
+            monitors: monitors,
+            wrapAround: false
+        ) {
+        case let .monitor(routed) where routed.id == destination.id:
+            return .allow
+        case .fallBackToMacOS:
+            return .allow
+        case .monitor,
+             .edge:
+            break
+        }
+
+        guard isReachable(from: source, to: destination) else {
+            return .allow
+        }
+
+        return .wall(clamped: Self.clamped(location, inside: source.frame, margin: margin))
+    }
+
+    private static func physicalDirection(from source: Monitor, to destination: Monitor) -> Direction? {
+        let dx = destination.frame.center.x - source.frame.center.x
+        let dy = destination.frame.center.y - source.frame.center.y
+        let absX = abs(dx)
+        let absY = abs(dy)
+
+        guard absX != absY else { return nil }
+        if absX > absY {
+            return dx > 0 ? .right : .left
+        }
+        return dy > 0 ? .up : .down
+    }
+
+    private func isReachable(
+        from source: Monitor,
+        to destination: Monitor
+    ) -> Bool {
+        let directions: [Direction] = [.left, .right, .up, .down]
+        var visited = Set<Monitor.ID>()
+        var pending = [source]
+        visited.insert(source.id)
+
+        while let current = pending.first {
+            pending.removeFirst()
+            if current.id == destination.id {
+                return true
+            }
+            for direction in directions {
+                switch MonitorRouting.gridAdjacent(
+                    from: current,
+                    direction: direction,
+                    layout: layout,
+                    monitors: monitors,
+                    wrapAround: false
+                ) {
+                case let .monitor(next) where visited.insert(next.id).inserted:
+                    pending.append(next)
+                case .monitor,
+                     .edge,
+                     .fallBackToMacOS:
+                    break
+                }
+            }
+        }
+
+        return false
+    }
+
+    private static func clamped(_ point: CGPoint, inside frame: CGRect, margin: CGFloat) -> CGPoint {
+        let inset = margin + 1
+        return CGPoint(
+            x: MouseWarpGeometry.clampedCoordinate(
+                point.x,
+                min: frame.minX,
+                max: frame.maxX,
+                inset: inset
+            ),
+            y: MouseWarpGeometry.clampedCoordinate(
+                point.y,
+                min: frame.minY,
+                max: frame.maxY,
+                inset: inset
+            )
+        )
+    }
+}

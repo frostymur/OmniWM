@@ -1,0 +1,149 @@
+// SPDX-License-Identifier: GPL-2.0-only
+// Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
+// Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
+
+import Foundation
+import QuartzCore
+
+struct CubicConfig {
+    let duration: Double
+    let controlPoint1: CGPoint
+    let controlPoint2: CGPoint
+
+    init(
+        duration: Double = 0.3,
+        controlPoint1: CGPoint = CGPoint(x: 0.215, y: 0.61),
+        controlPoint2: CGPoint = CGPoint(x: 0.355, y: 1.0)
+    ) {
+        self.duration = max(0.01, duration)
+        self.controlPoint1 = CGPoint(
+            x: min(1.0, max(0.0, controlPoint1.x)),
+            y: controlPoint1.y
+        )
+        self.controlPoint2 = CGPoint(
+            x: min(1.0, max(0.0, controlPoint2.x)),
+            y: controlPoint2.y
+        )
+    }
+
+    static let `default` = CubicConfig()
+    static let hyprlandDwindle = CubicConfig(
+        duration: 0.2,
+        controlPoint1: CGPoint(x: 0.23, y: 1.0),
+        controlPoint2: CGPoint(x: 0.32, y: 1.0)
+    )
+    static let snappy = CubicConfig(
+        duration: 0.08,
+        controlPoint1: CGPoint(x: 0.1, y: 0.9),
+        controlPoint2: CGPoint(x: 0.2, y: 0.95)
+    )
+    static let instant = CubicConfig(
+        duration: 0.01,
+        controlPoint1: CGPoint(x: 0.0, y: 1.0),
+        controlPoint2: CGPoint(x: 1.0, y: 1.0)
+    )
+
+    func value(at progress: Double) -> Double {
+        let x = min(1.0, max(0.0, progress))
+        if x <= 0 { return 0 }
+        if x >= 1 { return 1 }
+        return sampleY(solveT(for: x))
+    }
+
+    private func solveT(for x: Double) -> Double {
+        var parameter = x
+        for _ in 0 ..< 8 {
+            let currentX = sampleX(parameter) - x
+            if abs(currentX) < 0.000001 {
+                return parameter
+            }
+            let derivative = sampleDerivativeX(parameter)
+            if abs(derivative) < 0.000001 {
+                break
+            }
+            let next = parameter - currentX / derivative
+            if next < 0 || next > 1 {
+                break
+            }
+            parameter = next
+        }
+
+        var lower = 0.0
+        var upper = 1.0
+        parameter = x
+        for _ in 0 ..< 24 {
+            let currentX = sampleX(parameter)
+            if abs(currentX - x) < 0.000001 {
+                return parameter
+            }
+            if currentX < x {
+                lower = parameter
+            } else {
+                upper = parameter
+            }
+            parameter = (lower + upper) * 0.5
+        }
+        return parameter
+    }
+
+    private func sampleX(_ parameter: Double) -> Double {
+        sampleCurve(parameter, a1: controlPoint1.x, a2: controlPoint2.x)
+    }
+
+    private func sampleY(_ parameter: Double) -> Double {
+        sampleCurve(parameter, a1: controlPoint1.y, a2: controlPoint2.y)
+    }
+
+    private func sampleDerivativeX(_ parameter: Double) -> Double {
+        sampleDerivative(parameter, a1: controlPoint1.x, a2: controlPoint2.x)
+    }
+
+    private func sampleCurve(_ parameter: Double, a1: CGFloat, a2: CGFloat) -> Double {
+        let p1 = Double(a1)
+        let p2 = Double(a2)
+        let linearCoefficient = 3.0 * p1
+        let quadraticCoefficient = 3.0 * (p2 - p1) - linearCoefficient
+        let cubicCoefficient = 1.0 - linearCoefficient - quadraticCoefficient
+        return ((cubicCoefficient * parameter + quadraticCoefficient) * parameter + linearCoefficient) * parameter
+    }
+
+    private func sampleDerivative(_ parameter: Double, a1: CGFloat, a2: CGFloat) -> Double {
+        let p1 = Double(a1)
+        let p2 = Double(a2)
+        let linearCoefficient = 3.0 * p1
+        let quadraticCoefficient = 3.0 * (p2 - p1) - linearCoefficient
+        let cubicCoefficient = 1.0 - linearCoefficient - quadraticCoefficient
+        return (3.0 * cubicCoefficient * parameter + 2.0 * quadraticCoefficient) * parameter + linearCoefficient
+    }
+}
+
+struct CubicAnimation {
+    private let from: Double
+    private let target: Double
+    private let startTime: TimeInterval
+    let config: CubicConfig
+
+    init(
+        from: Double,
+        to: Double,
+        startTime: TimeInterval,
+        config: CubicConfig = .default
+    ) {
+        self.from = from
+        target = to
+        self.startTime = startTime
+        self.config = config
+    }
+
+    func value(at time: TimeInterval) -> Double {
+        let elapsed = max(0, time - startTime)
+        let progress = min(1.0, elapsed / config.duration)
+        let easedProgress = config.value(at: progress)
+        return from + easedProgress * (target - from)
+    }
+
+    func isComplete(at time: TimeInterval) -> Bool {
+        let elapsed = max(0, time - startTime)
+        return elapsed >= config.duration
+    }
+}

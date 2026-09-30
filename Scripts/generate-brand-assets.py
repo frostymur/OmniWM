@@ -271,7 +271,7 @@ def write_text(path, payload):
 
 def copy_font(repo, source_directory):
     destination = source_directory / "LoftyGoals.otf"
-    runtime_font = repo / "Sources/OmniWM/Resources/LoftyGoals.otf"
+    runtime_font = repo / "Sources/AeroFlow/Resources/LoftyGoals.otf"
     if not destination.exists():
         if not runtime_font.is_file():
             raise RuntimeError("LoftyGoals.otf was not found in brand sources or runtime resources")
@@ -281,7 +281,7 @@ def copy_font(repo, source_directory):
 
 
 def load_reference_outline(source_directory):
-    path = source_directory / "omniwm-reference-outline.json"
+    path = source_directory / "aeroflow-reference-outline.json"
     if not path.is_file():
         raise RuntimeError(f"Canonical reference outline is missing: {path}")
     payload = json.loads(path.read_text(encoding="utf-8"))
@@ -296,13 +296,13 @@ def load_reference_outline(source_directory):
 
 
 def wordmark_paths(hb_view, font):
-    with tempfile.TemporaryDirectory(prefix="omniwm-wordmark-") as raw:
+    with tempfile.TemporaryDirectory(prefix="aeroflow-wordmark-") as raw:
         output = Path(raw) / "wordmark.svg"
         run(
             [
                 hb_view,
                 font,
-                "OmniWM",
+                "AeroFlow",
                 "--font-size=1000",
                 "--margin=0",
                 "--background=none",
@@ -327,7 +327,7 @@ def wordmark_paths(hb_view, font):
             f'<path d="{definitions[identifier]}" transform="translate('
             f'{use.attrib.get("x", "0")} {use.attrib.get("y", "0")})"/>'
         )
-    if len(paths) != len("OmniWM"):
+    if len(paths) != len("AeroFlow"):
         raise RuntimeError(f"Expected 6 wordmark glyph paths, found {len(paths)}")
     return "\n".join(paths)
 
@@ -432,7 +432,7 @@ def write_icns(converter, iconutil, app_svg, destination):
         "icon_512x512.png": 512,
         "icon_512x512@2x.png": 1024,
     }
-    with tempfile.TemporaryDirectory(prefix="omniwm-iconset-") as raw:
+    with tempfile.TemporaryDirectory(prefix="aeroflow-iconset-") as raw:
         iconset = Path(raw) / "AppIcon.iconset"
         iconset.mkdir()
         for name, pixels in representations.items():
@@ -488,9 +488,9 @@ def relative_hashes(repo, paths):
 
 
 def write_readmes(brand_directory):
-    brand_readme = f'''# OmniWM brand assets
+    brand_readme = f'''# AeroFlow brand assets
 
-The canonical geometry is the reference-faithful eight-ray mark in `source/omniwm-mark-color.svg`. Normal-size app, launch, and web assets use that geometry unchanged. The status and favicon silhouettes use the optical microcut in `source/omniwm-status-template.svg` so the center dot and all eight rays remain separate at 14 px.
+The canonical geometry is the reference-faithful eight-ray mark in `source/aeroflow-mark-color.svg`. Normal-size app, launch, and web assets use that geometry unchanged. The status and favicon silhouettes use the optical microcut in `source/aeroflow-status-template.svg` so the center dot and all eight rays remain separate at 14 px.
 
 ## Palette
 
@@ -508,9 +508,9 @@ Regenerate and validate every derivative from the repository root:
 python3 Scripts/generate-brand-assets.py --check
 ```
 '''
-    web_readme = f'''# OmniWM web identity
+    web_readme = f'''# AeroFlow web identity
 
-Use `omniwm-logo.svg` for a webpage header and `omniwm-mark.svg` when a standalone mark fits better. Both SVGs have transparent backgrounds. Ivory-backed PNG fallbacks are supplied at 1× and 2×.
+Use `aeroflow-logo.svg` for a webpage header and `aeroflow-mark.svg` when a standalone mark fits better. Both SVGs have transparent backgrounds. Ivory-backed PNG fallbacks are supplied at 1× and 2×.
 
 ```html
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -521,10 +521,10 @@ Use `omniwm-logo.svg` for a webpage header and `omniwm-mark.svg` when a standalo
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="{OUTLINE}">
 <meta name="theme-color" content="{IVORY}">
 
-<img src="/omniwm-logo.svg" alt="OmniWM">
+<img src="/aeroflow-logo.svg" alt="AeroFlow">
 ```
 
-Keep clear space equal to at least one center-dot diameter around the mark or lockup. Use the horizontal logo at 180 CSS px or wider; below that, use the standalone mark. The accessible name is `OmniWM`.
+Keep clear space equal to at least one center-dot diameter around the mark or lockup. Use the horizontal logo at 180 CSS px or wider; below that, use the standalone mark. The accessible name is `AeroFlow`.
 '''
     write_text(brand_directory / "README.md", brand_readme)
     write_text(brand_directory / "web/README.md", web_readme)
@@ -570,28 +570,28 @@ def generate(repo):
     launch_lockup = lockup_svg(glyph_paths, "#FFFFFF", "#FFFFFF")
 
     source_files = {
-        source / "omniwm-mark-color.svg": exact_color,
-        source / "omniwm-mark-color-ivory.svg": exact_ivory,
-        source / "omniwm-mark-monochrome.svg": exact_black,
-        source / "omniwm-status-template.svg": status_black,
-        source / "omniwm-wordmark-outline.svg": wordmark,
-        source / "omniwm-launch-lockup.svg": launch_lockup,
-        app / "omniwm-app-icon.svg": exact_ivory,
-        status / "omniwm-status-template.svg": status_black,
-        launch / "omniwm-launch-lockup.svg": launch_lockup,
-        web / "omniwm-mark.svg": exact_color,
-        web / "omniwm-logo.svg": web_lockup,
+        source / "aeroflow-mark-color.svg": exact_color,
+        source / "aeroflow-mark-color-ivory.svg": exact_ivory,
+        source / "aeroflow-mark-monochrome.svg": exact_black,
+        source / "aeroflow-status-template.svg": status_black,
+        source / "aeroflow-wordmark-outline.svg": wordmark,
+        source / "aeroflow-launch-lockup.svg": launch_lockup,
+        app / "aeroflow-app-icon.svg": exact_ivory,
+        status / "aeroflow-status-template.svg": status_black,
+        launch / "aeroflow-launch-lockup.svg": launch_lockup,
+        web / "aeroflow-mark.svg": exact_color,
+        web / "aeroflow-logo.svg": web_lockup,
         web / "favicon.svg": favicon,
         web / "safari-pinned-tab.svg": status_black,
     }
     for path, payload in source_files.items():
         write_text(path, payload)
 
-    render_svg(converter, app / "omniwm-app-icon.svg", app / "omniwm-app-icon-1024.png", 1024, 1024)
-    write_icns(converter, iconutil, app / "omniwm-app-icon.svg", repo / "Resources/AppIcon.icns")
+    render_svg(converter, app / "aeroflow-app-icon.svg", app / "aeroflow-app-icon-1024.png", 1024, 1024)
+    write_icns(converter, iconutil, app / "aeroflow-app-icon.svg", repo / "Resources/AppIcon.icns")
 
     icon_package = write_icon_composer_source(app)
-    with tempfile.TemporaryDirectory(prefix="omniwm-icon-composer-") as raw:
+    with tempfile.TemporaryDirectory(prefix="aeroflow-icon-composer-") as raw:
         preview = Path(raw) / "preview.png"
         run(
             [
@@ -619,28 +619,28 @@ def generate(repo):
 
     proof_paths = []
     for color, payload in (("black", status_black), ("white", status_white)):
-        temporary_svg = status / f"omniwm-status-{color}.svg"
+        temporary_svg = status / f"aeroflow-status-{color}.svg"
         write_text(temporary_svg, payload)
         for points, scale in ((14, 1), (14, 2), (18, 1), (18, 2)):
             pixels = points * scale
-            output = status / f"omniwm-status-{color}-{points}pt@{scale}x.png"
+            output = status / f"aeroflow-status-{color}-{points}pt@{scale}x.png"
             render_svg(converter, temporary_svg, output, pixels, pixels)
             proof_paths.append(output)
         temporary_svg.unlink()
 
-    runtime_status = repo / "Sources/OmniWM/Resources/OmniWMStatusTemplate.pdf"
-    runtime_lockup = repo / "Sources/OmniWM/Resources/OmniWMLaunchLockup.pdf"
-    render_pdf(converter, status / "omniwm-status-template.svg", runtime_status, 18, 18)
-    render_pdf(converter, launch / "omniwm-launch-lockup.svg", runtime_lockup, 600, 192)
+    runtime_status = repo / "Sources/AeroFlow/Resources/AeroFlowStatusTemplate.pdf"
+    runtime_lockup = repo / "Sources/AeroFlow/Resources/AeroFlowLaunchLockup.pdf"
+    render_pdf(converter, status / "aeroflow-status-template.svg", runtime_status, 18, 18)
+    render_pdf(converter, launch / "aeroflow-launch-lockup.svg", runtime_lockup, 600, 192)
 
-    render_svg(converter, web / "omniwm-mark.svg", web / "omniwm-mark-ivory@1x.png", 512, 512, IVORY)
-    render_svg(converter, web / "omniwm-mark.svg", web / "omniwm-mark-ivory@2x.png", 1024, 1024, IVORY)
-    render_svg(converter, web / "omniwm-logo.svg", web / "omniwm-logo-ivory@1x.png", 1600, 512, IVORY)
-    render_svg(converter, web / "omniwm-logo.svg", web / "omniwm-logo-ivory@2x.png", 3200, 1024, IVORY)
+    render_svg(converter, web / "aeroflow-mark.svg", web / "aeroflow-mark-ivory@1x.png", 512, 512, IVORY)
+    render_svg(converter, web / "aeroflow-mark.svg", web / "aeroflow-mark-ivory@2x.png", 1024, 1024, IVORY)
+    render_svg(converter, web / "aeroflow-logo.svg", web / "aeroflow-logo-ivory@1x.png", 1600, 512, IVORY)
+    render_svg(converter, web / "aeroflow-logo.svg", web / "aeroflow-logo-ivory@2x.png", 3200, 1024, IVORY)
     render_svg(converter, web / "favicon.svg", web / "favicon-16x16.png", 16, 16)
     render_svg(converter, web / "favicon.svg", web / "favicon-32x32.png", 32, 32)
     render_svg(converter, web / "favicon.svg", web / "apple-touch-icon.png", 180, 180)
-    with tempfile.TemporaryDirectory(prefix="omniwm-favicon-") as raw:
+    with tempfile.TemporaryDirectory(prefix="aeroflow-favicon-") as raw:
         source_png = Path(raw) / "favicon-256.png"
         render_svg(converter, web / "favicon.svg", source_png, 256, 256)
         Image.open(source_png).convert("RGBA").save(
@@ -685,16 +685,16 @@ def validate(repo, generated):
     for path in svg_paths:
         svg_audit(path)
 
-    app_master = Image.open(brand / "app/omniwm-app-icon-1024.png").convert("RGBA")
+    app_master = Image.open(brand / "app/aeroflow-app-icon-1024.png").convert("RGBA")
     if app_master.size != (1024, 1024):
         raise RuntimeError("App icon master must be 1024 x 1024")
     if app_master.getchannel("A").getextrema() != (255, 255):
         raise RuntimeError("App icon master must be fully opaque")
 
     status_results = {}
-    with tempfile.TemporaryDirectory(prefix="omniwm-status-validation-") as raw:
+    with tempfile.TemporaryDirectory(prefix="aeroflow-status-validation-") as raw:
         temporary = Path(raw)
-        black_svg = brand / "status/omniwm-status-template.svg"
+        black_svg = brand / "status/aeroflow-status-template.svg"
         white_svg = temporary / "white.svg"
         write_text(white_svg, status_svg("#FFFFFF"))
         for pixels in (14, 16, 18, 28, 32, 36, 48):
@@ -719,10 +719,10 @@ def validate(repo, generated):
         "favicon-16x16.png": (16, 16),
         "favicon-32x32.png": (32, 32),
         "apple-touch-icon.png": (180, 180),
-        "omniwm-mark-ivory@1x.png": (512, 512),
-        "omniwm-mark-ivory@2x.png": (1024, 1024),
-        "omniwm-logo-ivory@1x.png": (1600, 512),
-        "omniwm-logo-ivory@2x.png": (3200, 1024),
+        "aeroflow-mark-ivory@1x.png": (512, 512),
+        "aeroflow-mark-ivory@2x.png": (1024, 1024),
+        "aeroflow-logo-ivory@1x.png": (1600, 512),
+        "aeroflow-logo-ivory@2x.png": (3200, 1024),
     }
     for name, dimensions in expected_dimensions.items():
         actual = Image.open(generated["web"] / name).size

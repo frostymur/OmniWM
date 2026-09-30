@@ -1,0 +1,124 @@
+// SPDX-License-Identifier: GPL-2.0-only
+// Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
+// Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
+
+import CoreGraphics
+import Foundation
+
+enum LayoutReason: Codable, Equatable {
+    case standard
+    case nativeFullscreen
+}
+
+enum ManagedWindowLifetimeAuthority: Equatable, Sendable {
+    case axTopLevelInventory
+    case directLifecycle
+}
+
+enum HiddenReason: Equatable {
+    case workspaceInactive
+    case layoutTransient(HideSide)
+}
+
+struct HiddenState: Equatable {
+    let proportionalPosition: CGPoint
+    let referenceMonitorId: Monitor.ID?
+    let reason: HiddenReason
+
+    var workspaceInactive: Bool {
+        if case .workspaceInactive = reason {
+            return true
+        }
+        return false
+    }
+
+    var offscreenSide: HideSide? {
+        if case let .layoutTransient(side) = reason {
+            return side
+        }
+        return nil
+    }
+
+    var restoresViaFloatingState: Bool {
+        switch reason {
+        case .workspaceInactive:
+            true
+        case .layoutTransient:
+            false
+        }
+    }
+
+    init(
+        proportionalPosition: CGPoint,
+        referenceMonitorId: Monitor.ID?,
+        reason: HiddenReason
+    ) {
+        self.proportionalPosition = proportionalPosition
+        self.referenceMonitorId = referenceMonitorId
+        self.reason = reason
+    }
+}
+
+struct FloatingState: Equatable {
+    var lastFrame: CGRect
+    var normalizedOrigin: CGPoint?
+    var referenceMonitorId: Monitor.ID?
+    var restoreToFloating: Bool
+}
+
+struct WindowState: Equatable {
+    var token: WindowToken
+    var axRef: AXWindowRef
+    var workspaceId: WorkspaceDescriptor.ID
+    var mode: TrackedWindowMode
+    var lifecyclePhase: WindowLifecyclePhase
+    var observedState: ObservedWindowState
+    var desiredState: DesiredWindowState
+    var restoreIntent: RestoreIntent?
+    var managedReplacementMetadata: ManagedReplacementMetadata?
+    var floatingState: FloatingState?
+    var manualLayoutOverride: ManualWindowOverride?
+    var ruleEffects: ManagedWindowRuleEffects = .none
+    var admissionHints: ManagedWindowAdmissionHints = .none
+    var lifetimeAuthority: ManagedWindowLifetimeAuthority
+    var hiddenState: HiddenState?
+    var layoutReason: LayoutReason = .standard
+
+    var pid: pid_t {
+        token.pid
+    }
+
+    var windowId: Int {
+        token.windowId
+    }
+
+    init(
+        token: WindowToken,
+        axRef: AXWindowRef,
+        workspaceId: WorkspaceDescriptor.ID,
+        mode: TrackedWindowMode,
+        managedReplacementMetadata: ManagedReplacementMetadata?,
+        ruleEffects: ManagedWindowRuleEffects,
+        admissionHints: ManagedWindowAdmissionHints,
+        lifetimeAuthority: ManagedWindowLifetimeAuthority = .axTopLevelInventory
+    ) {
+        self.token = token
+        self.axRef = axRef
+        self.workspaceId = workspaceId
+        self.mode = mode
+        lifecyclePhase = mode == .floating ? .floating : .tiled
+        observedState = .initial(
+            workspaceId: workspaceId,
+            monitorId: nil
+        )
+        desiredState = .initial(
+            workspaceId: workspaceId,
+            monitorId: nil,
+            disposition: mode
+        )
+        self.managedReplacementMetadata = managedReplacementMetadata
+        self.ruleEffects = ruleEffects
+        self.admissionHints = admissionHints
+        self.lifetimeAuthority = lifetimeAuthority
+    }
+}

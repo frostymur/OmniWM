@@ -1,0 +1,67 @@
+// SPDX-License-Identifier: GPL-2.0-only
+// Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
+// Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
+
+import CoreGraphics
+import Foundation
+
+enum ReconcileEventDomain {
+    case window
+    case focus
+    case viewport
+    case session
+}
+
+extension WMEvent {
+    var reconcileDomain: ReconcileEventDomain {
+        switch self {
+        case .windowAdmitted,
+             .windowRekeyed,
+             .windowRemoved,
+             .workspaceAssigned,
+             .windowModeChanged,
+             .floatingGeometryUpdated,
+             .floatingStateChanged,
+             .manualLayoutOverrideChanged,
+             .windowAdmissionHintsChanged,
+             .topLevelInventoryObserved,
+             .niriPlacementsResolved,
+             .dwindlePlacementsResolved,
+             .layoutOperationPerformed,
+             .managedReplacementMetadataChanged,
+             .hiddenApplicationsChanged,
+             .windowMinimizedChanged,
+             .appVisibilityInvalidated,
+             .hiddenStateChanged,
+             .nativeFullscreenTransition:
+            .window
+        case .focusLeaseChanged,
+             .managedFocusRequested,
+             .managedFocusConfirmed,
+             .managedFocusCancelled,
+             .nativeFocusOwnerChanged,
+             .focusRemembered,
+             .focusFallbackRemembered,
+             .focusForgotten,
+             .suppressedFocusChanged,
+             .systemModalFocusChanged,
+             .nativeFullscreenPlaceholderSelected,
+             .interactionMonitorChanged,
+             .workspaceFocusCleared:
+            .focus
+        case .viewportChanged,
+             .viewportCommitted,
+             .viewportForgotten,
+             .selectionChanged:
+            .viewport
+        case .visibleWorkspacesChanged,
+             .spaceTopologyChanged,
+             .topologyChanged,
+             .activeSpaceChanged,
+             .systemSleep,
+             .systemWake,
+             .userCommand:
+            .session
+        }
+    }
+}
