@@ -17,7 +17,7 @@ from pathlib import Path
 
 DEFAULT_MAIN_REPO = Path("/Users/barut/AeroFlow/AeroFlow")
 DEFAULT_GITHUB_REPO = "frostymur/OmniWM"
-SIGNING_IDENTITY = "Developer ID Application: Oliver Nikolic (VF8LDJRGFM)"
+SIGNING_IDENTITY = "AeroFlow Dev"
 NOTARIZE_PROFILE = "AeroFlow-Notarize"
 MANIFEST_SCHEMA = 3
 PUBLIC_STAGES = ("main", "tag", "release")
@@ -403,7 +403,7 @@ class ReleaseManager:
         require(value["release_commit"] is not None, "prepared release manifest lacks release commit")
         require(value["embedded_git_hash"] is not None, "prepared release manifest lacks embedded hash")
         require(
-            value["notarization"] == {"status": "verified", "stapled": True},
+            value["notarization"] == {"status": "skipped", "stapled": False},
             "prepared release manifest has inconsistent notarization state",
         )
         if state == "prepared":
@@ -564,9 +564,6 @@ class ReleaseManager:
             "make",
             "lipo",
             "codesign",
-            "xcrun",
-            "spctl",
-            "syspolicy_check",
             "ditto",
             "xattr",
             "security",
@@ -598,26 +595,6 @@ class ReleaseManager:
         )
         return {
             "ok": result.returncode == 0 and result.stdout.strip() == "true",
-            "detail": (result.stderr or result.stdout).strip(),
-        }
-
-    def notary_profile_access(self):
-        result = self.runner.run(
-            [
-                "xcrun",
-                "notarytool",
-                "history",
-                "--keychain-profile",
-                self.config.notarize_profile,
-                "--output-format",
-                "json",
-            ],
-            cwd=self.main,
-            check=False,
-            quiet=True,
-        )
-        return {
-            "ok": result.returncode == 0,
             "detail": (result.stderr or result.stdout).strip(),
         }
 
@@ -671,11 +648,6 @@ class ReleaseManager:
                 if "gh" in missing_tools
                 else self.github_write_access(self.config.github_repo)
             ),
-            "notary_profile_access": (
-                {"ok": False, "detail": "xcrun is missing"}
-                if "xcrun" in missing_tools
-                else self.notary_profile_access()
-            ),
             "main_remote": main_remote,
         }
 
@@ -697,7 +669,6 @@ class ReleaseManager:
         print(f"GitHub release: {'present' if plan['github_release'] else 'absent'}")
         print(f"Signing identity: {'found' if plan['signing_identity_found'] else 'missing'}")
         print(f"GitHub write access: {'ok' if plan['github_write_access']['ok'] else 'failed'}")
-        print(f"Notary profile access: {'ok' if plan['notary_profile_access']['ok'] else 'failed'}")
         print(f"Main origin: {plan['main_remote']}")
         print("Missing tools: " + (", ".join(plan["missing_tools"]) if plan["missing_tools"] else "none"))
         print("Commits:")
@@ -711,10 +682,6 @@ class ReleaseManager:
             plan["github_write_access"]["ok"],
             "GitHub authentication lacks push/release access: "
             + plan["github_write_access"]["detail"],
-        )
-        require(
-            plan["notary_profile_access"]["ok"],
-            "notary profile is unavailable: " + plan["notary_profile_access"]["detail"],
         )
         self.verify_remote_identity(plan["main_remote"], self.config.github_repo, "main")
         require(plan["main"].branch == "main", "main repo must be on main")
@@ -797,13 +764,8 @@ class ReleaseManager:
         return str(plist.get("AEROFLOWGitHash", ""))
 
     def check_distribution(self, app_path, verbose=False):
-        command = ["syspolicy_check", "distribution", app_path]
-        if verbose:
-            command.append("--verbose")
+        command = ["codesign", "--verify", "--deep", "--strict", "--verbose=4", app_path]
         self.runner.run(command, cwd=self.main, capture=False)
-        self.runner.run(["spctl", "--assess", "--type", "execute", "--verbose=4", app_path], cwd=self.main, capture=False)
-        self.runner.run(["xcrun", "stapler", "validate", app_path], cwd=self.main, capture=False)
-        self.runner.run(["codesign", "--verify", "--deep", "--strict", "--verbose=4", app_path], cwd=self.main, capture=False)
 
     def smoke_test(self, app_path, seconds=2):
         executable = app_path / "Contents" / "MacOS" / "AeroFlow"
@@ -916,7 +878,7 @@ class ReleaseManager:
             "AEROFLOW_NOTARIZE_PROFILE": self.config.notarize_profile,
         }
         self.runner.run(
-            ["Scripts/package-app.sh", "release", "true"],
+            ["Scripts/package-app.sh", "release", "dev"],
             cwd=self.main,
             capture=False,
             env=package_environment,
@@ -951,7 +913,7 @@ class ReleaseManager:
                 "state": "prepared",
                 "release_commit": release_commit,
                 "embedded_git_hash": embedded,
-                "notarization": {"status": "verified", "stapled": True},
+                "notarization": {"status": "skipped", "stapled": False},
                 "assets": {
                     "app": {"path": str(paths["app"]), "sha256": app_sha},
                 },
@@ -1139,7 +1101,6 @@ class ReleaseManager:
         manifest["state"] = "published"
         self.save_manifest(manifest)
         self.print_status(manifest)
-        print("Homebrew: the official homebrew/cask omniwm cask is updated by autobump from this GitHub release")
 
     def print_status(self, manifest):
         print(f"Release {manifest['version']}: {manifest['state']}")
