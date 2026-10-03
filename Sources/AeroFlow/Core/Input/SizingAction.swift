@@ -2,8 +2,8 @@
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 // Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
 
-import Foundation
 import AeroFlowIPC
+import Foundation
 
 enum SizingAction: Equatable, Hashable {
     case cycleSizeForward
@@ -28,7 +28,8 @@ extension SizingAction {
                 "command.sizing.cycleForward", defaultValue: "Cycle Size Forward", table: "Commands", bundle: .aeroFlow
             )
         case .cycleSizeBackward: LocalizedStringResource(
-                "command.sizing.cycleBackward", defaultValue: "Cycle Size Backward", table: "Commands", bundle: .aeroFlow
+                "command.sizing.cycleBackward", defaultValue: "Cycle Size Backward", table: "Commands",
+                bundle: .aeroFlow
             )
         case .cycleWindowPrimarySpanForward: LocalizedStringResource(
                 "command.sizing.cycleWindowPrimaryForward", defaultValue: "Cycle Window Primary Span Forward",

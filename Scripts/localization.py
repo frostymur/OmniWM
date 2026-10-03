@@ -17,7 +17,7 @@ FORMAT = re.compile(
     r"(hh|ll|h|l|q|z|t|j|L)?([@diuoxXfFeEgGaAcCsSp])"
 )
 SUBSTITUTION = re.compile(r"%(?:(\d+)\$)?#@([A-Za-z_][A-Za-z_0-9]*)@")
-INFO_KEYS = ("NSScreenCaptureUsageDescription",)
+INFO_KEYS = ()
 PLURAL_CATEGORIES = {
     "ar": {"zero", "one", "two", "few", "many", "other"},
     "da": {"one", "other"},

@@ -77,7 +77,6 @@ final class SurfaceReconciler {
         runFullReconcile(forceOrdering: forceOrdering)
     }
 
-
     func applyAcceptedNativeFullscreenSlots(
         _ slots: [WindowToken: NativeFullscreenSlotProjection],
         workspaceId: WorkspaceDescriptor.ID,
@@ -148,7 +147,6 @@ final class SurfaceReconciler {
         controller.tabRailManager.applyAnimationGeometry(commands, in: workspaceId)
     }
 
-
     func cleanup() {
         reconcileScheduled = false
         forceOrderingOnNextReconcile = false
@@ -196,8 +194,6 @@ final class SurfaceReconciler {
             forceOrdering: forceOrdering
         )
     }
-
-
 
     private func applyFull(
         _ desired: DesiredSurfaceScene,

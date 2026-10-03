@@ -126,5 +126,4 @@ struct WorldView {
         else { return false }
         return true
     }
-
 }

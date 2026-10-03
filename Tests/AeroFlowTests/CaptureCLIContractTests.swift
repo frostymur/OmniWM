@@ -2,9 +2,9 @@
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 // Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
 
-import Foundation
 @testable import AeroFlowCtl
 import AeroFlowIPC
+import Foundation
 import XCTest
 
 final class CaptureCLIContractTests: XCTestCase {

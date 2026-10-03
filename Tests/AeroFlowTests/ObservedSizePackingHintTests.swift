@@ -2,9 +2,9 @@
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 // Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
 
+@testable import AeroFlow
 import ApplicationServices
 import Foundation
-@testable import AeroFlow
 import XCTest
 
 @MainActor
@@ -18,7 +18,7 @@ final class ObservedSizePackingHintTests: XCTestCase {
     }
 
     private let workingHeight: CGFloat = 1564
-    private let columnHeight: CGFloat = 1558
+    private let columnHeight: CGFloat = 1564
 
     func testDirectionalMovesWithoutLearnedEvidence() throws {
         let fixture = try makeFixture()
@@ -53,7 +53,7 @@ final class ObservedSizePackingHintTests: XCTestCase {
                 XCTAssertEqual(evidence.minSize, CGSize(width: 1, height: 1))
                 XCTAssertEqual(
                     evidence.hints.height,
-                    ObservedAxisHint(requested: columnHeight, observed: workingHeight)
+                    ObservedAxisHint(requested: columnHeight, observed: columnHeight + 6)
                 )
                 XCTAssertNil(evidence.hints.width)
                 let node = try XCTUnwrap(engine.findNode(for: token, in: fixture.workspaceId))
@@ -76,7 +76,7 @@ final class ObservedSizePackingHintTests: XCTestCase {
             let stacked = try rebuild(fixture)
             let first = try XCTUnwrap(stacked[fixture.tokens[0]])
             let second = try XCTUnwrap(stacked[fixture.tokens[1]])
-            XCTAssertEqual(first.height + second.height + 3 * 3, workingHeight, accuracy: 0.01)
+            XCTAssertEqual(first.height + second.height + 3, workingHeight, accuracy: 0.01)
             XCTAssertFalse(first.intersects(second))
         }
     }
@@ -90,7 +90,7 @@ final class ObservedSizePackingHintTests: XCTestCase {
             minSize: CGSize(width: 1, height: workingHeight),
             hints: ObservedPackingHints(
                 width: ObservedAxisHint(requested: 1000, observed: 1010),
-                height: ObservedAxisHint(requested: columnHeight, observed: workingHeight)
+                height: ObservedAxisHint(requested: columnHeight, observed: columnHeight + 6)
             )
         )
         XCTAssertTrue(controller.workspaceManager.setObservedSizeEvidence(seeded, for: token))
@@ -152,7 +152,7 @@ final class ObservedSizePackingHintTests: XCTestCase {
         XCTAssertEqual(controller.niriLayoutHandler.moveWindow(direction: .left), .movedWithinWorkspace)
         let hinted = fixture.tokens[1]
         let other = fixture.tokens[0]
-        let usable = workingHeight - 3 * 3
+        let usable = workingHeight - 3
 
         var frames = try rebuild(fixture)
         XCTAssertEqual(try XCTUnwrap(frames[hinted]).height, usable / 2, accuracy: 0.01)
@@ -206,7 +206,7 @@ final class ObservedSizePackingHintTests: XCTestCase {
         XCTAssertTrue(controller.workspaceManager.setObservedSizeEvidence(
             ObservedSizeEvidence(
                 minSize: CGSize(width: 520, height: 1),
-                hints: ObservedPackingHints(height: ObservedAxisHint(requested: columnHeight, observed: workingHeight))
+                hints: ObservedPackingHints(height: ObservedAxisHint(requested: 1558, observed: 1564))
             ),
             for: fixture.tokens[1]
         ))

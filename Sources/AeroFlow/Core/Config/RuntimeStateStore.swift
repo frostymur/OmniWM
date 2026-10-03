@@ -188,7 +188,6 @@ final class RuntimeStateStore {
         }
     }
 
-
     nonisolated static func writeState(_ state: RuntimeState, to fileURL: URL) throws {
         let directoryURL = fileURL.deletingLastPathComponent()
         try FileManager.default.createDirectory(at: directoryURL, withIntermediateDirectories: true)

@@ -2,9 +2,9 @@
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 // Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
 
+import AeroFlowIPC
 import Carbon
 import Foundation
-import AeroFlowIPC
 
 enum HotkeyVisibility: String {
     case normal
@@ -346,7 +346,8 @@ extension ActionCatalog {
                 "command.moveContainer.left", defaultValue: "Move Container Left", table: "Commands", bundle: .aeroFlow
             )
         case .right: LocalizedStringResource(
-                "command.moveContainer.right", defaultValue: "Move Container Right", table: "Commands", bundle: .aeroFlow
+                "command.moveContainer.right", defaultValue: "Move Container Right", table: "Commands",
+                bundle: .aeroFlow
             )
         case .up: LocalizedStringResource(
                 "command.moveContainer.up", defaultValue: "Move Container Up", table: "Commands", bundle: .aeroFlow

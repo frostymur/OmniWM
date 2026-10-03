@@ -2,9 +2,9 @@
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 // Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
 
+import AeroFlowLauncherSPI
 import AppKit
 import Observation
-import AeroFlowLauncherSPI
 @preconcurrency import QuickLookThumbnailing
 
 @MainActor

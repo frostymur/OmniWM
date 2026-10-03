@@ -2,9 +2,9 @@
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 // Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
 
+import AeroFlowIPC
 import AppKit
 import Foundation
-import AeroFlowIPC
 
 extension WMController {
     func applyPersistedSettings(_ settings: SettingsStore, startServices: Bool = true) {
@@ -26,7 +26,6 @@ extension WMController {
         updateMonitorDwindleSettings()
         updateMonitorGapSettings()
         updateAppRules()
-
 
         setFocusFollowsMouse(settings.focus.followsMouse)
         setMoveMouseToFocusedWindow(settings.focus.moveMouseToFocusedWindow)

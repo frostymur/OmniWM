@@ -2,8 +2,8 @@
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 // Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
 
-import Foundation
 @testable import AeroFlow
+import Foundation
 import TOML
 import XCTest
 
@@ -16,14 +16,14 @@ final class LayoutSectionsSettingsExportTests: XCTestCase {
         XCTAssertEqual(tree["gaps"], .table([
             "size": .float(16),
             "fullscreenUsesOuterGaps": .boolean(false),
-            "outer": .table(["left": .float(0), "right": .float(0), "top": .float(0), "bottom": .float(0)])
+            "outer": .table(["left": .float(8), "right": .float(8), "top": .float(8), "bottom": .float(8)])
         ]))
         XCTAssertEqual(tree["niri"], .table([
             "visibleContainerCount": .integer(2),
             "infiniteLoop": .boolean(false),
             "centerFocusedColumn": .string("never"),
             "alwaysCenterSingleColumn": .boolean(false),
-            "singleWindowFit": .string("fill"),
+            "singleWindowFit": .string("gapped"),
             "containerPrimarySpanPresets": .array([.float(1.0 / 3), .float(0.5), .float(2.0 / 3)]),
             "defaultContainerPrimarySpan": .float(0.5)
         ]))
@@ -31,7 +31,7 @@ final class LayoutSectionsSettingsExportTests: XCTestCase {
             "smartSplit": .boolean(false),
             "defaultSplitRatio": .float(1),
             "splitWidthMultiplier": .float(1),
-            "singleWindowFit": .string("fill"),
+            "singleWindowFit": .string("gapped"),
             "useGlobalGaps": .boolean(true),
             "moveToRootStable": .boolean(true)
         ]))

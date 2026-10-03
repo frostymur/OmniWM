@@ -2,10 +2,10 @@
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 // Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
 
+@testable import AeroFlow
 import ApplicationServices
 import CoreGraphics
 import Foundation
-@testable import AeroFlow
 import XCTest
 
 @MainActor
@@ -573,7 +573,10 @@ final class NativeFullscreenSlotProjectionTests: XCTestCase {
         token: WindowToken
     ) {
         let root = FileManager.default.temporaryDirectory
-            .appendingPathComponent("AeroFlowNativeFullscreenSlotProjectionTests-\(UUID().uuidString)", isDirectory: true)
+            .appendingPathComponent(
+                "AeroFlowNativeFullscreenSlotProjectionTests-\(UUID().uuidString)",
+                isDirectory: true
+            )
         let settings = SettingsStore(
             persistence: SettingsFilePersistence(
                 directory: root.appendingPathComponent("config", isDirectory: true),

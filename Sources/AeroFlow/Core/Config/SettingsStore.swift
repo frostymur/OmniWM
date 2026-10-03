@@ -2,10 +2,10 @@
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 // Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
 
+import AeroFlowIPC
 import AppKit
 import Carbon
 import Foundation
-import AeroFlowIPC
 
 @MainActor @Observable
 final class SettingsStore {
@@ -48,7 +48,6 @@ final class SettingsStore {
             workspaces.configurations = workspaceConfigurations
         }
     }
-
 
     var hotkeyBindings = SettingsStore.defaultExport.hotkeyBindings {
         didSet { scheduleSave() }
@@ -104,7 +103,6 @@ final class SettingsStore {
         }
     }
 
-
     func recordLauncherLaunch(targetID: String, query: String, displayName: String? = nil) {
         runtimeState.recordLauncherLaunch(
             targetID: targetID,
@@ -138,7 +136,6 @@ final class SettingsStore {
         didSet { scheduleSave() }
     }
 
-
     var appearanceMode = SettingsStore.defaultExport.appearanceMode {
         didSet { scheduleSave() }
     }
@@ -154,7 +151,6 @@ final class SettingsStore {
     func savePersistedWindowRestoreCatalog(_ catalog: PersistedWindowRestoreCatalog) {
         runtimeState.windowRestoreCatalog = catalog.entries.isEmpty ? nil : catalog
     }
-
 
     init(
         persistence: SettingsFilePersistence = SettingsFilePersistence(),
@@ -292,7 +288,6 @@ extension SettingsStore {
 
         workspaces.configurations = WorkspaceSettings.normalizedConfigurations(export.workspaceConfigurations)
         workspaces.defaultLayoutType = export.defaultLayoutType
-
 
         hyperKeyModifiersStorage = export.hyperKeyModifiers
         KeySymbolMapper.setHyperKeyModifiers(export.hyperKeyModifiers)

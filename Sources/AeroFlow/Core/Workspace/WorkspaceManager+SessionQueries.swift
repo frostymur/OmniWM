@@ -93,5 +93,4 @@ extension WorkspaceManager {
     var pendingFocusedMonitorId: Monitor.ID? {
         focusSessionSnapshot.pendingManagedFocus.monitorId
     }
-
 }

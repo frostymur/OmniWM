@@ -2,8 +2,8 @@
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 // Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
 
-import Foundation
 @testable import AeroFlow
+import Foundation
 import XCTest
 
 final class AppRuleTests: XCTestCase {
@@ -163,5 +163,4 @@ final class AppRuleTests: XCTestCase {
         XCTAssertFalse(snapshot.isValid)
         XCTAssertTrue(snapshot.validationMessages.contains { $0.hasPrefix("Initial container primary span") })
     }
-
 }

@@ -2,11 +2,11 @@
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 // Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
 
+import AeroFlowLauncherSPI
 import AppKit
 import ApplicationServices
 import CoreGraphics
 import Foundation
-import AeroFlowLauncherSPI
 
 enum PrivateAPISelfTestOutcome: String, Sendable {
     case works

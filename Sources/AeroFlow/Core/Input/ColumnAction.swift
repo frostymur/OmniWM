@@ -2,8 +2,8 @@
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 // Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
 
-import Foundation
 import AeroFlowIPC
+import Foundation
 
 enum ColumnAction: Equatable, Hashable {
     case moveToFirst
@@ -41,7 +41,8 @@ extension ColumnAction {
                 bundle: .aeroFlow
             )
         case .toggleTabbed: LocalizedStringResource(
-                "command.column.toggleTabbed", defaultValue: "Toggle Column Tabbed", table: "Commands", bundle: .aeroFlow
+                "command.column.toggleTabbed", defaultValue: "Toggle Column Tabbed", table: "Commands",
+                bundle: .aeroFlow
             )
         }
     }

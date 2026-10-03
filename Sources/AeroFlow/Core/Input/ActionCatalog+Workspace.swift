@@ -2,8 +2,8 @@
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 // Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
 
-import Carbon
 import AeroFlowIPC
+import Carbon
 
 extension ActionCatalog {
     static func appendWorkspaceNumberBindings(_ specs: inout [ActionSpec]) {

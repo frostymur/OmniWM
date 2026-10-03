@@ -2,8 +2,8 @@
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 // Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
 
-import Foundation
 @testable import AeroFlow
+import Foundation
 import XCTest
 
 final class AeroFlowStoragePathsTests: XCTestCase {
@@ -29,7 +29,10 @@ final class AeroFlowStoragePathsTests: XCTestCase {
     }
 
     func testAbsoluteXDGOverridesKeepReleaseAndDevSeparate() {
-        for (bundleIdentifier, directory) in [("com.frostymur.AeroFlow", "aeroflow"), ("com.frostymur.AeroFlow.dev", "aeroflow-dev")] {
+        for (bundleIdentifier, directory) in [
+            ("com.frostymur.AeroFlow", "aeroflow"),
+            ("com.frostymur.AeroFlow.dev", "aeroflow-dev")
+        ] {
             let paths = AeroFlowStoragePaths.resolve(
                 environment: ["XDG_CONFIG_HOME": "/custom/config/", "XDG_STATE_HOME": "/custom/state/"],
                 homeDirectory: URL(fileURLWithPath: "/Users/contributor", isDirectory: true),

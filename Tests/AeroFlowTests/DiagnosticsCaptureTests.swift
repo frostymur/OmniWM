@@ -2,8 +2,8 @@
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 // Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
 
-import AppKit
 @testable import AeroFlow
+import AppKit
 import XCTest
 
 final class DiagnosticsCaptureTests: XCTestCase {

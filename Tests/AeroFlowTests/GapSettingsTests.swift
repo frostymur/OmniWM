@@ -2,19 +2,19 @@
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 // Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
 
-import CoreGraphics
-import Foundation
 @testable import AeroFlow
 import AeroFlowIPC
+import CoreGraphics
+import Foundation
 import XCTest
 
 final class GapSettingsTests: XCTestCase {
-    func testNormalizedTopStrutMeasuresFromPhysicalTop() {
-        XCTAssertEqual(normalizedTopStrut(top: 46, menuBarInset: 33, reservedTopInset: 0), 13)
-        XCTAssertEqual(normalizedTopStrut(top: 46, menuBarInset: 0, reservedTopInset: 0), 46)
-        XCTAssertEqual(normalizedTopStrut(top: 46, menuBarInset: 24, reservedTopInset: 0), 22)
-        XCTAssertEqual(normalizedTopStrut(top: 10, menuBarInset: 24, reservedTopInset: 0), 0)
-        XCTAssertEqual(normalizedTopStrut(top: 46, menuBarInset: 33, reservedTopInset: 28), 41)
+    func testNormalizedTopStrutMeasuresFromWorkAreaTop() {
+        XCTAssertEqual(normalizedTopStrut(top: 46, reservedTopInset: 0), 46)
+        XCTAssertEqual(normalizedTopStrut(top: 8, reservedTopInset: 0), 8)
+        XCTAssertEqual(normalizedTopStrut(top: 0, reservedTopInset: 0), 0)
+        XCTAssertEqual(normalizedTopStrut(top: -5, reservedTopInset: 0), 0)
+        XCTAssertEqual(normalizedTopStrut(top: 46, reservedTopInset: 28), 74)
     }
 
     func testNormalizedTopStrutKeepsTopGapConsistentAcrossDisplays() {
@@ -23,15 +23,15 @@ final class GapSettingsTests: XCTestCase {
 
         for inset: CGFloat in [0, 24, 33] {
             let visibleFrameMaxY = frameMaxY - inset
-            let windowTop = visibleFrameMaxY - normalizedTopStrut(top: top, menuBarInset: inset, reservedTopInset: 0)
-            XCTAssertEqual(frameMaxY - windowTop, top)
+            let windowTop = visibleFrameMaxY - normalizedTopStrut(top: top, reservedTopInset: 0)
+            XCTAssertEqual(visibleFrameMaxY - windowTop, top)
         }
     }
 
-    func testNormalizedTopStrutNeverPlacesWindowAboveVisibleFrame() {
-        for inset: CGFloat in [0, 24, 33, 50] {
-            XCTAssertGreaterThanOrEqual(normalizedTopStrut(top: 8, menuBarInset: inset, reservedTopInset: 0), 0)
-        }
+    func testNormalizedTopStrutNeverNegative() {
+        XCTAssertEqual(normalizedTopStrut(top: 0, reservedTopInset: 0), 0)
+        XCTAssertEqual(normalizedTopStrut(top: -20, reservedTopInset: 0), 0)
+        XCTAssertGreaterThanOrEqual(normalizedTopStrut(top: 8, reservedTopInset: 0), 0)
     }
 
     func testMonitorGapSettingsDecodePartialLeavesOthersNil() throws {
@@ -420,10 +420,10 @@ final class GapSettingsTests: XCTestCase {
         let builtInFrame = controller.layoutRefreshController.buildMonitorSnapshot(for: builtIn).workingFrame
         let externalFrame = controller.layoutRefreshController.buildMonitorSnapshot(for: external).workingFrame
 
-        XCTAssertEqual(builtIn.frame.maxY - builtInFrame.maxY, 50)
-        XCTAssertEqual(builtIn.visibleFrame.maxY - builtInFrame.maxY, 17)
+        XCTAssertEqual(builtIn.frame.maxY - builtInFrame.maxY, 83)
+        XCTAssertEqual(builtIn.visibleFrame.maxY - builtInFrame.maxY, 50)
         XCTAssertEqual(external.frame.maxY - externalFrame.maxY, 41)
-        XCTAssertEqual(builtInFrame, CGRect(x: 0, y: 0, width: 1440, height: 850))
+        XCTAssertEqual(builtInFrame, CGRect(x: 0, y: 0, width: 1440, height: 817))
         XCTAssertEqual(externalFrame, CGRect(x: 1440, y: 0, width: 1440, height: 859))
     }
 

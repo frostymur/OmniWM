@@ -154,14 +154,16 @@ extension NiriLayoutEngine {
                         gaps: primaryGap,
                         contentInset: projectedColumn.windows.count > 1
                             ? tabContentInset(for: projectedColumn.column)
-                            : 0
+                            : 0,
+                        siblingCount: projectedColumns.count
                     )
                 }
             case .vertical:
                 if projectedColumn.column.cachedHeight <= 0 {
                     projectedColumn.column.resolveAndCacheHeight(
                         workingAreaHeight: area.workingFrame.height,
-                        gaps: primaryGap
+                        gaps: primaryGap,
+                        siblingCount: projectedColumns.count
                     )
                 }
             }
@@ -172,7 +174,8 @@ extension NiriLayoutEngine {
                 for: $0,
                 workingFrame: area.workingFrame,
                 gap: primaryGap,
-                orientation: orientation
+                orientation: orientation,
+                siblingCount: projectedColumns.count
             )
         }
         let containerRenderOffsets = projectedColumns.map { $0.column.renderOffset(at: time) }
@@ -230,7 +233,7 @@ extension NiriLayoutEngine {
             secondarySpanOverride: placement.secondarySpanOverride
         )
 
-        var pos = containerFrames.secondaryStart(gap: secondaryGap)
+        var pos = containerFrames.secondaryStart()
 
         for i in 0 ..< windows.count {
             let window = windows[i]
@@ -285,7 +288,7 @@ extension NiriLayoutEngine {
             outputs = cached
         } else {
             let inputs = windows.map { window in
-                axisSolverInput(for: window, axis: axis)
+                axisSolverInput(for: window, axis: axis, siblingCount: windows.count)
             }
             let hardOutputs = NiriAxisSolver.solve(
                 windows: inputs,
@@ -323,7 +326,7 @@ extension NiriLayoutEngine {
         hardOutputs: [NiriAxisSolver.Output],
         axis: NiriAxisLayout
     ) -> [NiriAxisSolver.Output] {
-        let gapCount = axis.isTabbed ? 2 : windows.count + 1
+        let gapCount = axis.isTabbed ? 0 : max(0, windows.count - 1)
         let usableSpace = max(0, axis.availableSpace - axis.gap * CGFloat(gapCount))
         var packedInputs = inputs
         var floorSum: CGFloat = 0
@@ -360,7 +363,8 @@ extension NiriLayoutEngine {
 
     private func axisSolverInput(
         for window: NiriWindow,
-        axis: NiriAxisLayout
+        axis: NiriAxisLayout,
+        siblingCount: Int
     ) -> NiriAxisSolver.Input {
         let specification = switch axis.orientation {
         case .horizontal: window.height
@@ -377,7 +381,8 @@ extension NiriLayoutEngine {
                 presetWindowSecondarySpans,
                 index: index,
                 availableSpace: axis.availableSpace,
-                gap: axis.gap
+                gap: axis.gap,
+                siblingCount: axis.isTabbed ? 1 : siblingCount
             )
         }
         return window.axisSolverInput(
@@ -391,12 +396,13 @@ extension NiriLayoutEngine {
         _ presets: [PresetSize],
         index: Int,
         availableSpace: CGFloat,
-        gap: CGFloat
+        gap: CGFloat,
+        siblingCount: Int = 1
     ) -> CGFloat? {
         guard presets.indices.contains(index) else { return nil }
         switch presets[index].kind {
         case let .proportion(proportion):
-            return (availableSpace - gap) * proportion - gap
+            return (availableSpace - gap * CGFloat(max(0, siblingCount - 1))) * proportion
         case let .fixed(value):
             return value
         }

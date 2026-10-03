@@ -2,9 +2,9 @@
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 // Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
 
+import AeroFlowIPC
 import AppKit
 import Foundation
-import AeroFlowIPC
 
 @MainActor @Observable
 final class WMController {
@@ -247,7 +247,6 @@ extension WMController {
             placementResolver.floatingSpawnMonitorId(pid: pid)
         }
     #endif
-
 
     @discardableResult
     func syncMouseWarpPolicy(for monitors: [Monitor]? = nil) -> Bool {

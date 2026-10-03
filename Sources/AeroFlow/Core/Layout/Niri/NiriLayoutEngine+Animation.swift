@@ -158,13 +158,18 @@ extension NiriLayoutEngine {
                 addedCol.resolveAndCacheWidth(
                     workingAreaWidth: context.workingFrame.width,
                     gaps: context.gaps,
-                    contentInset: tabContentInset(for: addedCol)
+                    contentInset: tabContentInset(for: addedCol),
+                    siblingCount: columns(in: context.workspaceId).count
                 )
             }
             return addedCol.cachedWidth
         case .vertical:
             if addedCol.cachedHeight <= 0 {
-                addedCol.resolveAndCacheHeight(workingAreaHeight: context.workingFrame.height, gaps: context.gaps)
+                addedCol.resolveAndCacheHeight(
+                    workingAreaHeight: context.workingFrame.height,
+                    gaps: context.gaps,
+                    siblingCount: columns(in: context.workspaceId).count
+                )
             }
             return addedCol.cachedHeight
         }

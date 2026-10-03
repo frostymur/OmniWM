@@ -272,10 +272,15 @@ extension NiriLayoutEngine {
                 container.resolveAndCacheWidth(
                     workingAreaWidth: workingFrame.width,
                     gaps: gaps,
-                    contentInset: tabContentInset(for: container)
+                    contentInset: tabContentInset(for: container),
+                    siblingCount: columns(in: workspaceId).count
                 )
             case .vertical where container.cachedHeight <= 0:
-                container.resolveAndCacheHeight(workingAreaHeight: workingFrame.height, gaps: gaps)
+                container.resolveAndCacheHeight(
+                    workingAreaHeight: workingFrame.height,
+                    gaps: gaps,
+                    siblingCount: columns(in: workspaceId).count
+                )
             case .horizontal,
                  .vertical:
                 break

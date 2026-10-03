@@ -2,12 +2,12 @@
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 // Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
 
-import ApplicationServices
-import CoreGraphics
-import Foundation
 @testable import AeroFlow
 @testable import AeroFlowCtl
 import AeroFlowIPC
+import ApplicationServices
+import CoreGraphics
+import Foundation
 import XCTest
 
 final class CloseWindowCommandTests: XCTestCase {

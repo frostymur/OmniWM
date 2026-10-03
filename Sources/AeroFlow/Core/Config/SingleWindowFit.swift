@@ -31,7 +31,7 @@ struct SingleWindowFit: Equatable {
     var height: Double
 
     init(
-        mode: Mode = .fill,
+        mode: Mode = .gapped,
         width: Double = SingleWindowFit.defaultWidth,
         height: Double = SingleWindowFit.defaultHeight
     ) {
@@ -43,6 +43,7 @@ struct SingleWindowFit: Equatable {
     static let defaultWidth: Double = 1920
     static let defaultHeight: Double = 1080
     static let fullScreen = SingleWindowFit(mode: .fill)
+    static let gapped = SingleWindowFit(mode: .gapped)
 
     static let dwindleModes: [Mode] = [.fill, .gapped, .custom]
     static let niriModes: [Mode] = [.fill, .gapped, .custom, .containerPrimarySpan]

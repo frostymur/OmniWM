@@ -2,9 +2,9 @@
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 // Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
 
+@testable import AeroFlow
 import ApplicationServices
 import Foundation
-@testable import AeroFlow
 import QuartzCore
 import XCTest
 

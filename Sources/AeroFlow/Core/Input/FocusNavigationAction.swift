@@ -2,8 +2,8 @@
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 // Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
 
-import Foundation
 import AeroFlowIPC
+import Foundation
 
 enum FocusNavigationAction: Equatable, Hashable {
     case previous
@@ -30,7 +30,8 @@ extension FocusNavigationAction {
                 "command.focus.previous", defaultValue: "Focus Previous Window", table: "Commands", bundle: .aeroFlow
             )
         case .downOrLeft: LocalizedStringResource(
-                "command.focus.traverseBackward", defaultValue: "Traverse Backward", table: "Commands", bundle: .aeroFlow
+                "command.focus.traverseBackward", defaultValue: "Traverse Backward", table: "Commands",
+                bundle: .aeroFlow
             )
         case .upOrRight: LocalizedStringResource(
                 "command.focus.traverseForward", defaultValue: "Traverse Forward", table: "Commands", bundle: .aeroFlow
@@ -78,7 +79,8 @@ extension FocusNavigationAction {
                 "command.focus.windowDownOrTop", defaultValue: "Focus Down or Top", table: "Commands", bundle: .aeroFlow
             )
         case .windowUpOrBottom: LocalizedStringResource(
-                "command.focus.windowUpOrBottom", defaultValue: "Focus Up or Bottom", table: "Commands", bundle: .aeroFlow
+                "command.focus.windowUpOrBottom", defaultValue: "Focus Up or Bottom", table: "Commands",
+                bundle: .aeroFlow
             )
         case .windowOrWorkspaceDown: LocalizedStringResource(
                 "command.focus.windowOrWorkspaceDown", defaultValue: "Focus Window or Workspace Down",

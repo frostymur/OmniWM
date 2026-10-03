@@ -274,13 +274,11 @@ struct NiriContainerLayoutFrames {
         }
     }
 
-    func secondaryStart(gap: CGFloat) -> CGFloat {
-        var pos: CGFloat = switch orientation {
+    func secondaryStart() -> CGFloat {
+        switch orientation {
         case .horizontal: contentRect.origin.y
         case .vertical: contentRect.origin.x
         }
-        pos += gap
-        return pos
     }
 
     func windowLayout(

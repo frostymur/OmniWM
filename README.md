@@ -72,6 +72,26 @@ Edit it while the app is running — changes apply live. Main sections:
 | `[[hotkeys]]` | key bindings (`binding = "Hyper+H"`, `id = "focus.left"`) |
 | `[[appRules]]` | window rules (see below) |
 
+**Gaps** — Hyprland-style model: `gaps_in` lives between windows, `gaps_out`
+reaches the screen edge. A single window is inset by the outer gap only
+(`singleWindowFit = "gapped"` — the default); `"fill"` still makes it edge-to-edge.
+
+```toml
+[gaps]
+size = 16.0                  # gaps_in  — between windows
+fullscreenUsesOuterGaps = false   # fullscreen ignores gaps by default
+
+[gaps.outer]                 # gaps_out — tiling area vs screen edges
+left = 12.0
+right = 12.0
+top = 8.0                    # measured from below the menu bar
+bottom = 12.0
+```
+
+The same rules apply in both layouts (niri and dwindle) and on both axes:
+windows never grow an extra inner gap at the tiling-area boundary — the edge
+margin is always `[gaps.outer]` alone.
+
 **Hotkeys** — every command is bindable:
 
 ```toml

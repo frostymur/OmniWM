@@ -135,7 +135,8 @@ extension ViewportFittingAreas {
     func fitOffset(
         currentViewStart: CGFloat,
         target: ViewportColumnTarget,
-        gap: CGFloat
+        gap: CGFloat,
+        totalSpan: CGFloat? = nil
     ) -> CGFloat {
         if target.mode.isFullscreen {
             return 0
@@ -143,10 +144,14 @@ extension ViewportFittingAreas {
 
         let area = self.area(for: target.mode)
         let areaStart = origin(of: area)
+        let areaSpan = span(of: area)
+        if let totalSpan, totalSpan >= areaSpan - 1.0 / max(scale, 1.0) {
+            return 0
+        }
         let padding = target.mode.isMaximized ? 0 : gap
         let newOffset = computeFitOffset(
             currentViewPos: currentViewStart + areaStart,
-            viewSpan: span(of: area),
+            viewSpan: areaSpan,
             targetPos: target.position,
             targetSpan: target.span,
             gap: padding
@@ -157,13 +162,15 @@ extension ViewportFittingAreas {
     func centeredOffset(
         currentViewStart: CGFloat,
         target: ViewportColumnTarget,
-        gap: CGFloat
+        gap: CGFloat,
+        totalSpan: CGFloat? = nil
     ) -> CGFloat {
         if target.mode.isFullscreen {
             return fitOffset(
                 currentViewStart: currentViewStart,
                 target: target,
-                gap: gap
+                gap: gap,
+                totalSpan: totalSpan
             )
         }
 
@@ -174,7 +181,8 @@ extension ViewportFittingAreas {
             return fitOffset(
                 currentViewStart: currentViewStart,
                 target: target,
-                gap: gap
+                gap: gap,
+                totalSpan: totalSpan
             )
         }
 
@@ -296,7 +304,8 @@ extension ViewportState {
         return areas.centeredOffset(
             currentViewStart: target.position,
             target: target,
-            gap: context.gaps
+            gap: context.gaps,
+            totalSpan: totalSpan(containers: containers, gap: context.gaps, sizeKeyPath: sizeKeyPath)
         )
     }
 
@@ -351,10 +360,21 @@ extension ViewportState {
                 areas: areas
             )
         }
+        let totalContentSpan = totalSpan(containers: containers, gap: context.gaps, sizeKeyPath: sizeKeyPath)
         if shouldCenter {
-            return areas.centeredOffset(currentViewStart: currentViewStart, target: target, gap: context.gaps)
+            return areas.centeredOffset(
+                currentViewStart: currentViewStart,
+                target: target,
+                gap: context.gaps,
+                totalSpan: totalContentSpan
+            )
         }
-        return areas.fitOffset(currentViewStart: currentViewStart, target: target, gap: context.gaps)
+        return areas.fitOffset(
+            currentViewStart: currentViewStart,
+            target: target,
+            gap: context.gaps,
+            totalSpan: totalContentSpan
+        )
     }
 
     private func shouldCenterAdjacentPair(

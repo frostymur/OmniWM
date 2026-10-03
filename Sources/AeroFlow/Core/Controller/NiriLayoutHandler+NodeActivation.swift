@@ -136,7 +136,8 @@ extension NiriLayoutHandler {
                 column.resolveAndCacheWidth(
                     workingAreaWidth: workingFrame.width,
                     gaps: gap,
-                    contentInset: engine.tabContentInset(for: column)
+                    contentInset: engine.tabContentInset(for: column),
+                    siblingCount: columns.count
                 )
             }
             rebaseViewportAnchor(
@@ -148,7 +149,11 @@ extension NiriLayoutHandler {
             )
         case .vertical:
             for column in columns where column.cachedHeight <= 0 {
-                column.resolveAndCacheHeight(workingAreaHeight: workingFrame.height, gaps: gap)
+                column.resolveAndCacheHeight(
+                    workingAreaHeight: workingFrame.height,
+                    gaps: gap,
+                    siblingCount: columns.count
+                )
             }
             rebaseViewportAnchor(
                 indices: (from: currentIndex, to: targetIndex),

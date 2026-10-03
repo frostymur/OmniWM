@@ -2,10 +2,10 @@
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 // Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
 
-import AppKit
-import ApplicationServices
 @testable import AeroFlow
 import AeroFlowIPC
+import AppKit
+import ApplicationServices
 import XCTest
 
 @MainActor

@@ -71,7 +71,8 @@ extension NiriLayoutEngine {
             if context.container.cachedHeight <= 0 {
                 context.container.resolveAndCacheHeight(
                     workingAreaHeight: workingFrame.height,
-                    gaps: gaps.vertical
+                    gaps: gaps.vertical,
+                    siblingCount: 1
                 )
             }
             let tabOffset: CGFloat = 0
@@ -105,7 +106,8 @@ extension NiriLayoutEngine {
                     presetWindowSecondarySpans,
                     index: index,
                     availableSpace: workingFrame.width,
-                    gap: secondaryGap
+                    gap: secondaryGap,
+                    siblingCount: 1
                 ) ?? workingFrame.width
             case .auto:
                 context.window.resolvedWidth ?? context.window.frame?.width ?? workingFrame.width

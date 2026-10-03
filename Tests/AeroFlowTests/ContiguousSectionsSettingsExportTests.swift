@@ -2,8 +2,8 @@
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 // Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
 
-import Foundation
 @testable import AeroFlow
+import Foundation
 import XCTest
 
 final class ContiguousSectionsSettingsExportTests: XCTestCase {
@@ -14,7 +14,7 @@ final class ContiguousSectionsSettingsExportTests: XCTestCase {
                 "scrollEnabled", "scrollSensitivity", "scrollModifierKey", "mouseMoveModifierKey",
                 "mouseResizeModifierKey", "fingerCount", "invertDirection", "trackpadScrollStyle",
                 "workspaceSwipeEnabled", "workspaceSwipeFingerCount", "workspaceSwipeAxis"
-            ],
+            ]
         ]
         for (section, keys) in sections {
             for key in keys {

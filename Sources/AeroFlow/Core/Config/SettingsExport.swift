@@ -2,8 +2,8 @@
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 // Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
 
-import Foundation
 import AeroFlowIPC
+import Foundation
 
 // MARK: - SettingsExport
 
@@ -113,7 +113,6 @@ struct SettingsExport: Equatable {
         var windowResizeFingerCount: GestureFingerCount? = .three
         var windowGestureSensitivity: Double? = 1.0
     }
-
 }
 
 // MARK: - Defaults & Diffing
@@ -188,7 +187,7 @@ extension SettingsExport.Gaps {
         Self(
             size: 16,
             fullscreenUsesOuterGaps: false,
-            outer: SettingsExport.OuterGaps(left: 0, right: 0, top: 0, bottom: 0)
+            outer: SettingsExport.OuterGaps(left: 8, right: 8, top: 8, bottom: 8)
         )
     }
 }
@@ -200,7 +199,7 @@ extension SettingsExport.Niri {
             infiniteLoop: false,
             centerFocusedColumn: .never,
             alwaysCenterSingleColumn: false,
-            singleWindowFit: .fullScreen,
+            singleWindowFit: .gapped,
             containerPrimarySpanPresets: BuiltInSettingsDefaults.niriContainerPrimarySpanPresets,
             defaultContainerPrimarySpan: 0.5
         )
@@ -213,7 +212,7 @@ extension SettingsExport.Dwindle {
             smartSplit: false,
             defaultSplitRatio: 1.0,
             splitWidthMultiplier: 1.0,
-            singleWindowFit: .fullScreen,
+            singleWindowFit: .gapped,
             useGlobalGaps: true,
             moveToRootStable: true
         )
@@ -237,4 +236,3 @@ extension SettingsExport.Gestures {
         )
     }
 }
-

@@ -2,9 +2,9 @@
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 // Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
 
+import AeroFlowIPC
 import Darwin
 import Foundation
-import AeroFlowIPC
 
 struct CLIRuntimeEnvironment: Sendable {
     let openConnection: @Sendable () throws -> IPCClientConnection

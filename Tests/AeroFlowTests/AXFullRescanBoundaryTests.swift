@@ -2,9 +2,9 @@
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 // Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
 
+@testable import AeroFlow
 import AppKit
 import ApplicationServices
-@testable import AeroFlow
 import XCTest
 
 private let axBoundaryObserverCallback: AXObserverCallback = { _, _, _, _ in }

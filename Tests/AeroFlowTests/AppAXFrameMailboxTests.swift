@@ -2,10 +2,10 @@
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 // Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
 
+@testable import AeroFlow
 import ApplicationServices
 import Darwin
 import Dispatch
-@testable import AeroFlow
 import Synchronization
 import XCTest
 

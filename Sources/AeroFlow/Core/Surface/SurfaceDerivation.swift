@@ -50,5 +50,4 @@ enum SurfaceDerivation {
 
         return masks
     }
-
 }

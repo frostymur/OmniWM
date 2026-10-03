@@ -2,9 +2,9 @@
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 // Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
 
+@testable import AeroFlow
 import ApplicationServices
 import CoreGraphics
-@testable import AeroFlow
 import XCTest
 
 final class NiriSingleWindowOverrideRemovalTests: NiriInteractionTestCase {
@@ -138,7 +138,10 @@ final class NiriSingleWindowOverrideCloseTests: XCTestCase {
 
     private func makeController() -> WMController {
         let root = FileManager.default.temporaryDirectory
-            .appendingPathComponent("AeroFlowNiriSingleWindowOverrideCloseTests-\(UUID().uuidString)", isDirectory: true)
+            .appendingPathComponent(
+                "AeroFlowNiriSingleWindowOverrideCloseTests-\(UUID().uuidString)",
+                isDirectory: true
+            )
         let settings = SettingsStore(
             persistence: SettingsFilePersistence(
                 directory: root.appendingPathComponent("config", isDirectory: true),

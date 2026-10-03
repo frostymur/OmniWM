@@ -15,5 +15,3 @@ enum GestureFingerCount: Int, CaseIterable, Codable {
         }
     }
 }
-
-

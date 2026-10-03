@@ -27,7 +27,8 @@ extension NiriLayoutEngine {
                 column.resolveAndCacheWidth(
                     workingAreaWidth: workingFrame.width,
                     gaps: gaps,
-                    contentInset: tabContentInset(for: column)
+                    contentInset: tabContentInset(for: column),
+                    siblingCount: columns(in: workspaceId).count
                 )
             }
         }
@@ -59,7 +60,8 @@ extension NiriLayoutEngine {
             newWidth,
             availableSpan: context.workingFrame.width,
             gaps: context.gaps,
-            contentInset: tabContentInset(for: column)
+            contentInset: tabContentInset(for: column),
+            siblingCount: columns(in: context.workspaceId).count
         )
 
         column.animateWidthTo(
@@ -105,7 +107,8 @@ extension NiriLayoutEngine {
         column.cachedHeight = column.resolvedHeightPixels(
             newHeight,
             availableSpan: context.workingFrame.height,
-            gaps: context.gaps
+            gaps: context.gaps,
+            siblingCount: columns(in: context.workspaceId).count
         )
 
         let verticalContext = context.oriented(.vertical)
@@ -121,14 +124,16 @@ extension NiriLayoutEngine {
     ) {
         let currentHeight = column.currentHeightForSizing(
             workingAreaHeight: context.workingFrame.height,
-            gaps: context.gaps
+            gaps: context.gaps,
+            siblingCount: columns(in: context.workspaceId).count
         )
         let nextIndex = column.nextHeightPresetIndex(
             forwards: forwards,
             currentHeight: currentHeight,
             presets: presetContainerPrimarySpans,
             availableSpan: context.workingFrame.height,
-            gaps: context.gaps
+            gaps: context.gaps,
+            siblingCount: columns(in: context.workspaceId).count
         )
 
         let currentSpec = column.isFullHeight ? ProportionalSize.proportion(1) : column.height
@@ -167,14 +172,16 @@ extension NiriLayoutEngine {
         )
         let previousHeight = column.currentHeightForSizing(
             workingAreaHeight: context.workingFrame.height,
-            gaps: context.gaps
+            gaps: context.gaps,
+            siblingCount: columns(in: context.workspaceId).count
         )
         cancelInteractiveResize(for: column, in: context.workspaceId)
         let effectiveHeight = column.toggleFullHeightSpec()
         column.cachedHeight = column.resolvedHeightPixels(
             effectiveHeight,
             availableSpan: context.workingFrame.height,
-            gaps: context.gaps
+            gaps: context.gaps,
+            siblingCount: columns(in: context.workspaceId).count
         )
 
         guard abs(column.cachedHeight - previousHeight) > 0.001 else { return }
@@ -271,7 +278,8 @@ extension NiriLayoutEngine {
                     column.width,
                     availableSpan: context.workingFrame.width,
                     gaps: context.gaps,
-                    contentInset: tabContentInset(for: column)
+                    contentInset: tabContentInset(for: column),
+                    siblingCount: columns(in: context.workspaceId).count
                 )
             } else {
                 currentTile = currentPixels
@@ -283,7 +291,8 @@ extension NiriLayoutEngine {
                         preset.asProportionalSize,
                         availableSpan: context.workingFrame.width,
                         gaps: context.gaps,
-                        contentInset: tabContentInset(for: column)
+                        contentInset: tabContentInset(for: column),
+                        siblingCount: columns(in: context.workspaceId).count
                     )
                 } ?? 0
             } else {
@@ -292,7 +301,8 @@ extension NiriLayoutEngine {
                         preset.asProportionalSize,
                         availableSpan: context.workingFrame.width,
                         gaps: context.gaps,
-                        contentInset: tabContentInset(for: column)
+                        contentInset: tabContentInset(for: column),
+                        siblingCount: columns(in: context.workspaceId).count
                     ) + 1 < currentTile
                 }
                 nextIdx = matchingIndex ?? (presetCount - 1)
@@ -311,7 +321,8 @@ extension NiriLayoutEngine {
         if context.orientation == .vertical {
             let previousHeight = column.currentHeightForSizing(
                 workingAreaHeight: context.workingFrame.height,
-                gaps: context.gaps
+                gaps: context.gaps,
+                siblingCount: columns(in: context.workspaceId).count
             )
             let currentSpec = column.isFullHeight ? ProportionalSize.proportion(1) : column.height
             let newHeight = change.primarySpanSpec(
@@ -334,7 +345,8 @@ extension NiriLayoutEngine {
             currentSpec,
             availableSpan: context.workingFrame.width,
             gaps: context.gaps,
-            contentInset: tabContentInset(for: column)
+            contentInset: tabContentInset(for: column),
+            siblingCount: columns(in: context.workspaceId).count
         )
         let newWidth = change.primarySpanSpec(
             currentSpec: currentSpec,
@@ -373,7 +385,8 @@ extension NiriLayoutEngine {
             targetSpec,
             availableSpan: context.workingFrame.width,
             gaps: context.gaps,
-            contentInset: tabContentInset(for: column)
+            contentInset: tabContentInset(for: column),
+            siblingCount: columns(in: context.workspaceId).count
         )
 
         column.animateWidthTo(

@@ -2,9 +2,9 @@
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 // Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
 
+import AeroFlowIPC
 import AppKit
 import Foundation
-import AeroFlowIPC
 
 extension WMController {
     func innerGap(for monitor: Monitor) -> CGFloat {
@@ -46,10 +46,8 @@ extension WMController {
     ) -> MonitorLayoutFrames {
         let reservedTopInset: CGFloat = 0
         let gaps = settings.gaps.resolved(for: monitor)
-        let menuBarInset = max(0, monitor.frame.maxY - monitor.visibleFrame.maxY)
         let normalizedTop = normalizedTopStrut(
             top: gaps.outerGapTop,
-            menuBarInset: menuBarInset,
             reservedTopInset: reservedTopInset
         )
         let rawStruts = Struts(

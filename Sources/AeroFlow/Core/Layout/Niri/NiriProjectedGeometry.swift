@@ -65,7 +65,8 @@ extension NiriLayoutEngine {
                 for: projectedColumn,
                 workingFrame: workingFrame,
                 gap: gaps,
-                orientation: orientation
+                orientation: orientation,
+                siblingCount: projectedColumns.count
             ) + gaps
         }
 

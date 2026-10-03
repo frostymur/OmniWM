@@ -2,8 +2,8 @@
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 // Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
 
-import CoreGraphics
 @testable import AeroFlow
+import CoreGraphics
 import XCTest
 
 final class NiriPortraitSizingTests: NiriInteractionTestCase {
@@ -297,8 +297,8 @@ final class NiriPortraitSizingTests: NiriInteractionTestCase {
             )[window.token]
         )
 
-        XCTAssertEqual(frame.width, 420, accuracy: 0.001)
-        XCTAssertEqual(frame.height, 740, accuracy: 0.001)
+        XCTAssertEqual(frame.width, 450, accuracy: 0.001)
+        XCTAssertEqual(frame.height, 800, accuracy: 0.001)
         XCTAssertEqual(frame.midX, portraitFrame.midX, accuracy: 0.001)
         XCTAssertEqual(frame.midY, portraitFrame.midY, accuracy: 0.001)
     }

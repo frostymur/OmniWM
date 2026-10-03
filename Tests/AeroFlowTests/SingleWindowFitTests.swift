@@ -2,14 +2,14 @@
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 // Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
 
+@testable import AeroFlow
 import CoreGraphics
 import Foundation
-@testable import AeroFlow
 import XCTest
 
 final class SingleWindowFitTests: XCTestCase {
-    func testDefaultIsFullScreen() {
-        XCTAssertEqual(SingleWindowFit().mode, .fill)
+    func testDefaultIsGapped() {
+        XCTAssertEqual(SingleWindowFit().mode, .gapped)
         XCTAssertEqual(SingleWindowFit.fullScreen.mode, .fill)
     }
 

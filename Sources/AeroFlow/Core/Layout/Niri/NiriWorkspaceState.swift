@@ -81,8 +81,8 @@ func computeWorkingArea(
     return workingArea
 }
 
-func normalizedTopStrut(top: CGFloat, menuBarInset: CGFloat, reservedTopInset: CGFloat) -> CGFloat {
-    max(0, top - menuBarInset) + reservedTopInset
+func normalizedTopStrut(top: CGFloat, reservedTopInset: CGFloat) -> CGFloat {
+    max(0, top) + reservedTopInset
 }
 
 struct NiriRenderStyle {

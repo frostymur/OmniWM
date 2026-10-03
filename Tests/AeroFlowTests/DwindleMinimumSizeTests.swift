@@ -2,9 +2,9 @@
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 // Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
 
+@testable import AeroFlow
 import CoreGraphics
 import Foundation
-@testable import AeroFlow
 import XCTest
 
 final class DwindleMinimumSizeTests: XCTestCase {
@@ -229,6 +229,6 @@ final class DwindleMinimumSizeTests: XCTestCase {
 
         XCTAssertEqual(customFrame?.size, CGSize(width: 600, height: 500))
         XCTAssertEqual(storedFrame, screen)
-        XCTAssertEqual(engine.settings.singleWindowFit, .fullScreen)
+        XCTAssertEqual(engine.settings.singleWindowFit, .gapped)
     }
 }

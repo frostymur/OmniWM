@@ -101,10 +101,11 @@ extension NiriContainer {
 
     func currentHeightForSizing(
         workingAreaHeight: CGFloat,
-        gaps: CGFloat
+        gaps: CGFloat,
+        siblingCount: Int = 1
     ) -> CGFloat {
         if cachedHeight <= 0 {
-            resolveAndCacheHeight(workingAreaHeight: workingAreaHeight, gaps: gaps)
+            resolveAndCacheHeight(workingAreaHeight: workingAreaHeight, gaps: gaps, siblingCount: siblingCount)
         }
 
         return cachedHeight
@@ -114,23 +115,32 @@ extension NiriContainer {
         _ width: ProportionalSize,
         availableSpan: CGFloat,
         gaps: CGFloat,
-        contentInset: CGFloat
+        contentInset: CGFloat,
+        siblingCount: Int = 1
     ) -> CGFloat {
         resolvedPrimarySpan(
             width,
             orientation: .horizontal,
             availableSpace: availableSpan,
             gaps: gaps,
-            contentInset: contentInset
+            contentInset: contentInset,
+            siblingCount: siblingCount
         )
     }
 
     func resolvedHeightPixels(
         _ height: ProportionalSize,
         availableSpan: CGFloat,
-        gaps: CGFloat
+        gaps: CGFloat,
+        siblingCount: Int = 1
     ) -> CGFloat {
-        resolvedPrimarySpan(height, orientation: .vertical, availableSpace: availableSpan, gaps: gaps)
+        resolvedPrimarySpan(
+            height,
+            orientation: .vertical,
+            availableSpace: availableSpan,
+            gaps: gaps,
+            siblingCount: siblingCount
+        )
     }
 
     func nextHeightPresetIndex(
@@ -138,14 +148,16 @@ extension NiriContainer {
         currentHeight: CGFloat,
         presets: [PresetSize],
         availableSpan: CGFloat,
-        gaps: CGFloat
+        gaps: CGFloat,
+        siblingCount: Int = 1
     ) -> Int {
         if forwards {
             return presets.firstIndex { preset in
                 currentHeight + 1 < resolvedHeightPixels(
                     preset.asProportionalSize,
                     availableSpan: availableSpan,
-                    gaps: gaps
+                    gaps: gaps,
+                    siblingCount: siblingCount
                 )
             } ?? 0
         } else {
@@ -153,18 +165,20 @@ extension NiriContainer {
                 resolvedHeightPixels(
                     preset.asProportionalSize,
                     availableSpan: availableSpan,
-                    gaps: gaps
+                    gaps: gaps,
+                    siblingCount: siblingCount
                 ) + 1 < currentHeight
             } ?? (presets.count - 1)
         }
     }
 
-    func resolvedHorizontalSize(in workingFrame: CGRect, primaryGap: CGFloat) -> CGSize {
+    func resolvedHorizontalSize(in workingFrame: CGRect, primaryGap: CGFloat, siblingCount: Int = 1) -> CGSize {
         if cachedWidth <= 0 {
             resolveAndCacheWidth(
                 workingAreaWidth: workingFrame.width,
                 gaps: primaryGap,
-                contentInset: 0
+                contentInset: 0,
+                siblingCount: siblingCount
             )
         }
         return CGSize(

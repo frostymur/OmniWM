@@ -219,7 +219,8 @@ extension NiriLayoutEngine {
         for projectedColumn: NiriProjectedColumn,
         workingFrame: CGRect,
         gap: CGFloat,
-        orientation: Monitor.Orientation
+        orientation: Monitor.Orientation,
+        siblingCount: Int = 1
     ) -> CGFloat {
         let column = projectedColumn.column
         let windows = projectedColumn.windows
@@ -241,10 +242,11 @@ extension NiriLayoutEngine {
             isFull = column.isFullHeight
         }
 
+        let reservedGaps = gap * CGFloat(max(0, siblingCount - 1))
         let effectiveSpec = isFull ? ProportionalSize.proportion(1) : spec
         let rawSpan: CGFloat = switch effectiveSpec {
         case let .proportion(proportion):
-            (availableSpace - gap) * proportion - gap
+            (availableSpace - reservedGaps) * proportion
         case let .fixed(fixed):
             fixed
         }
@@ -255,7 +257,7 @@ extension NiriLayoutEngine {
             max(rawSpan, bounds.min),
             windows: windows,
             orientation: orientation,
-            limit: availableSpace - gap * 2,
+            limit: availableSpace - reservedGaps,
             contentInset: contentInset
         )
         return bounds.max.map { min(clamped, $0) } ?? clamped
@@ -415,7 +417,8 @@ extension NiriLayoutEngine {
                 for: projectedColumn,
                 workingFrame: context.workingFrame,
                 gap: context.gaps,
-                orientation: context.orientation
+                orientation: context.orientation,
+                siblingCount: projectedColumns.count
             )
             switch context.orientation {
             case .horizontal:

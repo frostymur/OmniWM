@@ -2,10 +2,10 @@
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 // Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
 
+import AeroFlowIPC
 import AppKit
 import Observation
 import os
-import AeroFlowIPC
 
 private let appLogger = Logger(subsystem: "com.frostymur.AeroFlow", category: "app")
 
@@ -58,7 +58,10 @@ public final class AppDelegate: NSObject, NSApplicationDelegate {
             scan: { LaunchConflictChecker().scan() },
             present: { reason in
                 if !self.loggedConflict {
-                    appLogger.error("Another window manager is running (\(String(describing: reason))); waiting for it to exit.")
+                    appLogger
+                        .error(
+                            "Another window manager is running (\(String(describing: reason))); waiting for it to exit."
+                        )
                     self.loggedConflict = true
                 }
                 Thread.sleep(forTimeInterval: 1)
@@ -78,7 +81,10 @@ public final class AppDelegate: NSObject, NSApplicationDelegate {
         let options = ["kAXTrustedCheckOptionPrompt": true] as CFDictionary
         _ = AXIsProcessTrustedWithOptions(options)
         HotkeyCenter.requestInputMonitoringAccess()
-        appLogger.notice("Accessibility/Input Monitoring not granted yet; AeroFlow starts once permissions are granted (System Settings → Privacy & Security).")
+        appLogger
+            .notice(
+                "Accessibility/Input Monitoring not granted yet; AeroFlow starts once permissions are granted (System Settings → Privacy & Security)."
+            )
         permissionPollTask = Task { @MainActor [weak self] in
             while !Task.isCancelled, !Self.requiredPermissionsGranted() {
                 try? await Task.sleep(for: .seconds(1))

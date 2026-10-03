@@ -2,8 +2,8 @@
 // Copyright (C) 2026 BarutSRB — https://github.com/OmniNull/OmniWM
 // Copyright (C) 2026 Timur Iskakov — https://github.com/frostymur
 
-import Foundation
 import AeroFlowIPC
+import Foundation
 
 enum CLITableRenderer {
     static func formatRows(headers: [String], rows: [[String]], format: CLIOutputFormat) -> String {

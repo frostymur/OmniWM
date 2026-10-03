@@ -13,7 +13,7 @@ struct DwindleSettings {
     var smartSplit: Bool = true
     var resizeStep: CGFloat = 0.1
 
-    var singleWindowFit: SingleWindowFit = .fullScreen
+    var singleWindowFit: SingleWindowFit = .gapped
 
     var innerGap: CGFloat = 8.0
 

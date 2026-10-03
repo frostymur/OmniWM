@@ -66,12 +66,14 @@ class NiriContainer: NiriNode {
         orientation: Monitor.Orientation,
         availableSpace: CGFloat,
         gaps: CGFloat,
-        contentInset: CGFloat = 0
+        contentInset: CGFloat = 0,
+        siblingCount: Int = 1
     ) -> CGFloat {
+        let reservedGaps = gaps * CGFloat(max(0, siblingCount - 1))
         let bounds = orientation == .horizontal ? widthBounds(contentInset: contentInset) : heightBounds()
         var result: CGFloat = switch spec {
         case let .proportion(proportion):
-            (availableSpace - gaps) * proportion - gaps
+            (availableSpace - reservedGaps) * proportion
         case let .fixed(size):
             size
         }
@@ -80,7 +82,7 @@ class NiriContainer: NiriNode {
         result = packedPrimarySpan(
             result,
             orientation: orientation,
-            limit: availableSpace - gaps * 2,
+            limit: availableSpace - reservedGaps,
             contentInset: contentInset
         )
         if let effectiveMaxConstraint, result > effectiveMaxConstraint { result = effectiveMaxConstraint }
@@ -174,21 +176,24 @@ class NiriContainer: NiriNode {
     func resolveAndCacheWidth(
         workingAreaWidth: CGFloat,
         gaps: CGFloat,
-        contentInset: CGFloat = 0
+        contentInset: CGFloat = 0,
+        siblingCount: Int = 1
     ) {
         cachedWidth = resolvedWidthPixels(
             isFullWidth ? .proportion(1) : width,
             availableSpan: workingAreaWidth,
             gaps: gaps,
-            contentInset: contentInset
+            contentInset: contentInset,
+            siblingCount: siblingCount
         )
     }
 
-    func resolveAndCacheHeight(workingAreaHeight: CGFloat, gaps: CGFloat) {
+    func resolveAndCacheHeight(workingAreaHeight: CGFloat, gaps: CGFloat, siblingCount: Int = 1) {
         cachedHeight = resolvedHeightPixels(
             isFullHeight ? .proportion(1) : height,
             availableSpan: workingAreaHeight,
-            gaps: gaps
+            gaps: gaps,
+            siblingCount: siblingCount
         )
     }
 
