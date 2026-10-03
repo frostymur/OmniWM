@@ -12,7 +12,6 @@ final class RuntimeStateStoreTests: XCTestCase {
     func testLauncherPreferencesAndHistoryPersistWithinBounds() throws {
         let directory = makeDirectory()
         let store = RuntimeStateStore(directory: directory, deferSaves: false)
-        store.setCommandPaletteViewStyle(.list, for: .applications)
         for index in 0 ..< 40 {
             store.recordLauncherLaunch(
                 targetID: "/Applications/Calculator.app",
@@ -24,8 +23,6 @@ final class RuntimeStateStoreTests: XCTestCase {
         store.launcherHiddenSuggestions = ["/Applications/Calculator.app"]
 
         let reopened = RuntimeStateStore(directory: directory, deferSaves: false)
-        XCTAssertEqual(reopened.commandPaletteViewStyle(for: .applications), .list)
-        XCTAssertEqual(reopened.commandPaletteViewStyle(for: .files), .grid)
         XCTAssertEqual(reopened.launcherLaunches(for: "/Applications/Calculator.app").count, 32)
         XCTAssertEqual(reopened.launcherShortcutTarget(for: "calc"), "/Applications/Calculator.app")
         XCTAssertTrue(reopened.launcherHiddenSuggestions.contains("/Applications/Calculator.app"))

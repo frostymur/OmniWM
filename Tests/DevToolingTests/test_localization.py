@@ -111,7 +111,8 @@ class LocalizationTests(unittest.TestCase):
     def test_info_plist_catalog_tracks_permission_text(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
-            info = {key: f"English {key}" for key in localization.INFO_KEYS}
+            keys = localization.INFO_KEYS or ("NSScreenCaptureUsageDescription",)
+            info = {key: f"English {key}" for key in keys}
             plist = root / "Info.plist"
             plist.write_bytes(plistlib.dumps(info))
             empty = {"sourceLanguage": "en", "strings": {}, "version": "1.0"}
@@ -122,11 +123,12 @@ class LocalizationTests(unittest.TestCase):
             }
             catalog_path = root / "InfoPlist.xcstrings"
             catalog_path.write_text(json.dumps({**empty, "strings": strings}))
-            localization.validate_catalogs(root, plist)
-            strings[localization.INFO_KEYS[0]]["localizations"]["en"] = unit("Wrong text")
-            catalog_path.write_text(json.dumps({**empty, "strings": strings}))
-            with self.assertRaisesRegex(ValueError, "must match Info.plist"):
+            with patch.object(localization, "INFO_KEYS", keys):
                 localization.validate_catalogs(root, plist)
+                strings[keys[0]]["localizations"]["en"] = unit("Wrong text")
+                catalog_path.write_text(json.dumps({**empty, "strings": strings}))
+                with self.assertRaisesRegex(ValueError, "must match Info.plist"):
+                    localization.validate_catalogs(root, plist)
 
     def test_command_english_value_matches_compiler_default(self):
         with tempfile.TemporaryDirectory() as temporary:
