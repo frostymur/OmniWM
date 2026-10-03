@@ -325,6 +325,8 @@ def check():
                 raise ValueError(
                     f"{filename} differs from compiler strings metadata "
                     f"({len(added)} added, {len(removed)} removed); run make localization-sync"
+                    + (f"; added={sorted(added)}" if added else "")
+                    + (f"; removed={sorted(removed)}" if removed else "")
                 )
     print("Localization catalogs match compiler strings metadata and format arguments")
 
