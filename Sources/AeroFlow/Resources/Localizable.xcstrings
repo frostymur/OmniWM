@@ -1,6 +1,76 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "%@ and %@ both use a %lld-finger gesture. Choose different fingers or disable one gesture.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ and %@ both use a %lld-finger gesture. Choose different fingers or disable one gesture."
+          }
+        }
+      }
+    },
+    "%@ and %@ overlap vertically in the display arrangement. Horizontally parked windows can bleed onto the neighboring display.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ and %@ overlap vertically in the display arrangement. Horizontally parked windows can bleed onto the neighboring display."
+          }
+        }
+      }
+    },
+    "%@ is restricted to %@-side modifiers (%@). The Hyper key sends generic modifiers, not specific left/right keys, so this shortcut won't trigger from Hyper (only from physically holding all four %@ modifier keys at once).": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ is restricted to %@-side modifiers (%@). The Hyper key sends generic modifiers, not specific left/right keys, so this shortcut won't trigger from Hyper (only from physically holding all four %@ modifier keys at once)."
+          }
+        }
+      }
+    },
+    "%@ · Tab %lld of %lld": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ · Tab %lld of %lld"
+          }
+        }
+      }
+    },
+    "%@, %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, %@"
+          }
+        }
+      }
+    },
+    "%@, %@, %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, %@, %@"
+          }
+        }
+      }
+    },
+    "%@, in macOS Full Screen": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, in macOS Full Screen"
+          }
+        }
+      }
+    },
     "Accessibility access required": {
       "localizations": {
         "ja": {
@@ -121,6 +191,552 @@
           "stringUnit": {
             "state": "translated",
             "value": "손쉬운 사용 권한 필요"
+          }
+        }
+      }
+    },
+    "AeroFlow could not decode %@ and left the file untouched: %@ The active settings were not changed.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow could not decode %@ and left the file untouched: %@ The active settings were not changed."
+          }
+        }
+      }
+    },
+    "AeroFlow could not decode %@: %@ The exact rejected bytes were preserved at %@.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow could not decode %@: %@ The exact rejected bytes were preserved at %@."
+          }
+        }
+      }
+    },
+    "AeroFlow keyboard shortcuts are disabled while a password field or secure text entry is active.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlowキーボードショートカットは、パスワードフィールドまたは安全なテキスト入力がアクティブになっている間無効になります。"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow Tastenkürzel sind deaktiviert, wenn ein Passwortfeld oder eine sichere Texteingabe aktiviert ist."
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlows hurtigtaster er deaktivert mens et passordfelt eller sikker tekstinntasting er aktiv."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow tangentbordsgenvägar är inaktiverade medan ett lösenordsfält eller säker textinmatning är aktivt."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow Los atajos de teclado están desactivados mientras que un campo de contraseña o una entrada de texto segura está activa."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow 键盘快捷键在密码字段或安全文本输入功能启用时被禁用。"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow कीबोर्ड शॉर्टकट तब अक्षम हो जाते हैं जब पासवर्ड फ़ील्ड या सुरक्षित टेक्स्ट एंट्री सक्रिय होती है।"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تُعطّل اختصارات لوحة المفاتيح AeroFlow أثناء تفعيل حقل كلمة المرور أو إدخال النص الآمن."
+          }
+        },
+        "sr-Latn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow Ključne tastature su onemogućene dok je lozinsko polje ili siguran tekst ulaz aktivan."
+          }
+        },
+        "el": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Οι συντομεύσεις πληκτρολογίου AeroFlow απενεργοποιούνται ενώ ένα πεδίο κωδικού πρόσβασης ή ασφαλής καταχώρηση κειμένου είναι ενεργή."
+          }
+        },
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow קיצורי מקשים מנוטרלים בעוד שדה ססמה או רשומת טקסט מאובטחת פעילים."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow краткие клавиши клавиатуры отключены, пока поле для пароля или безопасное текстовое введение активно."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow skróty klawiaturowe są wyłączone, gdy jest aktywny pole hasła lub zabezpieczona wprowadzana tekst."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Клавіатурні скорочення AeroFlow вимкнено, поки активне поле пароля або захищене введення тексту."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les raccourcis clavier AeroFlow sont désactivés alors qu'un champ de mot de passe ou une entrée de texte sécurisée est actif."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow sneltoetsen zijn uitgeschakeld terwijl een wachtwoordveld of beveiligde tekstinvoer actief is."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le scorciatoie da tastiera AeroFlow sono disattivate mentre è attivo un campo password o una voce di testo sicura."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow:n pikanäppäimet eivät ole käytössä, kun salasanakenttä tai suojattu tekstinsyöttö on aktiivinen."
+          }
+        },
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow tastaturgenveje deaktiveres, mens et kodeordsfelt eller en sikker tekstindgang er aktiv."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow 키보드 단축키는 비밀번호 필드 또는 보안 텍스트 입력이 활성화되어 있는 동안 비활성화됩니다."
+          }
+        }
+      }
+    },
+    "AeroFlow left %@ untouched and blocked configuration writes: %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow left %@ untouched and blocked configuration writes: %@"
+          }
+        }
+      }
+    },
+    "AeroFlow left %@ untouched and blocked configuration writes: %@ The exact original bytes are at %@.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow left %@ untouched and blocked configuration writes: %@ The exact original bytes are at %@."
+          }
+        }
+      }
+    },
+    "AeroFlow needs Accessibility access to observe and manage windows.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlowは、ウィンドウを観察し、管理するためにアクセシビリティへのアクセスが必要です。"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow benötigt Barrierefreiheitszugriff, um Fenster zu beobachten und zu verwalten."
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow trenger tilgang til tilgjengelighet for å observere og administrere vinduer."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow behöver åtkomst till Hjälpmedel för att observera och hantera fönster."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow necesita acceso de accesibilidad para observar y gestionar las ventanas."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow需要访问辅助功能以观察和管理窗口。"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "विंडो को देखने और प्रबंधित करने के लिए AeroFlow को ऐक्सेसिबिलिटी अनुमति चाहिए।"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow يحتاج إلى وصول إمكانية الوصول لمراقبة وإدارة النوافذ."
+          }
+        },
+        "sr-Latn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow-u je potreban pristup funkcijama pristupačnosti da bi pratio i upravljao prozorima."
+          }
+        },
+        "el": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Το AeroFlow χρειάζεται πρόσβαση στην Προσβασιμότητα για να παρακολουθεί και να διαχειρίζεται παράθυρα."
+          }
+        },
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow זקוק לגישה לנגישות כדי לעקוב אחר חלונות ולנהל אותם."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Для отслеживания окон и управления ими AeroFlow требуется доступ к Универсальному доступу."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow potrzebuje uprawnień dostępności, aby obserwować okna i nimi zarządzać."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow потрібен доступ до функцій Доступності, щоб спостерігати за вікнами й керувати ними."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow a besoin de l’accès aux fonctionnalités d’accessibilité pour observer et gérer les fenêtres."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow heeft toegang tot toegankelijkheid nodig om vensters te observeren en te beheren."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow richiede l’accesso ad Accessibilità per osservare e gestire le finestre."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow tarvitsee Käyttöapu-oikeuden ikkunoiden tarkkailuun ja hallintaan."
+          }
+        },
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow behøver adgang til Tilgængelighed for at observere og styre vinduer."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow이 창을 관찰하고 관리하려면 손쉬운 사용 권한이 필요합니다."
+          }
+        }
+      }
+    },
+    "AeroFlow preserved settings data it could not parse as settings.toml.corrupt or settings.toml.corrupt.1.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow は解析できなかった設定データを settings.toml.corrupt または settings.toml.corrupt.1 として保存しました。"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow hat Einstellungsdaten, die es nicht einlesen konnte, als settings.toml.corrupt oder settings.toml.corrupt.1 gesichert."
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow lagret innstillingsdata det ikke kunne tolke, i settings.toml.corrupt eller settings.toml.corrupt.1."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow har sparat inställningsdata som inte gick att tolka i filen settings.toml.corrupt eller settings.toml.corrupt.1."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow conservó los datos de configuración que no pudo analizar en settings.toml.corrupt o settings.toml.corrupt.1."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow 已将无法解析的设置数据保存为 settings.toml.corrupt 或 settings.toml.corrupt.1。"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow ने सेटिंग्स का जो डेटा पढ़ नहीं पाया, उसे settings.toml.corrupt या settings.toml.corrupt.1 के रूप में सुरक्षित रखा है।"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "احتفظ AeroFlow ببيانات الإعدادات التي تعذّر عليه تحليلها في settings.toml.corrupt أو settings.toml.corrupt.1."
+          }
+        },
+        "sr-Latn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow je podatke podešavanja koje nije mogao da obradi sačuvao u datoteci settings.toml.corrupt ili settings.toml.corrupt.1."
+          }
+        },
+        "el": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Το AeroFlow διατήρησε τα δεδομένα ρυθμίσεων που δεν μπόρεσε να αναλύσει στα αρχεία settings.toml.corrupt ή settings.toml.corrupt.1."
+          }
+        },
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow שמר נתוני הגדרות שלא הצליח לפענח בקובץ settings.toml.corrupt או settings.toml.corrupt.1."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow сохранил данные настроек, которые не удалось разобрать, в файле settings.toml.corrupt или settings.toml.corrupt.1."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow zachował dane ustawień, których nie udało się odczytać, w pliku settings.toml.corrupt lub settings.toml.corrupt.1."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow зберіг дані параметрів, які не зміг прочитати, у файлі settings.toml.corrupt або settings.toml.corrupt.1."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow a conservé les données de réglages qu’il n’a pas pu analyser sous les noms settings.toml.corrupt ou settings.toml.corrupt.1."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow heeft instellingsgegevens die het niet kon lezen bewaard als settings.toml.corrupt of settings.toml.corrupt.1."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow ha conservato in settings.toml.corrupt o settings.toml.corrupt.1 i dati delle impostazioni che non è riuscito a interpretare."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow tallensi asetustiedot, joita se ei pystynyt jäsentämään, tiedostoihin settings.toml.corrupt tai settings.toml.corrupt.1."
+          }
+        },
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow har bevaret de indstillingsdata, som det ikke kunne fortolke, som settings.toml.corrupt eller settings.toml.corrupt.1."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow은 해석할 수 없었던 설정 데이터를 settings.toml.corrupt 또는 settings.toml.corrupt.1 파일로 보존했습니다."
+          }
+        }
+      }
+    },
+    "AeroFlow requires the macOS setting “Displays have separate Spaces.” Turn it on in System Settings > Desktop & Dock > Mission Control, then log out and back in. Window management stays paused until it is enabled.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow は、macOS 設定「ディスプレイは個別のスペースを表示する」が必要です。システム設定 > Desktop & Dock > ミッションコントロールで有効にしてからログアウトして再度ログインしてください。ウィンドウ管理は有効になるまで一時停止されます。"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow benötigt die macOS-Einstellung „Monitore verwenden verschiedene Spaces“. Aktivieren Sie sie unter Systemeinstellungen > Schreibtisch & Dock > Mission Control und melden Sie sich anschließend ab und wieder an. Die Fensterverwaltung bleibt pausiert, bis diese Einstellung aktiviert ist."
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow krever innstillingen macOS «Viser separate vindusplasser». Slå den på i Systeminnstillinger > Skrivebord og verktøylinje > Mission Control, og logg deretter ut og inn igjen. Vindushåndtering forblir midlertidig suspendert til den er aktivert."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow kräver macOS-inställningen ”Bildskärmar har egna Spaces”. Aktivera den i Systeminställningar > Skrivbord och Dock > Mission Control och logga sedan ut och in igen. Fönsterhanteringen förblir pausad tills den aktiveras."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow requiere la configuración macOS “Las pantallas tienen espacios separados”. Actívala en Configuración del sistema > Escritorio y dock > Control de misiones, luego cierra sesión y vuelve a iniciar sesión. La gestión de ventanas permanece pausada hasta que se activa."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow 需要启用macOS设置“显示器具有独立空间”。在系统设置 > 桌面和Dock > 任务控制中将其打开，然后注销并重新登录。窗口管理将暂停，直到启用为止。"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow को macOS सेटिंग “Displays have separate Spaces.” की आवश्यकता होती है। इसे सिस्टम सेटिंग्स > डेस्कटॉप और डॉक > मिशन कंट्रोल में चालू करें, फिर लॉग आउट करें और वापस लॉग इन करें। विंडो प्रबंधन तब तक निलंबित रहता है जब तक कि इसे सक्षम नहीं किया जाता।"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يتطلب AeroFlow تفعيل إعداد macOS «للشاشات مساحات منفصلة». فعّله من إعدادات النظام > سطح المكتب وDock > Mission Control، ثم سجّل الخروج وادخل مجددًا. تظل إدارة النوافذ متوقفة حتى يُفعّل."
+          }
+        },
+        "sr-Latn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow zahteva podešavanje macOS-a „Ogledala imaju odvojene prostore.“ Pokrenite ga u Podešavanja sistema > Desktop i Dock > Kontrola misija, a zatim se prijavite i vratite se. Upravljanje prozorom ostaje prekinuto dok se ne aktivira."
+          }
+        },
+        "el": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Το AeroFlow απαιτεί τη ρύθμιση του macOS «Οι οθόνες έχουν ξεχωριστούς Χώρους». Ενεργοποιήστε τη στις Ρυθμίσεις συστήματος > Γραφείο εργασίας και Dock > Mission Control και, στη συνέχεια, αποσυνδεθείτε και συνδεθείτε ξανά. Η διαχείριση παραθύρων παραμένει σε παύση μέχρι να ενεργοποιηθεί."
+          }
+        },
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow מחייב להפעיל את ההגדרה ״הצגים כוללים Spaces נפרדים״ ב-macOS. הפעילו אותה בהגדרות המערכת > מכתבה ו-Dock > Mission Control, ואז התנתקו והתחברו מחדש. ניהול החלונות יישאר מושהה עד להפעלת ההגדרה."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Для работы AeroFlow в macOS должен быть включён параметр «Дисплеи имеют отдельные пространства». Включите его в меню «Системные настройки» > «Рабочий стол и Dock» > Mission Control, затем выйдите из учётной записи и войдите снова. Управление окнами останется приостановленным, пока параметр не будет включён."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow wymaga w macOS włączenia opcji „Osobne przestrzenie dla wyświetlaczy”. Włącz ją w Ustawieniach systemowych > Biurko i Dock > Mission Control, a następnie wyloguj się i zaloguj ponownie. Zarządzanie oknami pozostanie wstrzymane do czasu jej włączenia."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Для AeroFlow потрібен параметр macOS «Окремі простори на дисплеях». Увімкніть його в Системні параметри > Робочий стіл і Dock > Mission Control, потім вийдіть із системи й увійдіть знову. Керування вікнами залишатиметься призупиненим, доки параметр не буде ввімкнено."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow nécessite le réglage macOS « Les écrans disposent d’espaces distincts ». Activez-le dans Réglages Système > Bureau et Dock > Mission Control, puis fermez votre session et reconnectez-vous. La gestion des fenêtres reste suspendue jusqu’à l’activation de ce réglage."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow vereist de macOS-instelling ‘Beeldschermen hebben afzonderlijke spaces’. Schakel deze in via Systeeminstellingen > Bureaublad en Dock > Mission Control en log daarna uit en weer in. Vensterbeheer blijft onderbroken totdat de instelling is ingeschakeld."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow richiede l’impostazione macOS “I monitor hanno spazi separati”. Attivala in Impostazioni di Sistema > Scrivania e Dock > Mission Control, poi esci dalla sessione e accedi di nuovo. La gestione delle finestre resta in pausa finché l’impostazione non viene attivata."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow edellyttää macOS:n asetusta “Näytöissä on erilliset tilat”. Ota se käyttöön kohdassa Järjestelmäasetukset > Työpöytä ja Dock > Mission Control ja kirjaudu sitten ulos ja takaisin sisään. Ikkunanhallinta pysyy keskeytettynä, kunnes asetus on käytössä."
+          }
+        },
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow kræver macOS-indstillingen “Skærme har separate Spaces”. Slå den til under Systemindstillinger > Skrivebord & Dock > Mission Control, og log derefter ud og ind igen. Vinduesstyring forbliver sat på pause, indtil indstillingen er slået til."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow에는 macOS의 “각각의 Spaces가 있는 디스플레이” 설정이 필요합니다. 시스템 설정 > 데스크탑 및 Dock > Mission Control에서 켠 다음 로그아웃했다가 다시 로그인하세요. 이 설정이 켜질 때까지 창 관리는 일시 중지됩니다."
+          }
+        }
+      }
+    },
+    "AeroFlow upgraded %@ from schema version %lld to %lld. The exact original bytes were preserved at %@. %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AeroFlow upgraded %@ from schema version %lld to %lld. The exact original bytes were preserved at %@. %@"
           }
         }
       }
@@ -869,6 +1485,26 @@
         }
       }
     },
+    "Compare %@ with %@, restore valid values, and then remove the recovery file.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compare %@ with %@, restore valid values, and then remove the recovery file."
+          }
+        }
+      }
+    },
+    "Correct the reported value at %@; AeroFlow applies the file once it decodes. Saving from the Settings window first secures the rejected bytes as a recovery file.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Correct the reported value at %@; AeroFlow applies the file once it decodes. Saving from the Settings window first secures the rejected bytes as a recovery file."
+          }
+        }
+      }
+    },
     "Developer": {
       "localizations": {
         "ar": {
@@ -1365,6 +2001,16 @@
         }
       }
     },
+    "Fixed Dock detected on %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fixed Dock detected on %@"
+          }
+        }
+      }
+    },
     "Folders": {
       "localizations": {
         "ar": {
@@ -1609,6 +2255,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "시스템 설정에서 입력 모니터링 권한을 부여하거나 다른 키 조합을 지정하세요."
+          }
+        }
+      }
+    },
+    "Hotkey may conflict: %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hotkey may conflict: %@"
+          }
+        }
+      }
+    },
+    "Hotkey unavailable: %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hotkey unavailable: %@"
+          }
+        }
+      }
+    },
+    "Hyper shortcut may not fire: %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hyper shortcut may not fire: %@"
           }
         }
       }
@@ -1981,6 +2657,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "macOS 풀스크린에서"
+          }
+        }
+      }
+    },
+    "Inspect %@/settings.toml.corrupt and %@/settings.toml.corrupt.1 if present, then delete the recovery files to dismiss this notice.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inspect %@/settings.toml.corrupt and %@/settings.toml.corrupt.1 if present, then delete the recovery files to dismiss this notice."
           }
         }
       }
@@ -3102,502 +3788,6 @@
         }
       }
     },
-    "AeroFlow keyboard shortcuts are disabled while a password field or secure text entry is active.": {
-      "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlowキーボードショートカットは、パスワードフィールドまたは安全なテキスト入力がアクティブになっている間無効になります。"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow Tastenkürzel sind deaktiviert, wenn ein Passwortfeld oder eine sichere Texteingabe aktiviert ist."
-          }
-        },
-        "nb": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlows hurtigtaster er deaktivert mens et passordfelt eller sikker tekstinntasting er aktiv."
-          }
-        },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow tangentbordsgenvägar är inaktiverade medan ett lösenordsfält eller säker textinmatning är aktivt."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow Los atajos de teclado están desactivados mientras que un campo de contraseña o una entrada de texto segura está activa."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow 键盘快捷键在密码字段或安全文本输入功能启用时被禁用。"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow कीबोर्ड शॉर्टकट तब अक्षम हो जाते हैं जब पासवर्ड फ़ील्ड या सुरक्षित टेक्स्ट एंट्री सक्रिय होती है।"
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "تُعطّل اختصارات لوحة المفاتيح AeroFlow أثناء تفعيل حقل كلمة المرور أو إدخال النص الآمن."
-          }
-        },
-        "sr-Latn": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow Ključne tastature su onemogućene dok je lozinsko polje ili siguran tekst ulaz aktivan."
-          }
-        },
-        "el": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Οι συντομεύσεις πληκτρολογίου AeroFlow απενεργοποιούνται ενώ ένα πεδίο κωδικού πρόσβασης ή ασφαλής καταχώρηση κειμένου είναι ενεργή."
-          }
-        },
-        "he": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow קיצורי מקשים מנוטרלים בעוד שדה ססמה או רשומת טקסט מאובטחת פעילים."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow краткие клавиши клавиатуры отключены, пока поле для пароля или безопасное текстовое введение активно."
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow skróty klawiaturowe są wyłączone, gdy jest aktywny pole hasła lub zabezpieczona wprowadzana tekst."
-          }
-        },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Клавіатурні скорочення AeroFlow вимкнено, поки активне поле пароля або захищене введення тексту."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Les raccourcis clavier AeroFlow sont désactivés alors qu'un champ de mot de passe ou une entrée de texte sécurisée est actif."
-          }
-        },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow sneltoetsen zijn uitgeschakeld terwijl een wachtwoordveld of beveiligde tekstinvoer actief is."
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Le scorciatoie da tastiera AeroFlow sono disattivate mentre è attivo un campo password o una voce di testo sicura."
-          }
-        },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow:n pikanäppäimet eivät ole käytössä, kun salasanakenttä tai suojattu tekstinsyöttö on aktiivinen."
-          }
-        },
-        "da": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow tastaturgenveje deaktiveres, mens et kodeordsfelt eller en sikker tekstindgang er aktiv."
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow 키보드 단축키는 비밀번호 필드 또는 보안 텍스트 입력이 활성화되어 있는 동안 비활성화됩니다."
-          }
-        }
-      }
-    },
-    "AeroFlow needs Accessibility access to observe and manage windows.": {
-      "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlowは、ウィンドウを観察し、管理するためにアクセシビリティへのアクセスが必要です。"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow benötigt Barrierefreiheitszugriff, um Fenster zu beobachten und zu verwalten."
-          }
-        },
-        "nb": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow trenger tilgang til tilgjengelighet for å observere og administrere vinduer."
-          }
-        },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow behöver åtkomst till Hjälpmedel för att observera och hantera fönster."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow necesita acceso de accesibilidad para observar y gestionar las ventanas."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow需要访问辅助功能以观察和管理窗口。"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "विंडो को देखने और प्रबंधित करने के लिए AeroFlow को ऐक्सेसिबिलिटी अनुमति चाहिए।"
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow يحتاج إلى وصول إمكانية الوصول لمراقبة وإدارة النوافذ."
-          }
-        },
-        "sr-Latn": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow-u je potreban pristup funkcijama pristupačnosti da bi pratio i upravljao prozorima."
-          }
-        },
-        "el": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Το AeroFlow χρειάζεται πρόσβαση στην Προσβασιμότητα για να παρακολουθεί και να διαχειρίζεται παράθυρα."
-          }
-        },
-        "he": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow זקוק לגישה לנגישות כדי לעקוב אחר חלונות ולנהל אותם."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Для отслеживания окон и управления ими AeroFlow требуется доступ к Универсальному доступу."
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow potrzebuje uprawnień dostępności, aby obserwować okna i nimi zarządzać."
-          }
-        },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow потрібен доступ до функцій Доступності, щоб спостерігати за вікнами й керувати ними."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow a besoin de l’accès aux fonctionnalités d’accessibilité pour observer et gérer les fenêtres."
-          }
-        },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow heeft toegang tot toegankelijkheid nodig om vensters te observeren en te beheren."
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow richiede l’accesso ad Accessibilità per osservare e gestire le finestre."
-          }
-        },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow tarvitsee Käyttöapu-oikeuden ikkunoiden tarkkailuun ja hallintaan."
-          }
-        },
-        "da": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow behøver adgang til Tilgængelighed for at observere og styre vinduer."
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow이 창을 관찰하고 관리하려면 손쉬운 사용 권한이 필요합니다."
-          }
-        }
-      }
-    },
-    "AeroFlow preserved settings data it could not parse as settings.toml.corrupt or settings.toml.corrupt.1.": {
-      "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow は解析できなかった設定データを settings.toml.corrupt または settings.toml.corrupt.1 として保存しました。"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow hat Einstellungsdaten, die es nicht einlesen konnte, als settings.toml.corrupt oder settings.toml.corrupt.1 gesichert."
-          }
-        },
-        "nb": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow lagret innstillingsdata det ikke kunne tolke, i settings.toml.corrupt eller settings.toml.corrupt.1."
-          }
-        },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow har sparat inställningsdata som inte gick att tolka i filen settings.toml.corrupt eller settings.toml.corrupt.1."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow conservó los datos de configuración que no pudo analizar en settings.toml.corrupt o settings.toml.corrupt.1."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow 已将无法解析的设置数据保存为 settings.toml.corrupt 或 settings.toml.corrupt.1。"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow ने सेटिंग्स का जो डेटा पढ़ नहीं पाया, उसे settings.toml.corrupt या settings.toml.corrupt.1 के रूप में सुरक्षित रखा है।"
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "احتفظ AeroFlow ببيانات الإعدادات التي تعذّر عليه تحليلها في settings.toml.corrupt أو settings.toml.corrupt.1."
-          }
-        },
-        "sr-Latn": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow je podatke podešavanja koje nije mogao da obradi sačuvao u datoteci settings.toml.corrupt ili settings.toml.corrupt.1."
-          }
-        },
-        "el": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Το AeroFlow διατήρησε τα δεδομένα ρυθμίσεων που δεν μπόρεσε να αναλύσει στα αρχεία settings.toml.corrupt ή settings.toml.corrupt.1."
-          }
-        },
-        "he": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow שמר נתוני הגדרות שלא הצליח לפענח בקובץ settings.toml.corrupt או settings.toml.corrupt.1."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow сохранил данные настроек, которые не удалось разобрать, в файле settings.toml.corrupt или settings.toml.corrupt.1."
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow zachował dane ustawień, których nie udało się odczytać, w pliku settings.toml.corrupt lub settings.toml.corrupt.1."
-          }
-        },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow зберіг дані параметрів, які не зміг прочитати, у файлі settings.toml.corrupt або settings.toml.corrupt.1."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow a conservé les données de réglages qu’il n’a pas pu analyser sous les noms settings.toml.corrupt ou settings.toml.corrupt.1."
-          }
-        },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow heeft instellingsgegevens die het niet kon lezen bewaard als settings.toml.corrupt of settings.toml.corrupt.1."
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow ha conservato in settings.toml.corrupt o settings.toml.corrupt.1 i dati delle impostazioni che non è riuscito a interpretare."
-          }
-        },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow tallensi asetustiedot, joita se ei pystynyt jäsentämään, tiedostoihin settings.toml.corrupt tai settings.toml.corrupt.1."
-          }
-        },
-        "da": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow har bevaret de indstillingsdata, som det ikke kunne fortolke, som settings.toml.corrupt eller settings.toml.corrupt.1."
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow은 해석할 수 없었던 설정 데이터를 settings.toml.corrupt 또는 settings.toml.corrupt.1 파일로 보존했습니다."
-          }
-        }
-      }
-    },
-    "AeroFlow requires the macOS setting “Displays have separate Spaces.” Turn it on in System Settings > Desktop & Dock > Mission Control, then log out and back in. Window management stays paused until it is enabled.": {
-      "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow は、macOS 設定「ディスプレイは個別のスペースを表示する」が必要です。システム設定 > Desktop & Dock > ミッションコントロールで有効にしてからログアウトして再度ログインしてください。ウィンドウ管理は有効になるまで一時停止されます。"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow benötigt die macOS-Einstellung „Monitore verwenden verschiedene Spaces“. Aktivieren Sie sie unter Systemeinstellungen > Schreibtisch & Dock > Mission Control und melden Sie sich anschließend ab und wieder an. Die Fensterverwaltung bleibt pausiert, bis diese Einstellung aktiviert ist."
-          }
-        },
-        "nb": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow krever innstillingen macOS «Viser separate vindusplasser». Slå den på i Systeminnstillinger > Skrivebord og verktøylinje > Mission Control, og logg deretter ut og inn igjen. Vindushåndtering forblir midlertidig suspendert til den er aktivert."
-          }
-        },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow kräver macOS-inställningen ”Bildskärmar har egna Spaces”. Aktivera den i Systeminställningar > Skrivbord och Dock > Mission Control och logga sedan ut och in igen. Fönsterhanteringen förblir pausad tills den aktiveras."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow requiere la configuración macOS “Las pantallas tienen espacios separados”. Actívala en Configuración del sistema > Escritorio y dock > Control de misiones, luego cierra sesión y vuelve a iniciar sesión. La gestión de ventanas permanece pausada hasta que se activa."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow 需要启用macOS设置“显示器具有独立空间”。在系统设置 > 桌面和Dock > 任务控制中将其打开，然后注销并重新登录。窗口管理将暂停，直到启用为止。"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow को macOS सेटिंग “Displays have separate Spaces.” की आवश्यकता होती है। इसे सिस्टम सेटिंग्स > डेस्कटॉप और डॉक > मिशन कंट्रोल में चालू करें, फिर लॉग आउट करें और वापस लॉग इन करें। विंडो प्रबंधन तब तक निलंबित रहता है जब तक कि इसे सक्षम नहीं किया जाता।"
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "يتطلب AeroFlow تفعيل إعداد macOS «للشاشات مساحات منفصلة». فعّله من إعدادات النظام > سطح المكتب وDock > Mission Control، ثم سجّل الخروج وادخل مجددًا. تظل إدارة النوافذ متوقفة حتى يُفعّل."
-          }
-        },
-        "sr-Latn": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow zahteva podešavanje macOS-a „Ogledala imaju odvojene prostore.“ Pokrenite ga u Podešavanja sistema > Desktop i Dock > Kontrola misija, a zatim se prijavite i vratite se. Upravljanje prozorom ostaje prekinuto dok se ne aktivira."
-          }
-        },
-        "el": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Το AeroFlow απαιτεί τη ρύθμιση του macOS «Οι οθόνες έχουν ξεχωριστούς Χώρους». Ενεργοποιήστε τη στις Ρυθμίσεις συστήματος > Γραφείο εργασίας και Dock > Mission Control και, στη συνέχεια, αποσυνδεθείτε και συνδεθείτε ξανά. Η διαχείριση παραθύρων παραμένει σε παύση μέχρι να ενεργοποιηθεί."
-          }
-        },
-        "he": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow מחייב להפעיל את ההגדרה ״הצגים כוללים Spaces נפרדים״ ב-macOS. הפעילו אותה בהגדרות המערכת > מכתבה ו-Dock > Mission Control, ואז התנתקו והתחברו מחדש. ניהול החלונות יישאר מושהה עד להפעלת ההגדרה."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Для работы AeroFlow в macOS должен быть включён параметр «Дисплеи имеют отдельные пространства». Включите его в меню «Системные настройки» > «Рабочий стол и Dock» > Mission Control, затем выйдите из учётной записи и войдите снова. Управление окнами останется приостановленным, пока параметр не будет включён."
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow wymaga w macOS włączenia opcji „Osobne przestrzenie dla wyświetlaczy”. Włącz ją w Ustawieniach systemowych > Biurko i Dock > Mission Control, a następnie wyloguj się i zaloguj ponownie. Zarządzanie oknami pozostanie wstrzymane do czasu jej włączenia."
-          }
-        },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Для AeroFlow потрібен параметр macOS «Окремі простори на дисплеях». Увімкніть його в Системні параметри > Робочий стіл і Dock > Mission Control, потім вийдіть із системи й увійдіть знову. Керування вікнами залишатиметься призупиненим, доки параметр не буде ввімкнено."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow nécessite le réglage macOS « Les écrans disposent d’espaces distincts ». Activez-le dans Réglages Système > Bureau et Dock > Mission Control, puis fermez votre session et reconnectez-vous. La gestion des fenêtres reste suspendue jusqu’à l’activation de ce réglage."
-          }
-        },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow vereist de macOS-instelling ‘Beeldschermen hebben afzonderlijke spaces’. Schakel deze in via Systeeminstellingen > Bureaublad en Dock > Mission Control en log daarna uit en weer in. Vensterbeheer blijft onderbroken totdat de instelling is ingeschakeld."
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow richiede l’impostazione macOS “I monitor hanno spazi separati”. Attivala in Impostazioni di Sistema > Scrivania e Dock > Mission Control, poi esci dalla sessione e accedi di nuovo. La gestione delle finestre resta in pausa finché l’impostazione non viene attivata."
-          }
-        },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow edellyttää macOS:n asetusta “Näytöissä on erilliset tilat”. Ota se käyttöön kohdassa Järjestelmäasetukset > Työpöytä ja Dock > Mission Control ja kirjaudu sitten ulos ja takaisin sisään. Ikkunanhallinta pysyy keskeytettynä, kunnes asetus on käytössä."
-          }
-        },
-        "da": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow kræver macOS-indstillingen “Skærme har separate Spaces”. Slå den til under Systemindstillinger > Skrivebord & Dock > Mission Control, og log derefter ud og ind igen. Vinduesstyring forbliver sat på pause, indtil indstillingen er slået til."
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "AeroFlow에는 macOS의 “각각의 Spaces가 있는 디스플레이” 설정이 필요합니다. 시스템 설정 > 데스크탑 및 Dock > Mission Control에서 켠 다음 로그아웃했다가 다시 로그인하세요. 이 설정이 켜질 때까지 창 관리는 일시 중지됩니다."
-          }
-        }
-      }
-    },
     "Open System Settings → Privacy & Security → Accessibility and enable AeroFlow.": {
       "localizations": {
         "ja": {
@@ -4342,6 +4532,16 @@
         }
       }
     },
+    "Rank %lld": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rank %lld"
+          }
+        }
+      }
+    },
     "Reassign this command in Hotkeys, or clear the conflicting shortcut in System Settings → Keyboard.": {
       "localizations": {
         "ja": {
@@ -4714,6 +4914,16 @@
         }
       }
     },
+    "Remove or fix the keys in %@.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove or fix the keys in %@."
+          }
+        }
+      }
+    },
     "Resize diagonally": {
       "localizations": {
         "ja": {
@@ -4834,6 +5044,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "대각선으로 크기 조정"
+          }
+        }
+      }
+    },
+    "Resolve the reported schema or backup problem at %@, then reload or restart AeroFlow.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resolve the reported schema or backup problem at %@, then reload or restart AeroFlow."
           }
         }
       }
@@ -5954,6 +6174,26 @@
         }
       }
     },
+    "Tab %lld": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tab %lld"
+          }
+        }
+      }
+    },
+    "Tab %lld of %lld selected": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tab %lld of %lld selected"
+          }
+        }
+      }
+    },
     "Tertiary": {
       "localizations": {
         "ja": {
@@ -6074,6 +6314,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "세 번째"
+          }
+        }
+      }
+    },
+    "The Dock appears to reserve %lld px on the %@ edge. Parked windows can be clamped to the Dock boundary and leave a visible strip.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Dock appears to reserve %lld px on the %@ edge. Parked windows can be clamped to the Dock boundary and leave a visible strip."
           }
         }
       }
@@ -6694,6 +6944,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "제목 없는 창"
+          }
+        }
+      }
+    },
+    "Verify the upgraded settings, then keep the backup or delete %@ to dismiss this notice.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verify the upgraded settings, then keep the backup or delete %@ to dismiss this notice."
           }
         }
       }
@@ -7726,6 +7986,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "macOS 또는 다른 앱이 이미 이 단축키를 사용하고 있습니다."
+          }
+        }
+      }
+    },
+    "settings.toml contains keys AeroFlow does not recognize: %@. They are ignored.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "settings.toml contains keys AeroFlow does not recognize: %@. They are ignored."
           }
         }
       }

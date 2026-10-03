@@ -7,6 +7,7 @@ import Foundation
 import XCTest
 
 final class DiagnosticsRecordingPresentationTests: XCTestCase {
+    @MainActor
     func testForeignProbeBaselineRequiresMatchingOrigins() {
         XCTAssertTrue(
             ForeignWindowProbe.originsMatch(
