@@ -111,11 +111,15 @@ extension ViewportFittingAreas {
             return 0
         }
 
+        // The viewport can never start to the left of the content's left edge; for the
+        // focused column that means it can't pan past its own left edge (no pre-roll).
+        let minOffset = -targetPos
+
         let targetEnd = targetPos + targetSpan
         if currentViewPos - pixelEpsilon <= targetPos
             && targetEnd <= currentViewPos + viewSpan + pixelEpsilon
         {
-            return currentViewPos - targetPos
+            return max(currentViewPos - targetPos, minOffset)
         }
 
         let padding = ((viewSpan - targetSpan) / 2).clamped(to: 0 ... gap)
@@ -125,17 +129,18 @@ extension ViewportFittingAreas {
         if currentViewPos - pixelEpsilon <= preferredStart
             && preferredEnd <= currentViewPos + viewSpan + pixelEpsilon
         {
-            return currentViewPos - targetPos
+            return max(currentViewPos - targetPos, minOffset)
         }
 
         let distToStart = abs(currentViewPos - preferredStart)
         let distToEnd = abs((currentViewPos + viewSpan) - preferredEnd)
 
-        if distToStart <= distToEnd {
-            return -padding
+        let offset = if distToStart <= distToEnd {
+            -padding
         } else {
-            return -(viewSpan - padding - targetSpan)
+            -(viewSpan - padding - targetSpan)
         }
+        return max(offset, minOffset)
     }
 
     func fitOffset(

@@ -93,8 +93,8 @@ extension NiriLayoutEngine {
             sizeKeyPath: context.orientation.settledSpanKeyPath
         )
         let contentEdge = totalSpan - viewport.span + context.gaps
-        let clampedStart = viewport.viewStart.clamped(to: min(-context.gaps, contentEdge) ... max(
-            -context.gaps,
+        let clampedStart = viewport.viewStart.clamped(to: min(0, contentEdge) ... max(
+            0,
             contentEdge
         ))
         guard abs(clampedStart - viewport.viewStart) > 0.5 else { return false }
