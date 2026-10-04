@@ -46,7 +46,7 @@ final class NiriProjectedViewportAnchorTests: XCTestCase {
         var state = ViewportState()
         state.activeColumnIndex = 1
         state.selectedNodeId = rightWindow.id
-        state.jumpOffset(to: -(columnSpan + gap))
+        state.jumpOffset(to: -(columnSpan + gap * 2))
         let settledFrames = frames(engine: engine, workspaceId: workspaceId, state: state, gap: gap)
         let settledOrigin = viewOrigin(engine: engine, workspaceId: workspaceId, state: state, gap: gap)
 
@@ -76,7 +76,7 @@ final class NiriProjectedViewportAnchorTests: XCTestCase {
         )
 
         XCTAssertEqual(state.activeColumnIndex, 0)
-        XCTAssertEqual(state.viewOffset, 0, accuracy: 0.001)
+        XCTAssertEqual(state.viewOffset, -gap, accuracy: 0.001)
         XCTAssertEqual(
             viewOrigin(engine: engine, workspaceId: workspaceId, state: state, gap: gap),
             settledOrigin,
