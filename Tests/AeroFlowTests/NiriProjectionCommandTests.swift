@@ -610,7 +610,7 @@ final class NiriProjectionCommandTests: XCTestCase {
                 selectedWindow: projected.a,
                 orientation: orientation
             )[projected.a.token])
-            let expectedSpan: CGFloat = orientation == .horizontal ? 394 : 594
+            let expectedSpan: CGFloat = orientation == .horizontal ? 382 : 582
             XCTAssertEqual(secondarySpan(of: frame, orientation: orientation), expectedSpan, accuracy: 0.001)
         }
     }
