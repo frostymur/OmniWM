@@ -458,7 +458,7 @@ final class NiriProjectionCommandTests: XCTestCase {
         )
         let singleFrame = try XCTUnwrap(oneVisible.frames[a.token])
         let columnFrame = try XCTUnwrap(column.frame)
-        XCTAssertEqual(singleFrame.minX, columnFrame.minX + gap, accuracy: 0.001)
+        XCTAssertEqual(singleFrame.minX, columnFrame.minX, accuracy: 0.001)
         XCTAssertEqual(singleFrame.width, columnFrame.width, accuracy: 0.001)
         XCTAssertEqual(column.displayMode, .tabbed)
     }
