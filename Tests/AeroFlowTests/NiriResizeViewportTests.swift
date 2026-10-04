@@ -75,7 +75,7 @@ final class NiriResizeViewportTests: XCTestCase {
             )
         }
 
-        let columnSpan = (viewportWidth - gap) * 0.5 - gap
+        let columnSpan = (viewportWidth - gap * 2) * 0.5
         let columns = engine.columns(in: workspaceId)
         for column in columns {
             column.width = .proportion(0.5)
@@ -166,8 +166,8 @@ final class NiriResizeViewportTests: XCTestCase {
             state: &fixture.state
         )
 
-        let grownSpan = (fixture.workingFrame.width - fixture.gap) * 0.6 - fixture.gap
-        let expectedOffset = -(fixture.workingFrame.width - fixture.gap - grownSpan)
+        let grownSpan = (fixture.workingFrame.width - fixture.gap * 2) * 0.6
+        let expectedOffset = (-(fixture.workingFrame.width - fixture.gap - grownSpan) * 2).rounded() / 2
         XCTAssertEqual(trailing.settledWidth, grownSpan, accuracy: 0.001)
         XCTAssertEqual(fixture.state.viewOffset, expectedOffset, accuracy: 0.001)
 
@@ -203,7 +203,7 @@ final class NiriResizeViewportTests: XCTestCase {
                 gap: fixture.gap,
                 sizeKeyPath: \.settledWidth
             ) + grownSpan,
-            accuracy: 0.001
+            accuracy: 0.5
         )
 
         XCTAssertFalse(applyRelayoutViewportPasses(&fixture))

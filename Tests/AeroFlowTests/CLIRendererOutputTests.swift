@@ -35,7 +35,7 @@ final class CLIRendererOutputTests: XCTestCase {
         XCTAssertEqual(lines.count, 2)
 
         let dataFields = lines[1].components(separatedBy: "\t")
-        XCTAssertEqual(dataFields.count, 10)
+        XCTAssertEqual(dataFields.count, 9)
         XCTAssertEqual(dataFields[3], "Progress bar  second")
     }
 

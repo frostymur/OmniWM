@@ -270,24 +270,17 @@ extension ViewportState {
             span: CGFloat(containerSpan),
             mode: mode
         )
-        let totalContentSpan = Double(totalSpan(
-            containers: columns,
-            gap: geometry.gap,
-            sizeKeyPath: geometry.sizeKeyPath
-        ))
         let offset = if geometry.isCentering {
             geometry.areas.centeredOffset(
                 currentViewStart: currentViewStart,
                 target: target,
-                gap: geometry.gap,
-                totalSpan: CGFloat(totalContentSpan)
+                gap: geometry.gap
             )
         } else {
             geometry.areas.fitOffset(
                 currentViewStart: currentViewStart,
                 target: target,
-                gap: geometry.gap,
-                totalSpan: CGFloat(totalContentSpan)
+                gap: geometry.gap
             )
         }
         return Double(offset)
